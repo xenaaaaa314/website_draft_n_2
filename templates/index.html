@@ -289,7 +289,7 @@
 
 
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+  <a href="'img/logo.png">
 </head>
 
 
@@ -342,7 +342,7 @@
     <div class="relative w-full max-w-[400px] h-[90vh] max-h-[800px] rounded-[40px] overflow-hidden shadow-2xl">
       <video 
         id="transitionVideo"
-        src="{{ url_for('static', filename='intro.mp4') }}"
+        src="src="static/intro.mp4"
         class="absolute inset-0 w-full h-full object-contain bg-black"
         autoplay
         muted
@@ -429,7 +429,7 @@
 
       <div class="w-full md:flex-[0.8] flex justify-center">
         <div class="bg-[#1a0000] p-4 rounded-2xl shadow-2xl border-4 border-[#d1181e] transition-transform duration-300 ease-in-out hover:scale-105 w-full max-w-xs sm:max-w-sm md:max-w-md">
-          <img src="{{ url_for('static', filename='img/image_1_1_starter.png') }}"
+          <img src="img/image_1_1_starter.png"
                alt="Redefine Training"
                class="w-full object-contain" />
         </div>
@@ -653,19 +653,19 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="max-w-7xl mx-auto">
     <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
       <img 
-        src="{{ url_for('static', filename='img/2.png') }}" 
+        src="img/2.png"
         alt="Train Better Than Yesterday" 
         class="gallery-img w-full h-auto rounded-xl shadow-xl transition-transform duration-500 hover:scale-105 cursor-pointer"
         onclick="openModal(this.src, this.alt)"
       >
       <img 
-        src="{{ url_for('static', filename='img/3.png') }}" 
+        src="img/3.png" 
         alt="Face the unknown. Win Anyway." 
         class="gallery-img w-full h-auto rounded-xl shadow-xl transition-transform duration-500 hover:scale-105 cursor-pointer"
         onclick="openModal(this.src, this.alt)"
       >
       <img 
-        src="{{ url_for('static', filename='img/4.png') }}" 
+        src="img/4.png" 
         alt="Train before the threat has a name." 
         class="gallery-img w-full h-auto rounded-xl shadow-xl transition-transform duration-500 hover:scale-105 cursor-pointer"
         onclick="openModal(this.src, this.alt)"
@@ -981,17 +981,6 @@ News Item
 <section id="contact" class="bg-white py-32 px-6 border-t border-gray-200">
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
 
-  <!-- Flash Message Block (put here) -->
-  {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-      <ul class="mb-4 space-y-2">
-        {% for category, message in messages %}
-          <li class="text-{{ 'green-600' if category == 'success' else 'red-600' }}">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
-
     <!-- Left: Contact Form -->
     <div class="bg-gray-50 p-8 rounded-xl shadow-md h-full">
       <h2 class="text-3xl font-bold mb-6 text-black">Contact Us</h2>
@@ -1043,7 +1032,7 @@ News Item
       
       <!-- Icon -->
       <div class="flex justify-center md:justify-start">
-        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Engineer Icon" class="w-32 h-auto" />
+        <img src="img/logo.png'" alt="Logo" class="w-32 h-auto" />
       </div>
 
       <!-- Office & Contact -->
