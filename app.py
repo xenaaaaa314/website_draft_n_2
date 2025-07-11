@@ -9,7 +9,7 @@ app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = 'info@oramatech.ai'
-app.config['MAIL_PASSWORD'] = 'your_app_password'  # Replace with your actual app password
+app.config['MAIL_PASSWORD'] = 'ckhk olqp npws kzha'  # Replace with your actual app password
 app.config['MAIL_DEFAULT_SENDER'] = 'info@oramatech.ai'
 
 mail = Mail(app)
