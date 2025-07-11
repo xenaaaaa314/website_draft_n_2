@@ -38,7 +38,7 @@ def contact():
         message = request.form['message']
 
         msg = Message(f'Contact Form Message from {name}',
-                      recipients=['recipient@example.com'])  # Replace with your target email
+                      recipients=['info@oramatech.ai'])  # Replace with your target email
         msg.body = f"From: {name} <{email}>\n\n{message}"
         
         try:
