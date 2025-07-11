@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+  </style>
+
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+</head>
+<body class="bg-white text-black font-sans">
+
+    <!-- TRANSITION LOADER -->
+<div id="loader" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-opacity duration-[2000ms] hidden">
+    <h1 class="text-white text-4xl font-bold tracking-widest mb-4">ORAMA</h1>
+    <div class="flex gap-2">
+      <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0ms]"></span>
+      <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:200ms]"></span>
+      <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:400ms]"></span>
+    </div>
+  </div>
+
+  <main class="max-w-6xl mx-auto py-20 px-6">
+    <div class="text-center mb-10">
+      <p class="text-sm text-gray-500">Month, Date</p>
+      <h1 class="text-4xl font-bold mt-1 mb-2">LEADERBOARD</h1>
+      <p class="text-sm text-gray-600">The Best of The best</p>
+    </div>
+
+<!-- Banner Image with Overlay and Animation -->
+<div 
+  class="w-full max-w-7xl mx-auto my-12 rounded-xl overflow-hidden shadow-2xl border-4 border-[#d1181e] relative opacity-0 translate-y-8 transition-all duration-1000 ease-in-out scroll-fade"
+>
+  <img 
+    src="{{ url_for('static', filename='img/leaderboard_header.png') }}" 
+    alt="Leaderboard Banner" 
+    class="w-full h-auto object-cover"
+  />
+</div>
+
+
+
+<!-- First subheader block with improved layout -->
+<div class="mt-16 text-center max-w-3xl mx-auto relative pb-12">
+  <!-- Centered heading -->
+  <h2 class="text-xl font-semibold mb-4">First subheader</h2>
+
+  <!-- Paragraph -->
+  <p class="text-sm text-gray-700 leading-relaxed mb-8">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac hendrerit lorem, a ornare tellus. 
+    Donec fringilla tristique eros a varius. Proin odio nisi, porttitor vestibulum sem in, pellentesque sagittis lorem. 
+    Phasellus nisl arcu, laoreet in euismod in, auctor sit amet lorem. In porttitor ut velit ut ultricies. 
+    Praesent vel pharetra dolor. In hac habitasse platea dictumst. Phasellus venenatis tortor vitae orci volutpat hendrerit. 
+    Fusce iaculis porttitor ultricies. Vivamus vel justo eu lectus volutpat vestibulum.
+  </p>
+
+  <!-- Separator line with custom spacing -->
+  <hr class="border-t border-gray-300 w-full max-w-xl mx-auto mt-6" />
+</div>
+
+
+<!-- GOOGLE TABLE SECTION -->
+<section class="bg-white py-6 px-6 border-gray-200 relative opacity-0 translate-y-8 transition-all duration-1000 ease-in-out scroll-fade">
+<!-- Loading Spinner -->
+<div id="loading" class="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 z-10">
+<div class="animate-spin rounded-full h-10 w-10 border-t-4 border-[#d1181e] border-opacity-50"></div>
+</div>
+
+<div class="max-w-7xl mx-auto space-y-8 relative z-20">
+<!-- Centered Search -->
+<div class="flex justify-center gap-4 items-center">
+  <!-- Search Input -->
+  <input
+    id="searchInput"
+    type="text"
+    placeholder="Search..."
+    class="border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d1181e] w-full max-w-md text-center"
+  />
+
+  <!-- Export Button -->
+  <button
+    id="exportBtn"
+    class="px-5 py-2 bg-[#d1181e] text-white rounded-lg hover:bg-[#a30f15] transition shadow-md"
+  >
+    Export as CSV
+  </button>
+</div>
+
+<!-- Table -->
+<div class="overflow-x-auto rounded-xl border border-[#d1181e] shadow-xl">
+<table id="dataTable" class="min-w-full border-collapse text-sm">
+<!-- Populated dynamically -->
+</table>
+</div>
+
+<!-- Pagination -->
+<div id="pagination" class="flex justify-center items-center space-x-2 pt-6 text-sm"></div>
+</div>
+</section>
+
+<script>
+const rowsPerPage = 5;
+let fullData = [];
+let currentPage = 1;
+
+const table = document.getElementById('dataTable');
+const searchInput = document.getElementById('searchInput');
+const pagination = document.getElementById('pagination');
+const loading = document.getElementById('loading');
+
+function renderTable(data) {
+table.innerHTML = '';
+if (!data.length) return;
+
+// Header
+const thead = document.createElement('thead');
+const headRow = document.createElement('tr');
+data[0].forEach((cell, i) => {
+const th = document.createElement('th');
+th.textContent = cell;
+th.className = 'bg-black text-white px-6 py-3 text-left uppercase cursor-pointer';
+th.addEventListener('click', () => sortBy(i));
+headRow.appendChild(th);
+});
+thead.appendChild(headRow);
+table.appendChild(thead);
+
+// Body
+const tbody = document.createElement('tbody');
+const visibleRows = data.slice(1);
+const filtered = filterRows(visibleRows);
+const paginated = paginateRows(filtered);
+
+paginated.forEach(row => {
+const tr = document.createElement('tr');
+tr.className = 'transition hover:bg-[#d1181e]/10';
+row.forEach(cell => {
+const td = document.createElement('td');
+td.textContent = cell;
+td.className = 'px-6 py-4 border-t border-gray-200';
+tr.appendChild(td);
+});
+tbody.appendChild(tr);
+});
+
+table.appendChild(tbody);
+renderPagination(filtered.length);
+}
+
+function filterRows(rows) {
+const query = searchInput.value.toLowerCase();
+return rows.filter(row =>
+row.some(cell => cell.toLowerCase().includes(query))
+);
+}
+
+function paginateRows(rows) {
+const start = (currentPage - 1) * rowsPerPage;
+return rows.slice(start, start + rowsPerPage);
+}
+
+function renderPagination(totalRows) {
+pagination.innerHTML = '';
+const pageCount = Math.ceil(totalRows / rowsPerPage);
+for (let i = 1; i <= pageCount; i++) {
+const btn = document.createElement('button');
+btn.textContent = i;
+btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-[#d1181e] text-white' : 'bg-gray-100 hover:bg-gray-200'}`;
+btn.onclick = () => {
+currentPage = i;
+renderTable(fullData);
+};
+pagination.appendChild(btn);
+}
+}
+
+function sortBy(index) {
+const rows = fullData.slice(1);
+const header = fullData[0];
+
+const ascending = !table.dataset.sortOrder || table.dataset.sortOrder === 'desc';
+table.dataset.sortOrder = ascending ? 'asc' : 'desc';
+
+rows.sort((a, b) => {
+const aText = a[index].toLowerCase();
+const bText = b[index].toLowerCase();
+return ascending ? aText.localeCompare(bText) : bText.localeCompare(aText);
+});
+
+fullData = [header, ...rows];
+renderTable(fullData);
+}
+
+// Load & Init
+fetch('https://docs.google.com/spreadsheets/d/13_-8RH6KbKGQbrBq4owK_wLuvBuwC6vLWsA-X6QjHjo/gviz/tq?tqx=out:csv')
+.then(response => response.text())
+.then(csv => {
+fullData = csv.trim().split('\n').map(row => row.split(','));
+renderTable(fullData);
+loading.style.display = 'none';
+});
+
+searchInput.addEventListener('input', () => {
+currentPage = 1;
+renderTable(fullData);
+});
+</script>
+
+<script>
+  document.getElementById('exportBtn').addEventListener('click', () => {
+    const query = searchInput.value.toLowerCase();
+    const visibleData = fullData.filter((row, i) => {
+      if (i === 0) return true; // always include header
+      return row.some(cell => cell.toLowerCase().includes(query));
+    });
+
+    const csvContent = visibleData.map(e => e.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.setAttribute('download', 'orama_data.csv');
+    link.click();
+  });
+</script>
+
+
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const loader = document.getElementById('loader');
+      if (localStorage.getItem('oramaFromIndex')) {
+        loader.classList.remove('hidden');
+        setTimeout(() => {
+          loader.classList.add('opacity-0');
+          setTimeout(() => {
+            loader.style.display = 'none';
+            localStorage.removeItem('oramaFromIndex');
+          }, 1000);
+        }, 100); // optional delay
+      }
+    });
+  </script>
+
+
+<script>
+  const fadeElements = document.querySelectorAll('.scroll-fade');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.remove('opacity-0', 'translate-y-8');
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  fadeElements.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

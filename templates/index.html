@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OramaTech</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+  </style>
+
+  <!-- Critical inline styles to prevent white flash -->
+  <style>
+    /* CRITICAL: Set black background immediately */
+    html, body {
+      background-color: #000000 !important;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    
+    /* Hide everything initially except loader */
+    body > *:not(#loader) {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    #loader {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+  </style>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #000000;
+    }
+
+    /* Typewriter effect */
+    .typewriter-text {
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid transparent;
+      width: 0;
+      animation: typewriter 3s steps(44, end) forwards, fadeIn 0.5s forwards;
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .cursor {
+      display: inline-block;
+      margin-left: 3px;
+    }
+
+    /* Custom animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+    
+    @keyframes glitch {
+      0%, 100% {
+        text-shadow: 
+          2px 0 0 rgba(209, 24, 30, 0.8),
+          -2px 0 0 rgba(0, 255, 255, 0.8);
+      }
+      25% {
+        text-shadow: 
+          -2px 0 0 rgba(209, 24, 30, 0.8),
+          2px 0 0 rgba(0, 255, 255, 0.8);
+      }
+      50% {
+        text-shadow: 
+          2px 2px 0 rgba(209, 24, 30, 0.8),
+          -2px -2px 0 rgba(0, 255, 255, 0.8);
+      }
+      75% {
+        text-shadow: 
+          -2px -2px 0 rgba(209, 24, 30, 0.8),
+          2px 2px 0 rgba(0, 255, 255, 0.8);
+      }
+    }
+    
+    @keyframes slideInFromLeft {
+      from {
+        transform: translateX(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes slideInFromRight {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .animate-fadeInUp {
+      animation: fadeInUp 1.5s ease-out forwards;
+    }
+    
+    .animate-blink {
+      animation: blink 1s infinite;
+    }
+    
+    .animate-glitch {
+      animation: glitch 0.3s infinite;
+    }
+    
+    .animate-slideInLeft {
+      animation: slideInFromLeft 1s ease-out forwards;
+    }
+    
+    .animate-slideInRight {
+      animation: slideInFromRight 1s ease-out forwards;
+    }
+    
+    /* Gradient text effect */
+    .gradient-text {
+      background: linear-gradient(90deg, #d1181e 0%, #ff4444 50%, #d1181e 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 3s ease infinite;
+    }
+    
+    @keyframes gradient-shift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    /* Video overlay gradient */
+    .video-overlay {
+      background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.8) 100%);
+    }
+    
+    /* Noise texture effect */
+    .noise {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.03;
+      z-index: 1;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(255,255,255,.1) 2px,
+        rgba(255,255,255,.1) 4px
+      );
+    }
+
+    /* Bounce animation */
+    .animate-bounce {
+      animation: bounceDot 1.2s infinite ease-in-out;
+    }
+  
+    @keyframes bounceDot {
+      0%, 100% { transform: translateY(0); opacity: 0.4; }
+      50% { transform: translateY(-8px); opacity: 1; }
+    }
+
+    /* Highlighted image */
+    .highlighted {
+      transform: scale(1.05);
+      outline: 4px solid #d1181e;
+      z-index: 1;
+      transition: all 0.5s ease;
+    }
+
+    /* Header styles for smooth transitions */
+    #main-header {
+      transition: all 0.4s ease;
+      will-change: transform, opacity;
+    }
+
+    #nav-container {
+      transition: all 0.4s ease;
+      will-change: transform, opacity;
+    }
+
+    #nav-toggle {
+      transition: all 0.3s ease;
+    }
+ 
+ /* Custom Scrollbar Styles */
+    /* For Webkit browsers (Chrome, Safari, Edge) */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a0000;
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #d1181e;
+      border-radius: 6px;
+      border: 2px solid #1a0000;
+      transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff4444;
+      border-color: #000000;
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+      background: #b91016;
+    }
+
+    /* For Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #d1181e #1a0000;
+    }
+
+    /* Optional: Hide scrollbar during loading phases */
+    body.loading {
+      overflow: hidden;
+    }
+
+    /* Optional: Custom selection colors to match theme */
+    ::selection {
+      background: #d1181e;
+      color: white;
+    }
+
+    ::-moz-selection {
+      background: #d1181e;
+      color: white;
+    }
+
+    #nav-container {
+      transition: all 0.4s ease;
+      will-change: transform, opacity;
+    }
+
+    #nav-toggle {
+      transition: all 0.3s ease;
+    }
+    
+    html {
+  scroll-behavior: smooth;
+}
+
+  </style>
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+</head>
+
+
+<body class="bg-white text-black font-sans">
+
+<!-- LOADING SCREEN WITH DOTS -->
+<div id="loader" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-opacity duration-[3000ms]">
+  <h1 class="text-white text-4xl font-bold tracking-widest mb-4">Built By Warfighters. With Warfighters. For Warfighters.</h1>
+  <div class="flex gap-2">
+    <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0ms]"></span>
+    <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:200ms]"></span>
+    <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:400ms]"></span>
+  </div>
+</div>
+
+<header id="main-header" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 opacity-0 pointer-events-none">
+  <div id="nav-container" class="bg-black text-white px-10 py-4 rounded-full shadow-xl flex items-center justify-between w-[90vw] max-w-4xl space-x-12 mx-auto">
+    <a href="/" class="text-lg font-semibold tracking-wider transition-transform duration-200 hover:scale-105 hover:opacity-90">
+      ORAMA
+    </a>
+    <nav class="flex items-center space-x-6 text-sm">
+      <a href="#contact" class="relative group transition">
+        <span class="group-hover:opacity-90">Contact</span>
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-100 group-hover:w-full"></span>
+      </a>
+      <a href="{{ url_for('leaderboard') }}" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="relative group transition">
+        <span class="group-hover:opacity-90">Leaderboard</span>
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-100 group-hover:w-full"></span>
+      </a>
+      <a href="{{ url_for('join_us') }}" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="relative group transition">
+        <span class="group-hover:opacity-90">Join Us</span>
+        <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-100 group-hover:w-full"></span>
+      </a>
+      <a href="https://calendly.com/oramatech-info/30min" target="_blank" rel="noopener noreferrer"
+         class="border border-white text-white px-4 py-2 rounded-lg transition-all duration-200 hover:bg-white hover:text-black">
+        Book a Demo
+      </a>
+    </nav>
+  </div>
+  <button id="nav-toggle" class="hidden fixed top-6 left-6 bg-black text-white w-14 h-14 rounded-full z-50 focus:outline-none shadow-xl">
+    <span class="text-2xl">☰</span>
+  </button>
+</header>
+
+ <!-- Video Transition Screen -->
+<div id="videoTransition" class="fixed inset-0 z-40 bg-black opacity-0 pointer-events-none transition-all duration-1000">
+  <div class="noise"></div>
+  
+  <div class="absolute inset-0 flex items-center justify-center">
+    <div class="relative w-full max-w-[400px] h-[90vh] max-h-[800px] rounded-[40px] overflow-hidden shadow-2xl">
+      <video 
+        id="transitionVideo"
+        src="{{ url_for('static', filename='intro.mp4') }}"
+        class="absolute inset-0 w-full h-full object-contain bg-black"
+        autoplay
+        muted
+        playsinline
+        loop>
+        <source src="intro.mp4" type="video/mp4">
+      </video>
+      
+      <div class="video-overlay absolute inset-0"></div>
+      
+      <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+        <div class="space-y-6 mb-20">
+          <h2 class="text-5xl md:text-6xl font-black text-white opacity-0" 
+              style="animation-delay: 0.5s; animation-fill-mode: forwards;"
+              id="line1">
+            EMBRACE THE CHAOS
+          </h2>
+          <h2 class="text-6xl md:text-7xl font-black gradient-text opacity-0"
+              style="animation-delay: 1s; animation-fill-mode: forwards;"
+              id="line2">
+          </h2>
+          <h2 class="text-5xl md:text-6xl font-black text-white opacity-0"
+              style="animation-delay: 1.5s; animation-fill-mode: forwards;"
+              id="line3">
+            MASTER THE FIGHT
+          </h2>
+          <h2 class="text-6xl md:text-7xl font-black text-[#d1181e] opacity-0 animate-glitch"
+              style="animation-delay: 2s; animation-fill-mode: forwards;"
+              id="line4">
+          </h2>
+        </div>
+        
+        <div class="absolute bottom-10 left-0 right-0 px-8">
+          <div class="text-white text-lg md:text-xl font-light tracking-wider opacity-0 inline-block"
+               style="animation-delay: 3s; animation-fill-mode: forwards;"
+               id="typewriterText">
+            <span class="typewriter-text">Real training. Real threats.</span>
+            <span class="cursor animate-blink">|</span>
+          </div>
+        </div>
+        
+        <button 
+          id="skipButton"
+          class="absolute bottom-8 right-8 text-white/50 hover:text-white text-sm transition-all duration-300 opacity-0"
+          style="animation-delay: 4s; animation-fill-mode: forwards;">
+          Skip →
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="hidden lg:block absolute left-10 top-1/2 -translate-y-1/2 opacity-0"
+       style="animation-delay: 2.5s; animation-fill-mode: forwards;"
+       id="leftText">
+    <p class="text-white/30 text-sm tracking-[0.3em] writing-mode-vertical-rl transform rotate-180">ORAMA TECHNOLOGIES</p>
+  </div>
+  
+  <div class="hidden lg:block absolute right-10 top-1/2 -translate-y-1/2 opacity-0"
+       style="animation-delay: 2.5s; animation-fill-mode: forwards;"
+       id="rightText">
+    <p class="text-white/30 text-sm tracking-[0.3em] writing-mode-vertical-lr">MIXED REALITY COMBAT</p>
+  </div>
+</div>
+
+<div id="mainWrapper" class="opacity-0 pointer-events-none">
+<!--#1 MAIN CONTENT-->
+  <section id="mainContent" class="min-h-screen flex items-center justify-center px-6 md:px-10 py-20 bg-white border-t border-gray-200">
+    <div class="flex flex-col md:flex-row items-center gap-12 md:gap-12 max-w-7xl w-full">
+      <div class="hidden md:flex flex-col items-center">
+        <div class="w-[2px] h-[80%] bg-gray-300 rounded"></div>
+      </div>
+
+      <div class="w-full md:flex-[1.2]">
+        <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed text-black max-w-3xl mx-auto md:mx-0 mb-6">
+          <span class="text-[#d1181e] font-semibold">Orama Technologies</span> is redefining tactical training through 
+          <span class="text-[#d1181e] font-semibold">AI-powered mixed reality</span>. We're a team of veterans, engineers, and technologists building the most immersive combat simulation platform on the planet. Our goal is simple: 
+          <span class="text-[#d1181e] font-semibold">make training more realistic, more adaptive, and more accessible</span> —because lives depend on it.
+        </p>
+        <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed text-black max-w-3xl mx-auto md:mx-0">
+          Founded by <span class="text-[#d1181e] font-semibold">combat veterans and backed by top defense partners</span>, Orama has been deployed across military, law enforcement, and allied organizations 
+          <span class="text-[#d1181e] font-semibold">to prepare operators for the fight ahead</span>, not the war behind.
+        </p>
+      </div>
+
+      <div class="w-full md:flex-[0.8] flex justify-center">
+        <div class="bg-[#1a0000] p-4 rounded-2xl shadow-2xl border-4 border-[#d1181e] transition-transform duration-300 ease-in-out hover:scale-105 w-full max-w-xs sm:max-w-sm md:max-w-md">
+          <img src="{{ url_for('static', filename='img/image_1_1_starter.png') }}"
+               alt="Redefine Training"
+               class="w-full object-contain" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+// Optimized page transition logic
+document.addEventListener('DOMContentLoaded', function() {
+    const loader = document.getElementById('loader');
+    const videoTransition = document.getElementById('videoTransition');
+    const mainWrapper = document.getElementById('mainWrapper');
+    const header = document.getElementById('main-header');
+    const navContainer = document.getElementById('nav-container');
+    const toggleButton = document.getElementById('nav-toggle');
+    const skipButton = document.getElementById('skipButton');
+    
+    // Animation elements
+    const animationElements = {
+        line1: document.getElementById('line1'),
+        line2: document.getElementById('line2'),
+        line3: document.getElementById('line3'),
+        line4: document.getElementById('line4'),
+        typewriterText: document.getElementById('typewriterText'),
+        leftText: document.getElementById('leftText'),
+        rightText: document.getElementById('rightText')
+    };
+    
+    // Phase 1: Loader to Video (3s)
+    setTimeout(() => {
+        loader.style.opacity = '0';
+        
+        setTimeout(() => {
+            loader.style.display = 'none';
+            videoTransition.style.opacity = '1';
+            videoTransition.style.pointerEvents = 'auto';
+            
+            // Start animations
+            Object.entries(animationElements).forEach(([key, element]) => {
+                if (element) {
+                    if (key === 'line1') element.classList.add('animate-slideInLeft');
+                    else if (key === 'line2') element.classList.add('animate-fadeInUp');
+                    else if (key === 'line3') element.classList.add('animate-slideInRight');
+                    else element.classList.add('animate-fadeInUp');
+                }
+            });
+        }, 300);
+    }, 2200);
+    
+    // Phase 2: Video to Main Content
+    const transitionToMain = () => {
+        videoTransition.style.opacity = '0';
+        
+        setTimeout(() => {
+            videoTransition.style.display = 'none';
+            document.body.style.backgroundColor = '#ffffff';
+            mainWrapper.style.opacity = '1';
+            mainWrapper.style.pointerEvents = 'auto';
+            
+            // Show header after a short delay
+            setTimeout(() => {
+                header.style.opacity = '1';
+                header.style.pointerEvents = 'auto';
+            }, 500);
+        }, 1000);
+    };
+    
+    // Auto transition after total 11s (3s loader + 8s video)
+    setTimeout(transitionToMain, 10000);
+    
+    // Skip button
+    if (skipButton) {
+        skipButton.addEventListener('click', transitionToMain);
+    }
+    
+    // Navigation scroll behavior
+    let isNavVisible = true;
+    let scrollTimeout;
+    
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        
+        scrollTimeout = setTimeout(() => {
+            if (window.scrollY > 100 && isNavVisible) {
+                navContainer.style.transform = 'scale(0)';
+                navContainer.style.opacity = '0';
+                navContainer.style.pointerEvents = 'none';
+                toggleButton.classList.remove('hidden');
+                header.classList.remove('left-1/2', '-translate-x-1/2');
+                header.classList.add('left-4');
+                isNavVisible = false;
+            } else if (window.scrollY <= 100 && !isNavVisible) {
+                navContainer.style.transform = 'scale(1)';
+                navContainer.style.opacity = '1';
+                navContainer.style.pointerEvents = 'auto';
+                toggleButton.classList.add('hidden');
+                header.classList.remove('left-4');
+                header.classList.add('left-1/2', '-translate-x-1/2');
+                isNavVisible = true;
+            }
+        }, 50); // Debounce scroll events
+    });
+    
+    // Toggle button
+    if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+            const isHidden = navContainer.style.opacity === '0';
+            
+            if (isHidden) {
+                navContainer.style.transform = 'scale(1)';
+                navContainer.style.opacity = '1';
+                navContainer.style.pointerEvents = 'auto';
+                toggleButton.classList.add('hidden');
+                header.classList.remove('left-4');
+                header.classList.add('left-1/2', '-translate-x-1/2');
+                isNavVisible = true;
+            } else {
+                navContainer.style.transform = 'scale(0)';
+                navContainer.style.opacity = '0';
+                navContainer.style.pointerEvents = 'none';
+                toggleButton.classList.remove('hidden');
+                header.classList.remove('left-1/2', '-translate-x-1/2');
+                header.classList.add('left-4');
+                isNavVisible = false;
+            }
+        });
+    }
+});
+</script>
+
+<section class="pt-36 pb-36 px-6 border-y border-gray-200 bg-white">
+  <div class="max-w-7xl mx-auto flex flex-col items-center text-center space-y-16">
+    
+    <!-- Section Title -->
+    <h2 class="text-4xl font-bold">Our Product</h2>
+
+    <!-- Content Grid -->
+    <div class="grid md:grid-cols-2 gap-12 w-full">
+
+      <!-- Left: Video -->
+<div class="bg-[#1a0000] pt-4 pb-4 px-4 rounded-2xl shadow-2xl border-4 border-[#d1181e] w-full max-w-2xl flex items-center justify-center">
+  <div class="aspect-video w-full overflow-hidden rounded-xl">
+    <iframe 
+      src="https://www.youtube.com/embed/ld0h_DqJ2vE?si=KvFYj-asiQdw5Ij_" 
+      title="YouTube video player" 
+      class="w-full h-full" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+      <!-- Right: Facts -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-left text-black text-base leading-relaxed">
+        <div class="flex flex-col space-y-2">
+          <h4 class="font-bold text-[#d1181e]">Fact 1: Live Fire Fidelity, Zero Risk.</h4>
+          <p>With full-body motion capture, 1:1 weapon replicas, and real-time physics in a 360° MR environment, Orama replicates live-fire CQB with none of the danger.</p>
+        </div>
+        <div class="flex flex-col space-y-2">
+          <h4 class="font-bold text-[#d1181e]">Fact 2: Adaptive AI Opponents.</h4>
+          <p>Train against near-peer enemies that think and fight like real adversaries, powered by AI that learns and evolves from every session.</p>
+        </div>
+        <div class="flex flex-col space-y-2">
+          <h4 class="font-bold text-[#d1181e]">Fact 3: Field-Deployable Anywhere</h4>
+          <p>The entire system fits in a Pelican case. Run missions in a FOB tent, police training center, or SOCOM experiment—no internet required.</p>
+        </div>
+        <div class="flex flex-col space-y-2">
+          <h4 class="font-bold text-[#d1181e]">Fact 4: Real-Time AAR.</h4>
+          <p>Our platform captures every round, decision, and movement, generating real-time After-Action Reviews (AARs) to improve readiness instantly.</p>
+        </div>
+        <div class="col-span-1 sm:col-span-2 pt-4">
+          <a href="{{ url_for('article') }}" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="text-gray-600 hover:text-black transition font-medium inline-flex items-center gap-1">
+            Learn More About Our Technology →
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- QUOTE + FACTS SECTION -->
+<section class="bg-white py-20 px-6 border-t border-gray-200">
+  <div class="max-w-6xl mx-auto flex flex-col items-center space-y-20">
+
+    <!-- QUOTE BLOCK -->
+    <div class="relative bg-white rounded-xl shadow-md p-10 max-w-3xl text-center text-lg leading-relaxed text-black animate-fadeIn border-l-4 border-black/20">
+      <span style="color: #d1181e; font-weight: 600;">Smarter Than Simulation.</span>
+      Orama’s platform uses <span style="color: #d1181e; font-weight: 600;">three integrated AI engines</span> to deliver an unmatched training experience. With Orama, artificial intelligence isn’t just reactive—it’s <span style="color: #d1181e; font-weight: 600;">adaptive, realistic, and mission-driven</span>.
+    </div>
+
+    <!-- FACTS -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 w-full">
+      <!-- Fact 1 -->
+      <div class="flex flex-col items-center text-center px-6 border-r md:border-gray-300">
+        <h5 class="text-xl md:text-2xl font-semibold text-black">AI Model #1: Computer Vision for Near-Peer Enemies</h5>
+        <p class="text-lg mt-4 text-gray-700">Real-time tracking of player movement and environmental interaction feeds an adversary AI trained on real-world near-peer tactics.</p>
+      </div>
+
+      <!-- Fact 2 -->
+      <div class="flex flex-col items-center text-center px-6 border-r md:border-gray-300">
+        <h5 class="text-xl md:text-2xl font-semibold text-black">AI Model #2: AAR for Soldiers & Drones</h5>
+        <p class="text-lg mt-4 text-gray-700">Our After-Action Review engine analyzes decisions, patterns, and performance to help instructors and trainees instantly identify strengths and weaknesses.</p>
+      </div>
+
+      <!-- Fact 3 -->
+      <div class="flex flex-col items-center text-center px-6">
+        <h5 class="text-xl md:text-2xl font-semibold text-black">AI Model #3: Voice Escalation & De-Escalation</h5>
+        <p class="text-lg mt-4 text-gray-700">Operators interact with NPCs using natural language. Our voice-interaction AI supports escalation/de-escalation and shoot/no-shoot decisions based on tone, command, and context.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMAGE GALLERY SECTION -->
+<section class="bg-white py-20 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div id="gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <img 
+        src="{{ url_for('static', filename='img/2.png') }}" 
+        alt="Train Better Than Yesterday" 
+        class="gallery-img w-full h-auto rounded-xl shadow-xl transition-transform duration-500 hover:scale-105 cursor-pointer"
+        onclick="openModal(this.src, this.alt)"
+      >
+      <img 
+        src="{{ url_for('static', filename='img/3.png') }}" 
+        alt="Face the unknown. Win Anyway." 
+        class="gallery-img w-full h-auto rounded-xl shadow-xl transition-transform duration-500 hover:scale-105 cursor-pointer"
+        onclick="openModal(this.src, this.alt)"
+      >
+      <img 
+        src="{{ url_for('static', filename='img/4.png') }}" 
+        alt="Train before the threat has a name." 
+        class="gallery-img w-full h-auto rounded-xl shadow-xl transition-transform duration-500 hover:scale-105 cursor-pointer"
+        onclick="openModal(this.src, this.alt)"
+      >
+    </div>
+  </div>
+</section>
+
+
+<!-- IMAGE MODAL OVERLAY -->
+<div id="image-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-80 flex items-center justify-center">
+  <div class="relative max-w-3xl w-full px-4">
+    <button 
+  onclick="closeModal()" 
+  class="absolute top-4 right-4 text-white text-3xl font-bold bg-black/50 hover:bg-black/70 rounded-full w-10 h-10 flex items-center justify-center transition"
+  aria-label="Close"
+>
+  &times;
+</button>
+
+    <img id="modal-img" src="" alt="" class="w-full h-auto rounded-xl shadow-2xl transition-all duration-300" />
+    <p id="modal-caption" class="mt-4 text-center text-white text-lg"></p>
+  </div>
+</div>
+
+<!-- JS TO CONTROL MODAL -->
+<script>
+  function openModal(src, alt) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    const caption = document.getElementById('modal-caption');
+    modalImg.src = src;
+    caption.textContent = alt;
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('image-modal');
+    modal.classList.add('hidden');
+  }
+
+  // Optional: close on outside click
+  document.getElementById('image-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'image-modal') closeModal();
+  });
+</script>
+
+<script>
+  // Modal logic (already present)
+  function openModal(src, alt) {
+    document.getElementById('modal-img').src = src;
+    document.getElementById('modal-caption').textContent = alt;
+    document.getElementById('image-modal').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('image-modal').classList.add('hidden');
+  }
+
+  document.getElementById('image-modal').addEventListener('click', (e) => {
+    if (e.target.id === 'image-modal') closeModal();
+  });
+
+  // New: Auto-highlight carousel animation
+  const galleryImages = document.querySelectorAll('.gallery-img');
+  let currentIndex = 0;
+
+  function highlightImage(index) {
+    galleryImages.forEach((img, i) => {
+      img.classList.toggle('highlighted', i === index);
+    });
+  }
+
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % galleryImages.length;
+    highlightImage(currentIndex);
+  }, 3000); // every 3 seconds
+</script>
+
+
+
+
+<!-- STORY & MISSION SECTION -->
+<section class="bg-white py-32 px-6 border-t border-gray-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">
+
+    <!-- STORY -->
+    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-shadow duration-500 animate-fadeIn">
+      <h2 class="text-3xl font-bold mb-4 text-black">Our Story</h2>
+      <p class="text-lg leading-relaxed text-gray-700">
+        Orama was founded by <span style="color: #d1181e; font-weight: 600;">veterans who saw the consequences of outdated training firsthand</span>. In
+modern warfare, seconds and decisions matter—and yet we continue to train with 20th-century
+tools for 21st-century threats. <span style="color: #d1181e; font-weight: 600;"> We knew there had to be a better way. </span>
+What began as a prototype in a garage is now a system trusted by Tier 1 operators, tested with
+the USAF, and showcased at national defense conferences. <span style="color: #d1181e; font-weight: 600;"> We are not just building a product—
+we are changing the way America trains for war. </span>
+      </p>
+    </div>
+
+    <!-- MISSION -->
+    <div class="bg-white rounded-xl shadow-lg p-8 hover:shadow-2xl transition-shadow duration-500 animate-fadeIn">
+      <h2 class="text-3xl font-bold mb-4 text-black">Our Mission</h2>
+      <p class="text-lg leading-relaxed text-gray-700">
+<span style="color: #d1181e; font-weight: 600;">To save lives by making warfighters more prepared, more capable, and more resilient </span> through
+immersive, intelligent training systems.
+To close the gap between doctrine and deployment.
+<span style="color: #d1181e; font-weight: 600;">To outpace our adversaries—one simulation at a time</span>.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
+<script>
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    const header = document.getElementById('main-header');
+
+    loader.classList.add('opacity-0');
+    setTimeout(() => {
+    loader.style.display = 'none';
+  header.removeAttribute('hidden');
+
+    }, 800);
+  });
+
+  // Responsive nav scroll + toggle
+  const header = document.getElementById('main-header');
+  const navContainer = document.getElementById('nav-container');
+  const toggleButton = document.getElementById('nav-toggle');
+
+  let isNavVisible = true;
+
+  window.addEventListener('scroll', () => {
+    // Always ensure transitions are smooth
+    header.classList.add('transition-all', 'duration-700');
+    navContainer.classList.add('transition-all', 'duration-700');
+    if (window.scrollY > 100 && isNavVisible) {
+      navContainer.classList.add('scale-0', 'opacity-0', 'pointer-events-none');
+      toggleButton.classList.remove('hidden');
+      // Move header to left-4 and remove center classes
+      header.classList.remove('left-1/2', '-translate-x-1/2');
+      header.classList.add('left-4');
+      isNavVisible = false;
+    } else if (window.scrollY <= 100 && !isNavVisible) {
+      navContainer.classList.remove('scale-0', 'opacity-0', 'pointer-events-none');
+      toggleButton.classList.add('hidden');
+      // Restore header to centered
+      header.classList.remove('left-4');
+      header.classList.add('left-1/2', '-translate-x-1/2');
+      isNavVisible = true;
+    }
+
+    
+  });
+
+toggleButton.addEventListener('click', () => {
+  window.requestAnimationFrame(() => {
+    header.classList.add('transition-all', 'duration-700');
+    navContainer.classList.add('transition-transform', 'transition-opacity', 'duration-700', 'ease-in-out');
+
+    const isHidden = navContainer.classList.contains('scale-0');
+
+    if (isHidden) {
+      toggleButton.classList.add('hidden');
+      navContainer.classList.remove('scale-0', 'opacity-0', 'pointer-events-none');
+      header.classList.remove('left-4');
+      header.classList.add('left-1/2', '-translate-x-1/2');
+      isNavVisible = true;
+    } else {
+      toggleButton.classList.remove('hidden');
+      navContainer.classList.add('scale-0', 'opacity-0', 'pointer-events-none');
+      header.classList.remove('left-1/2', '-translate-x-1/2');
+      header.classList.add('left-4');
+      isNavVisible = false;
+    }
+  });
+});
+</script>
+
+
+<!--
+ NEWS SECTION 
+<section class="bg-white py-32 px-6 border-t border-gray-200">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
+
+    Title 
+    <div class="md:col-span-1">
+      <h2 class="text-5xl font-semibold text-black">News</h2>
+    </div>
+
+    News List
+    <div class="md:col-span-2 space-y-6 w-full">
+News Item
+      <div class="flex justify-between items-center border-b pb-4">
+        <div class="text-xl text-black">News #1</div>
+        <div class="flex items-center space-x-6">
+          <span class="text-gray-500">2025</span>
+          <span class="text-2xl">&rarr;</span>
+        </div>
+      </div>
+      <div class="flex justify-between items-center border-b pb-4">
+        <div class="text-xl text-black">News #2</div>
+        <div class="flex items-center space-x-6">
+          <span class="text-gray-500">2025</span>
+          <span class="text-2xl">&rarr;</span>
+        </div>
+      </div>
+      <div class="flex justify-between items-center border-b pb-4">
+        <div class="text-xl text-black">News #3</div>
+        <div class="flex items-center space-x-6">
+          <span class="text-gray-500">2024</span>
+          <span class="text-2xl">&rarr;</span>
+        </div>
+      </div>
+      <div class="flex justify-between items-center border-b pb-4">
+        <div class="text-xl text-black">News #4</div>
+        <div class="flex items-center space-x-6">
+          <span class="text-gray-500">2024</span>
+          <span class="text-2xl">&rarr;</span>
+        </div>
+      </div>
+      <div class="flex justify-between items-center border-b pb-4">
+        <div class="text-xl text-black">News #5</div>
+        <div class="flex items-center space-x-6">
+          <span class="text-gray-500">2023</span>
+          <span class="text-2xl">&rarr;</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section> 
+-->
+
+
+
+
+<!-- SEEN IN SECTION -->
+<section class="bg-white py-20 px-6 border-t border-gray-200">
+  <div class="max-w-6xl mx-auto text-center">
+    <h2 class="text-2xl md:text-3xl font-semibold mb-10">Where You Might Have Seen Us</h2>
+
+    <div 
+      x-data="{
+        logos: [
+          '{{ url_for("static", filename="img/marines.png") }}',
+          '{{ url_for("static", filename="img/american_navy_1.png") }}',
+          '{{ url_for("static", filename="img/us_army.png") }}',
+          '{{ url_for("static", filename="img/ncpd_1.png") }}',
+          '{{ url_for("static", filename="img/nypd_1.png") }}',
+          '{{ url_for("static", filename="img/mtoa-logo.png") }}',
+           '{{ url_for("static", filename="img/sof-week-logo.webp") }}',
+        ],
+        currentIndex: 0,
+        visibleCount: 3,
+        get visibleLogos() {
+          return this.logos.slice(this.currentIndex, this.currentIndex + this.visibleCount);
+        },
+        next() {
+          this.currentIndex = (this.currentIndex + 1) % this.logos.length;
+        },
+        prev() {
+          this.currentIndex = (this.currentIndex - 1 + this.logos.length) % this.logos.length;
+        },
+        start() {
+          this.interval = setInterval(() => this.next(), 3000);
+        },
+        stop() {
+          clearInterval(this.interval);
+        }
+      }"
+      x-init="start"
+      class="relative"
+    >
+
+      <!-- Carousel Container -->
+      <div class="flex justify-center items-center gap-12 transition-all duration-500 ease-in-out">
+        <template x-for="logo in visibleLogos" :key="logo">
+          <img :src="logo" alt="Logo" class="w-40 h-40 sm:w-36 sm:h-36 md:w-40 md:h-40 object-contain" />
+        </template>
+      </div>
+
+      <!-- Navigation Arrows -->
+      <div class="absolute top-1/2 left-0 transform -translate-y-1/2">
+        <button @click="prev(); stop()" class="p-2 bg-white border rounded-full shadow hover:bg-gray-100">&#8592;</button>
+      </div>
+      <div class="absolute top-1/2 right-0 transform -translate-y-1/2">
+        <button @click="next(); stop()" class="p-2 bg-white border rounded-full shadow hover:bg-gray-100">&#8594;</button>
+      </div>
+
+      <!-- Dot Pagination -->
+      <div class="mt-6 flex justify-center gap-2">
+        <template x-for="(logo, index) in logos">
+          <span 
+            class="w-3 h-3 rounded-full"
+            :class="{
+              'bg-black': index === currentIndex,
+              'bg-gray-300': index !== currentIndex
+            }"
+          ></span>
+        </template>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<section id="contact" class="bg-white py-32 px-6 border-t border-gray-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+
+  <!-- Flash Message Block (put here) -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="mb-4 space-y-2">
+        {% for category, message in messages %}
+          <li class="text-{{ 'green-600' if category == 'success' else 'red-600' }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+    <!-- Left: Contact Form -->
+    <div class="bg-gray-50 p-8 rounded-xl shadow-md h-full">
+      <h2 class="text-3xl font-bold mb-6 text-black">Contact Us</h2>
+      <p class="text-base text-gray-700 mb-6">Feel free to reach out with any questions or comments.</p>
+      <form method="POST" action="#" class="space-y-4">
+        <input type="text" placeholder="Name" class="w-full px-4 py-2 border border-gray-300 rounded-md" required/>
+        <input type="email" placeholder="Email" class="w-full px-4 py-2 border border-gray-300 rounded-md" required/>
+        <textarea placeholder="Your Message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md"required/></textarea>
+        <button type="submit" class="px-5 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition text-sm">Send Message</button>
+      </form>
+    </div>
+
+    <!-- Right: Book a Demo -->
+    <div class="p-8 rounded-xl shadow-md h-full border-l border-gray-200">
+      <div>
+        <!-- Icon + Title -->
+        <div class="mb-4 flex items-center gap-3">
+          <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 5v14l11-7z" />
+          </svg>
+          <h2 class="text-3xl font-bold text-black">Book a Demo</h2>
+        </div>
+        <p class="text-base text-gray-700 mb-6">Want to see ORAMA in action? Choose a time that works best for you.</p>
+
+        <!-- Calendly Embed -->
+        <div class="calendly-inline-widget w-full" data-url="https://calendly.com/oramatech-info/30min" style="min-width:320px;height:500px;"></div>
+        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<script> 
+  window.addEventListener('load', () => {
+  document.querySelectorAll('.fade-section').forEach((el, i) => {
+    setTimeout(() => {
+      el.classList.remove('opacity-0', 'translate-y-8');
+    }, 100 * i); // staggered
+  });
+});
+
+</script>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-gray-200 py-20 px-6">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-center md:justify-between gap-12 text-center md:text-left">
+      
+      <!-- Icon -->
+      <div class="flex justify-center md:justify-start">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Engineer Icon" class="w-32 h-auto" />
+      </div>
+
+      <!-- Office & Contact -->
+      <div class="space-y-8 text-center md:text-left">
+        <div>
+          <h4 class="font-semibold uppercase text-sm text-black tracking-widest">Office</h4>
+          <p class="mt-2 text-black">15 Somwhere Over the Rainbow<br/>00000 Someplace</p>
+        </div>
+        <div>
+          <h4 class="font-semibold uppercase text-sm text-black tracking-widest">Contact</h4>
+          <p class="mt-2 text-black">(123) 456–7890<br/>hello@try.com</p>
+        </div>
+      </div>
+
+      <!-- Social -->
+      <div class="text-center md:text-left">
+        <h4 class="font-semibold uppercase text-sm text-black tracking-widest">Social</h4>
+        <p class="mt-2 text-black">
+          <a href="#" class="hover:underline">LinkedIn</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+</div>
+
+  <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+</body>
+</html>

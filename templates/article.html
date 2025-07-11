@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Article</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+  </style>
+
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/logo.png') }}">
+</head>
+<body class="bg-white text-black font-sans">
+
+    <!-- TRANSITION LOADER -->
+<div id="loader" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-opacity duration-[2000ms] hidden">
+    <h1 class="text-white text-4xl font-bold tracking-widest mb-4">ORAMA</h1>
+    <div class="flex gap-2">
+      <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0ms]"></span>
+      <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:200ms]"></span>
+      <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:400ms]"></span>
+    </div>
+  </div>
+
+ <main class="max-w-6xl mx-auto py-20 px-6">
+    <div class="text-center mb-10">
+      <p class="text-sm text-gray-500">July 2025</p>
+      <h1 class="text-4xl font-bold mt-1 mb-2">Train Like Lives Depend on It, Because They Do</h1>
+      <p class="text-sm text-gray-600">Lorem ipsum dolor sit amet</p>
+    </div>
+
+    <!-- Video -->
+<div class="bg-[#1a0000] p-4 rounded-2xl border-4 border-[#d1181e] w-full max-w-2xl mx-auto my-12 shadow-xl">
+  <div class="relative w-full overflow-hidden rounded-xl aspect-video">
+    <iframe 
+      src="https://player.vimeo.com/video/1100365576?badge=0&autopause=0&player_id=0&app_id=58479" 
+      frameborder="0" 
+      allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+      allowfullscreen 
+      title="Orama Technologies NY Police Teaser"
+      class="absolute top-0 left-0 w-full h-full rounded-xl">
+    </iframe>
+  </div>
+</div>
+
+    <!-- First subheader -->
+    <div class="mt-12">
+      <h2 class="font-semibold mb-2">Full-Fidelity Combat Training, No Live Fire Needed</h2>
+      <p class="text-sm text-gray-700 leading-relaxed">
+Orama’s Mixed Reality Combat Simulator replicates the adrenaline, pressure, and chaos of live fire without a single bullet fired. Using full-body tracking, real-world physics, and 1:1 weapon fidelity, we enable users to engage in real CQB (close quarters battle) missions safely and repeatedly. Real recoil. Real tactics. Real readiness.
+Whether it’s stacked teams breaching a room or lone operators clearing stairwells, the system mimics real-world environments to build neural-muscle memory where it matters most.
+      </p>
+    </div>
+
+    <!-- Another subheader -->
+    <div class="mt-12">
+      <h2 class="font-semibold mb-2">Train Smarter, Fight Harder</h2>
+      <p class="text-sm text-gray-700 leading-relaxed">
+        Our adaptive AI analyzes player behavior and injects variability into every scenario. No two runs are the same. Enemies flank when you pause, counterattack when you overreach, and breach when you stall.
+        Each adversary mimics real-world near-peer tactics: drones, room-clearing, suppression fire, and even ethical judgment pressure points (such as civilians present). This isn't just simulation. It’s algorithmically-driven tactical education.
+      </p>
+    </div>
+
+    <!-- Styled Blockquote -->
+    <blockquote class="relative bg-white rounded-xl shadow-md p-10 max-w-3xl text-center text-lg leading-relaxed text-black animate-fadeIn border-l-4 border-black/20 pl-6 quote-decor my-16 mx-auto">
+       “This is the most realistic training system we’ve ever used. Period.”
+      <div class="text-sm text-center mt-6 font-normal flex flex-col items-center justify-center gap-2">
+        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+        <div>
+          <p class="font-semibold">SFC Jackson</p>
+          <p class="text-gray-600">US Army Infantry School</p>
+        </div>
+      </div>
+    </blockquote>
+
+    <!-- Last subheader -->
+    <div class="mt-12">
+      <h2 class="font-semibold mb-2">Deploy Anywhere, Train Everywhere</h2>
+      <p class="text-sm text-gray-700 leading-relaxed">
+       The full MRCS fits in two Pelican cases. No Wi-Fi? No problem. No range? No issue. Whether you’re on a base in Germany or a field exercise in North Carolina, Orama launches in under 30 minutes. The system self-calibrates, connects wirelessly, and delivers a full training pipeline from mission planning to AAR without outside infrastructure.
+      </p>
+    </div>
+
+     <!-- Last subheader (one more) -->
+    <div class="mt-12">
+      <h2 class="font-semibold mb-2">Actionable Insights From Every Mission</h2>
+      <p class="text-sm text-gray-700 leading-relaxed">
+       Our real-time After Action Review (AAR) engine logs every movement, trigger pull, voice command, and interaction. Instructors can scrub through timelines, replay player perspectives, and even get automatic heat maps, accuracy stats, and decision timing breakdowns. Want to know why your squad failed to breach in time? The AAR doesn’t just tell you. It shows you.
+      </p>
+    </div>
+
+
+  </main>
+
+  
+
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const loader = document.getElementById('loader');
+      if (localStorage.getItem('oramaFromIndex')) {
+        loader.classList.remove('hidden');
+        setTimeout(() => {
+          loader.classList.add('opacity-0');
+          setTimeout(() => {
+            loader.style.display = 'none';
+            localStorage.removeItem('oramaFromIndex');
+          }, 1000);
+        }, 100); // optional delay
+      }
+    });
+  </script>
+
+</body>
+</html>
