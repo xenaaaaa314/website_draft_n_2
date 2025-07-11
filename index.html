@@ -285,6 +285,11 @@
   scroll-behavior: smooth;
 }
 
+
+    @keyframes fadeInB {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
   </style>
 
 
@@ -386,11 +391,12 @@
         </div>
         
         <button 
-          id="skipButton"
-          class="absolute bottom-8 right-8 text-white/50 hover:text-white text-sm transition-all duration-300 opacity-0"
-          style="animation-delay: 4s; animation-fill-mode: forwards;">
-          Skip →
-        </button>
+  id="skipButton"
+  class="absolute bottom-8 right-8 text-white/50 hover:text-white text-sm transition-all duration-300"
+  style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
+  Skip →
+</button>
+
       </div>
     </div>
   </div>
