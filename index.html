@@ -1153,39 +1153,57 @@ News Item
 </section>
 -->
 
-<section id="contact" class="bg-white py-32 px-6 border-t border-gray-200">
-  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-
+<section id="contact" class="bg-white py-16 md:py-32 px-6 border-t border-gray-200">
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+    
     <!-- Left: Contact Form -->
-    <div class="bg-gray-50 p-8 rounded-xl shadow-md h-full">
-      <h2 class="text-3xl font-bold mb-6 text-black">Contact Us</h2>
-      <p class="text-base text-gray-700 mb-6">Feel free to reach out with any questions or comments.</p>
+    <div class="bg-gray-50 p-6 md:p-8 rounded-xl shadow-md h-full">
+      <h2 class="text-2xl md:text-3xl font-bold mb-4 md:mb-6 text-black">Contact Us</h2>
+      <p class="text-sm md:text-base text-gray-700 mb-4 md:mb-6">Feel free to reach out with any questions or comments.</p>
       <form method="POST" action="#" class="space-y-4">
-        <input type="text" placeholder="Name" class="w-full px-4 py-2 border border-gray-300 rounded-md" required/>
-        <input type="email" placeholder="Email" class="w-full px-4 py-2 border border-gray-300 rounded-md" required/>
-        <textarea placeholder="Your Message" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-md"required/></textarea>
-        <button type="submit" class="px-5 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition text-sm">Send Message</button>
+        <input type="text" placeholder="Name" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base" required/>
+        <input type="email" placeholder="Email" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base" required/>
+        <textarea placeholder="Your Message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-md text-base resize-none" required></textarea>
+        <button type="submit" class="w-full md:w-auto px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition text-base font-medium">
+          Send Message
+        </button>
       </form>
     </div>
-
+    
     <!-- Right: Book a Demo -->
-    <div class="p-8 rounded-xl shadow-md h-full border-l border-gray-200">
+    <div class="bg-gray-50 p-6 md:p-8 rounded-xl shadow-md h-full md:border-l-0">
       <div>
         <!-- Icon + Title -->
         <div class="mb-4 flex items-center gap-3">
-          <svg class="w-8 h-8 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <svg class="w-6 md:w-8 h-6 md:h-8 text-black" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M8 5v14l11-7z" />
           </svg>
-          <h2 class="text-3xl font-bold text-black">Book a Demo</h2>
+          <h2 class="text-2xl md:text-3xl font-bold text-black">Book a Demo</h2>
         </div>
-        <p class="text-base text-gray-700 mb-6">Want to see ORAMA in action? Choose a time that works best for you.</p>
-
-        <!-- Calendly Embed -->
-        <div class="calendly-inline-widget w-full" data-url="https://calendly.com/oramatech-info/30min" style="min-width:320px;height:500px;"></div>
-        <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+        <p class="text-sm md:text-base text-gray-700 mb-4 md:mb-6">
+          Want to see ORAMA in action? Choose a time that works best for you.
+        </p>
+        
+        <!-- Calendly Container with better mobile handling -->
+        <div class="calendly-container overflow-hidden rounded-lg">
+          <div class="calendly-inline-widget w-full" 
+               data-url="https://calendly.com/oramatech-info/30min" 
+               style="min-width:280px;height:600px;">
+          </div>
+        </div>
+        
+        <!-- Alternative mobile-friendly CTA (optional) -->
+        <div class="md:hidden mt-4">
+          <a href="https://calendly.com/oramatech-info/30min" 
+             target="_blank"
+             class="block w-full text-center px-6 py-3 bg-black text-white rounded-full hover:bg-gray-800 transition text-base font-medium">
+            Open Calendar in New Tab
+          </a>
+        </div>
+        
       </div>
     </div>
-
+    
   </div>
 </section>
 
