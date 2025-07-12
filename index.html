@@ -611,127 +611,128 @@ document.addEventListener('DOMContentLoaded', () => {
     </div>
   </section>
 
+  <!-- Minimal Loader (just dots) -->
+<div id="minimalLoader" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-opacity duration-[2000ms] hidden">
+  <h1 class="text-white text-4xl font-bold tracking-widest mb-4">ORAMA</h1>
+  <div class="flex gap-2">
+    <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0ms]"></span>
+    <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:200ms]"></span>
+    <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:400ms]"></span>
+  </div>
+</div>
+
+
 <script>
 // Optimized page transition logic
-document.addEventListener('DOMContentLoaded', function() {
-    const loader = document.getElementById('loader');
-    const videoTransition = document.getElementById('videoTransition');
-    const mainWrapper = document.getElementById('mainWrapper');
-    const header = document.getElementById('main-header');
-    const navContainer = document.getElementById('nav-container');
-    const toggleButton = document.getElementById('nav-toggle');
-    const skipButton = document.getElementById('skipButton');
-    
-    // Animation elements
-    const animationElements = {
-        line1: document.getElementById('line1'),
-        line2: document.getElementById('line2'),
-        line3: document.getElementById('line3'),
-        line4: document.getElementById('line4'),
-        typewriterText: document.getElementById('typewriterText'),
-        leftText: document.getElementById('leftText'),
-        rightText: document.getElementById('rightText')
-    };
-    
-    // Phase 1: Loader to Video (3s)
+document.addEventListener('DOMContentLoaded', function () {
+  const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
+  const loader = document.getElementById('minimalLoader');
+  const videoTransition = document.getElementById('videoTransition');
+  const mainWrapper = document.getElementById('mainWrapper');
+  const header = document.getElementById('main-header');
+  const navContainer = document.getElementById('nav-container');
+  const toggleButton = document.getElementById('nav-toggle');
+  const skipButton = document.getElementById('skipButton');
+
+  const showMain = () => {
+    if (videoTransition) videoTransition.style.display = 'none';
+    if (loader) loader.style.display = 'none';
+    document.body.style.backgroundColor = '#ffffff';
+    mainWrapper.style.opacity = '1';
+    mainWrapper.style.pointerEvents = 'auto';
+    header.style.opacity = '1';
+    header.style.pointerEvents = 'auto';
+  };
+
+  if (!hasPlayedIntro) {
+    // First-time visit: show video intro
+    sessionStorage.setItem('hasPlayedIntro', 'true');
+
+    // Show full video transition
     setTimeout(() => {
-        loader.style.opacity = '0';
-        
-        setTimeout(() => {
-            loader.style.display = 'none';
-            videoTransition.style.opacity = '1';
-            videoTransition.style.pointerEvents = 'auto';
-            
-            // Start animations
-            Object.entries(animationElements).forEach(([key, element]) => {
-                if (element) {
-                    if (key === 'line1') element.classList.add('animate-slideInLeft');
-                    else if (key === 'line2') element.classList.add('animate-fadeInUp');
-                    else if (key === 'line3') element.classList.add('animate-slideInRight');
-                    else element.classList.add('animate-fadeInUp');
-                }
-            });
-        }, 300);
-    }, 2200);
-    
-    // Phase 2: Video to Main Content
-    const transitionToMain = () => {
-        videoTransition.style.opacity = '0';
-        
-        setTimeout(() => {
-            videoTransition.style.display = 'none';
-            document.body.style.backgroundColor = '#ffffff';
-            mainWrapper.style.opacity = '1';
-            mainWrapper.style.pointerEvents = 'auto';
-            
-            // Show header after a short delay
-            setTimeout(() => {
-                header.style.opacity = '1';
-                header.style.pointerEvents = 'auto';
-            }, 500);
-        }, 1000);
-    };
-    
-    // Auto transition after total 11s (3s loader + 8s video)
-    setTimeout(transitionToMain, 10000);
-    
-    // Skip button
-    if (skipButton) {
-        skipButton.addEventListener('click', transitionToMain);
-    }
-    
-    // Navigation scroll behavior
-    let isNavVisible = true;
-    let scrollTimeout;
-    
-    window.addEventListener('scroll', () => {
-        clearTimeout(scrollTimeout);
-        
-        scrollTimeout = setTimeout(() => {
-            if (window.scrollY > 100 && isNavVisible) {
-                navContainer.style.transform = 'scale(0)';
-                navContainer.style.opacity = '0';
-                navContainer.style.pointerEvents = 'none';
-                toggleButton.classList.remove('hidden');
-                header.classList.remove('left-1/2', '-translate-x-1/2');
-                header.classList.add('left-4');
-                isNavVisible = false;
-            } else if (window.scrollY <= 100 && !isNavVisible) {
-                navContainer.style.transform = 'scale(1)';
-                navContainer.style.opacity = '1';
-                navContainer.style.pointerEvents = 'auto';
-                toggleButton.classList.add('hidden');
-                header.classList.remove('left-4');
-                header.classList.add('left-1/2', '-translate-x-1/2');
-                isNavVisible = true;
-            }
-        }, 50); // Debounce scroll events
-    });
-    
-    // Toggle button
-    if (toggleButton) {
-        toggleButton.addEventListener('click', () => {
-            const isHidden = navContainer.style.opacity === '0';
-            
-            if (isHidden) {
-                navContainer.style.transform = 'scale(1)';
-                navContainer.style.opacity = '1';
-                navContainer.style.pointerEvents = 'auto';
-                toggleButton.classList.add('hidden');
-                header.classList.remove('left-4');
-                header.classList.add('left-1/2', '-translate-x-1/2');
-                isNavVisible = true;
-            } else {
-                navContainer.style.transform = 'scale(0)';
-                navContainer.style.opacity = '0';
-                navContainer.style.pointerEvents = 'none';
-                toggleButton.classList.remove('hidden');
-                header.classList.remove('left-1/2', '-translate-x-1/2');
-                header.classList.add('left-4');
-                isNavVisible = false;
-            }
+      document.getElementById('loader').style.opacity = '0';
+
+      setTimeout(() => {
+        document.getElementById('loader').style.display = 'none';
+        videoTransition.style.opacity = '1';
+        videoTransition.style.pointerEvents = 'auto';
+
+        // Start animations
+        ['line1', 'line2', 'line3', 'line4', 'leftText', 'rightText'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('animate-fadeInUp');
         });
+
+      }, 300);
+    }, 2200);
+
+    // Auto skip to main
+    setTimeout(showMain, 10000);
+
+    // Manual skip
+    if (skipButton) {
+      skipButton.addEventListener('click', showMain);
     }
+
+  } else {
+    // Already visited — skip intro and show minimal loader
+    loader.classList.remove('hidden');
+    loader.style.opacity = '1';
+
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      setTimeout(showMain, 300);
+    }, 1000); // 1s bounce animation
+  }
+
+  // Header scroll logic (unchanged)
+  let isNavVisible = true;
+  let scrollTimeout;
+
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      if (window.scrollY > 100 && isNavVisible) {
+        navContainer.style.transform = 'scale(0)';
+        navContainer.style.opacity = '0';
+        navContainer.style.pointerEvents = 'none';
+        toggleButton.classList.remove('hidden');
+        header.classList.remove('left-1/2', '-translate-x-1/2');
+        header.classList.add('left-4');
+        isNavVisible = false;
+      } else if (window.scrollY <= 100 && !isNavVisible) {
+        navContainer.style.transform = 'scale(1)';
+        navContainer.style.opacity = '1';
+        navContainer.style.pointerEvents = 'auto';
+        toggleButton.classList.add('hidden');
+        header.classList.remove('left-4');
+        header.classList.add('left-1/2', '-translate-x-1/2');
+        isNavVisible = true;
+      }
+    }, 50);
+  });
+
+  // Toggle button logic
+  toggleButton.addEventListener('click', () => {
+    const isHidden = navContainer.style.opacity === '0';
+    if (isHidden) {
+      navContainer.style.transform = 'scale(1)';
+      navContainer.style.opacity = '1';
+      navContainer.style.pointerEvents = 'auto';
+      toggleButton.classList.add('hidden');
+      header.classList.remove('left-4');
+      header.classList.add('left-1/2', '-translate-x-1/2');
+      isNavVisible = true;
+    } else {
+      navContainer.style.transform = 'scale(0)';
+      navContainer.style.opacity = '0';
+      navContainer.style.pointerEvents = 'none';
+      toggleButton.classList.remove('hidden');
+      header.classList.remove('left-1/2', '-translate-x-1/2');
+      header.classList.add('left-4');
+      isNavVisible = false;
+    }
+  });
 });
 </script>
 
