@@ -311,12 +311,12 @@
   </div>
 </div>
 
-<header id="main-header" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 opacity-0 pointer-events-none">
+<header id="main-header" class="fixed top-6 left-1/2 -translate-x-1/2 md:left-1/2 md:-translate-x-1/2 left-4 md:translate-x-0">
   <div id="nav-container" class="bg-black text-white px-10 py-4 rounded-full shadow-xl flex items-center justify-between w-[90vw] max-w-4xl space-x-12 mx-auto">
     <a href="/" class="text-lg font-semibold tracking-wider transition-transform duration-200 hover:scale-105 hover:opacity-90">
       ORAMA
     </a>
-    <nav class="flex items-center space-x-6 text-sm">
+    <nav id="nav-links" class="hidden flex-col items-center space-y-6 mt-6 md:flex md:flex-row md:space-y-0 md:space-x-6 text-sm transition-all">
       <a href="#contact" class="relative group transition">
         <span class="group-hover:opacity-90">Contact</span>
         <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-100 group-hover:w-full"></span>
@@ -345,7 +345,7 @@
   <div class="noise"></div>
   
   <div class="absolute inset-0 flex items-center justify-center">
-    <div class="relative w-full max-w-[400px] h-[90vh] max-h-[800px] rounded-[40px] overflow-hidden shadow-2xl">
+    <div class="relative w-full max-w-[400px] h-[80vh] sm:h-[90vh] max-h-[800px] rounded-[40px] overflow-hidden shadow-2xl">
       <video 
         id="transitionVideo"
         src="img/intro.mp4"
@@ -451,6 +451,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainWrapper = document.getElementById('mainWrapper');
     const header = document.getElementById('main-header');
     const navContainer = document.getElementById('nav-container');
+    const navLink = document.getElementById('nav-links')
     const toggleButton = document.getElementById('nav-toggle');
     const skipButton = document.getElementById('skipButton');
     
@@ -1027,7 +1028,7 @@ News Item
 
   <!-- FOOTER -->
   <footer class="bg-white border-t border-gray-200 py-20 px-6">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-start justify-center md:justify-between gap-12 text-center md:text-left">
+    <div class="text-center md:text-left">
       
       <!-- Icon -->
       <div class="flex justify-center md:justify-start">
@@ -1037,18 +1038,18 @@ News Item
       <!-- Office & Contact -->
       <div class="space-y-8 text-center md:text-left">
         <div>
-          <h4 class="font-semibold uppercase text-sm text-black tracking-widest"><span class="text-[#d1181e] font-semibold">Office</h4></span>
+          <h4 class="font-semibold uppercase text-sm text-black tracking-widest"><span class="text-[#d1181e] font-semibold">Office</span></h4>
           <p class="mt-2 text-black">The United States of America</p>
         </div>
         <div>
-          <h4 class="font-semibold uppercase text-sm text-black tracking-widest"><span class="text-[#d1181e] font-semibold">Contact</h4></span>
+          <h4 class="font-semibold uppercase text-sm text-black tracking-widest"><span class="text-[#d1181e] font-semibold">Contact</span></h4>
           <p class="mt-2 text-black">info@oramatech.ai</p>
         </div>
       </div>
 
       <!-- Social -->
       <div class="text-center md:text-left">
-        <h4 class="font-semibold uppercase text-sm text-black tracking-widest"><span class="text-[#d1181e] font-semibold">Social</h4></span>
+        <h4 class="font-semibold uppercase text-sm text-black tracking-widest"><span class="text-[#d1181e] font-semibold">Social</span></h4>
         <p class="mt-2 text-black">
           <a href="https://www.linkedin.com/company/oramaai" class="hover:underline">LinkedIn</a>
           <a href="https://x.com/oramatechai" class="hover:underline">X</a>
