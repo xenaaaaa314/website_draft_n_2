@@ -340,60 +340,61 @@
   </div>
 </div>
 
-<header id="main-header" class="fixed top-0 left-0 right-0 z-50 nav-transition">
-        <div class="px-4 py-4">
-            <div id="nav-container" class="mx-auto max-w-6xl">
-                <!-- Navigation Bar -->
-                <div id="navbar" class="bg-black text-white rounded-full shadow-xl nav-transition">
-                    <div class="flex items-center justify-between px-6 py-4">
-                        <!-- Logo -->
-                        <a href="/" class="text-lg font-semibold tracking-wider hover:opacity-90 transition-opacity">
-                            ORAMA
-                        </a>
-                        
-                        <!-- Desktop Navigation -->
-                        <nav class="hidden md:flex items-center space-x-6 text-sm">
-                            <a href="#contact" class="hover:opacity-90 transition-opacity">Contact</a>
-                            <a href="leaderboard.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="hover:opacity-90 transition-opacity">Leaderboard</a>
-                            <a href="join_us.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="hover:opacity-90 transition-opacity">Join Us</a>
-                            <a href="https://calendly.com/oramatech-info/30min" target="_blank"
-                               class="border border-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-all">
-                                Book a Demo
-                            </a>
-                        </nav>
-                        
-                        <!-- Hamburger Button (Mobile) -->
-                        <button id="mobile-menu-button" class="md:hidden hamburger w-8 h-8 flex flex-col justify-center items-center">
-                            <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
-                            <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
-                            <span class="hamburger-line w-6 h-0.5 bg-white"></span>
-                        </button>
-                    </div>
-                    
-                    <!-- Mobile Navigation Menu -->
-                    <nav id="mobile-menu" class="hidden md:hidden border-t border-gray-700">
-                        <div class="px-6 py-4 space-y-4">
-                            <a href="#contact" class="block hover:opacity-90 transition-opacity">Contact</a>
-                            <a href="leaderboard.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="block hover:opacity-90 transition-opacity">Leaderboard</a>
-                            <a href="join_us.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="block hover:opacity-90 transition-opacity">Join Us</a>
-                            <a href="https://calendly.com/oramatech-info/30min" target="_blank"
-                               class="block border border-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-all text-center">
-                                Book a Demo
-                            </a>
-                        </div>
-                    </nav>
-                </div>
-                
-                <!-- Collapsed State - Hamburger Button -->
-                <button id="collapsed-toggle" class="hidden fixed top-4 left-4 bg-black text-white w-12 h-12 rounded-full shadow-xl flex items-center justify-center hover:bg-gray-800 transition-colors">
-                    <div class="hamburger w-6 h-6 flex flex-col justify-center items-center">
-                        <span class="w-5 h-0.5 bg-white mb-1"></span>
-                        <span class="w-5 h-0.5 bg-white mb-1"></span>
-                        <span class="w-5 h-0.5 bg-white"></span>
-                    </div>
-                </button>
-            </div>
+<!-- FIXED NAVIGATION HEADER -->
+<header id="main-header" class="fixed top-0 left-0 right-0 z-[9999] nav-transition">
+  <div class="px-4 py-4">
+    <div class="mx-auto max-w-6xl">
+      <!-- Navigation Bar -->
+      <div id="navbar" class="bg-black text-white rounded-full shadow-xl nav-transition">
+        <div class="flex items-center justify-between px-6 py-4">
+          <!-- Logo -->
+          <a href="/" class="text-lg font-semibold tracking-wider hover:opacity-90 transition-opacity">
+            ORAMA
+          </a>
+          
+          <!-- Desktop Navigation -->
+          <nav class="hidden md:flex items-center space-x-6 text-sm">
+            <a href="#contact" class="hover:opacity-90 transition-opacity">Contact</a>
+            <a href="leaderboard.html" class="hover:opacity-90 transition-opacity">Leaderboard</a>
+            <a href="join_us.html" class="hover:opacity-90 transition-opacity">Join Us</a>
+            <a href="https://calendly.com/oramatech-info/30min" target="_blank"
+               class="border border-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-all">
+              Book a Demo
+            </a>
+          </nav>
+          
+          <!-- Mobile Hamburger -->
+          <button id="mobile-menu-button" class="md:hidden hamburger w-8 h-8 flex flex-col justify-center items-center">
+            <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
+            <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
+            <span class="hamburger-line w-6 h-0.5 bg-white"></span>
+          </button>
         </div>
+        
+        <!-- Mobile Menu -->
+        <nav id="mobile-menu" class="hidden border-t border-gray-700">
+          <div class="px-6 py-4 space-y-4">
+            <a href="#contact" class="block hover:opacity-90 transition-opacity">Contact</a>
+            <a href="leaderboard.html" class="block hover:opacity-90 transition-opacity">Leaderboard</a>
+            <a href="join_us.html" class="block hover:opacity-90 transition-opacity">Join Us</a>
+            <a href="https://calendly.com/oramatech-info/30min" target="_blank"
+               class="block border border-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition-all text-center">
+              Book a Demo
+            </a>
+          </div>
+        </nav>
+      </div>
+      
+      <!-- Collapsed Hamburger Button -->
+      <button id="collapsed-toggle" class="hidden fixed top-4 left-4 bg-black text-white w-12 h-12 rounded-full shadow-xl flex items-center justify-center hover:bg-gray-800 transition-colors">
+        <div class="w-6 h-6 flex flex-col justify-center items-center">
+          <span class="w-5 h-0.5 bg-white mb-1"></span>
+          <span class="w-5 h-0.5 bg-white mb-1"></span>
+          <span class="w-5 h-0.5 bg-white"></span>
+        </div>
+      </button>
+    </div>
+  </div>
 </header>
 
  <!-- Video Transition Screen -->
@@ -470,76 +471,82 @@
   </div>
 </div>
 
- <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const navbar = document.getElementById('navbar');
-            const collapsedToggle = document.getElementById('collapsed-toggle');
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            let lastScrollY = 0;
-            let isNavVisible = true;
-            
-            // Mobile menu toggle
-            mobileMenuButton.addEventListener('click', () => {
-                mobileMenu.classList.toggle('hidden');
-                mobileMenuButton.classList.toggle('active');
-            });
-            
-            // Close mobile menu when clicking a link
-            const mobileLinks = mobileMenu.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    mobileMenu.classList.add('hidden');
-                    mobileMenuButton.classList.remove('active');
-                });
-            });
-            
-            // Scroll behavior
-            window.addEventListener('scroll', () => {
-                const currentScrollY = window.scrollY;
-                
-                if (currentScrollY > 100) {
-                    if (currentScrollY > lastScrollY && isNavVisible) {
-                        // Scrolling down - hide navbar
-                        navbar.style.transform = 'scale(0)';
-                        navbar.style.opacity = '0';
-                        collapsedToggle.classList.remove('hidden');
-                        isNavVisible = false;
-                        
-                        // Close mobile menu if open
-                        mobileMenu.classList.add('hidden');
-                        mobileMenuButton.classList.remove('active');
-                    } else if (currentScrollY < lastScrollY && !isNavVisible) {
-                        // Scrolling up - show navbar
-                        navbar.style.transform = 'scale(1)';
-                        navbar.style.opacity = '1';
-                        collapsedToggle.classList.add('hidden');
-                        isNavVisible = true;
-                    }
-                } else {
-                    // At the top - ensure navbar is visible
-                    navbar.style.transform = 'scale(1)';
-                    navbar.style.opacity = '1';
-                    collapsedToggle.classList.add('hidden');
-                    isNavVisible = true;
-                }
-                
-                lastScrollY = currentScrollY;
-            });
-            
-            // Collapsed toggle button click
-            collapsedToggle.addEventListener('click', () => {
-                navbar.style.transform = 'scale(1)';
-                navbar.style.opacity = '1';
-                collapsedToggle.classList.add('hidden');
-                isNavVisible = true;
-            });
-        });
-    </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const navbar = document.getElementById('navbar');
+  const collapsedToggle = document.getElementById('collapsed-toggle');
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  let lastScrollY = 0;
+  let isNavVisible = true;
+  
+  // Mobile menu toggle
+  if (mobileMenuButton) {
+    mobileMenuButton.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      mobileMenuButton.classList.toggle('active');
+    });
+  }
+  
+  // Close mobile menu when clicking links
+  const mobileLinks = mobileMenu.querySelectorAll('a');
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      mobileMenuButton.classList.remove('active');
+    });
+  });
+  
+  // Scroll behavior
+  let scrollTimer;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 100) {
+        if (currentScrollY > lastScrollY && isNavVisible) {
+          // Scrolling down - hide navbar
+          navbar.style.transform = 'scale(0)';
+          navbar.style.opacity = '0';
+          collapsedToggle.classList.remove('hidden');
+          isNavVisible = false;
+          
+          // Close mobile menu
+          mobileMenu.classList.add('hidden');
+          mobileMenuButton.classList.remove('active');
+        } else if (currentScrollY < lastScrollY && !isNavVisible) {
+          // Scrolling up - show navbar
+          navbar.style.transform = 'scale(1)';
+          navbar.style.opacity = '1';
+          collapsedToggle.classList.add('hidden');
+          isNavVisible = true;
+        }
+      } else {
+        // At top - ensure visible
+        navbar.style.transform = 'scale(1)';
+        navbar.style.opacity = '1';
+        collapsedToggle.classList.add('hidden');
+        isNavVisible = true;
+      }
+      
+      lastScrollY = currentScrollY;
+    }, 50);
+  });
+  
+  // Collapsed toggle click
+  if (collapsedToggle) {
+    collapsedToggle.addEventListener('click', () => {
+      navbar.style.transform = 'scale(1)';
+      navbar.style.opacity = '1';
+      collapsedToggle.classList.add('hidden');
+      isNavVisible = true;
+    });
+  }
+});
+</script>
 
-
-
-
+  
 <div id="mainWrapper" class="opacity-0 pointer-events-none">
 <!--#1 MAIN CONTENT-->
   <section id="mainContent" class="min-h-screen flex items-center justify-center px-6 md:px-10 py-20 bg-white border-t border-gray-200">
