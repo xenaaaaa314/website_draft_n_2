@@ -316,7 +316,8 @@
     <a href="/" class="text-lg font-semibold tracking-wider transition-transform duration-200 hover:scale-105 hover:opacity-90">
       ORAMA
     </a>
-    <nav id="nav-links" class="hidden flex-col items-center space-y-6 mt-6 md:flex md:flex-row md:space-y-0 md:space-x-6 text-sm transition-all">
+    <nav id="nav-links" 
+  class="hidden flex-col space-y-6 text-sm mt-6 md:flex md:flex-row md:space-y-0 md:space-x-6 transition-all duration-300 ease-in-out">
       <a href="#contact" class="relative group transition">
         <span class="group-hover:opacity-90">Contact</span>
         <span class="absolute left-0 -bottom-1 w-0 h-0.5 bg-white transition-all duration-100 group-hover:w-full"></span>
@@ -335,10 +336,11 @@
       </a>
     </nav>
   </div>
-  <button id="nav-toggle" class="hidden fixed top-6 left-6 bg-black text-white w-14 h-14 rounded-full z-50 focus:outline-none shadow-xl">
-    <span class="text-2xl">☰</span>
-  </button>
-</header>
+<button 
+  id="nav-toggle"
+  class="md:hidden fixed top-6 left-6 bg-black text-white w-14 h-14 rounded-full z-50 focus:outline-none shadow-xl transition-all duration-300">
+  <span class="text-2xl">☰</span>
+</button>
 
  <!-- Video Transition Screen -->
 <div id="videoTransition" class="fixed inset-0 z-40 bg-black opacity-0 pointer-events-none transition-all duration-1000">
@@ -413,6 +415,16 @@
     <p class="text-white/30 text-sm tracking-[0.3em] writing-mode-vertical-lr">MIXED REALITY COMBAT</p>
   </div>
 </div>
+
+  <script>
+  const toggleButton = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+
+  toggleButton.addEventListener('click', () => {
+    navLinks.classList.toggle('hidden');
+  });
+</script>
+
 
 <div id="mainWrapper" class="opacity-0 pointer-events-none">
 <!--#1 MAIN CONTENT-->
