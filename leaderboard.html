@@ -103,12 +103,23 @@
     </div>
   </div>
 
-  <main class="max-w-6xl mx-auto py-20 px-6">
-    <div class="text-center mb-10">
-      <p class="text-sm text-gray-500">Month, Date</p>
-      <h1 class="text-4xl font-bold mt-1 mb-2">LEADERBOARD</h1>
-      <p class="text-sm text-gray-600">The Best of The best</p>
-    </div>
+  <div class="text-center mb-10">
+  <p id="current-date" class="text-sm text-gray-500"></p>
+  <h1 class="text-4xl font-bold mt-1 mb-2">LEADERBOARD</h1>
+  <p class="text-sm text-gray-600">The Best of The best</p>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dateElement = document.getElementById("current-date");
+
+    const options = { month: 'long', day: 'numeric' };
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-US', options);
+
+    dateElement.textContent = formattedDate;
+  });
+</script>
+
 
 <!-- Banner Image with Overlay and Animation -->
 <div 
