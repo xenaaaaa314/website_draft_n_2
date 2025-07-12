@@ -337,7 +337,9 @@
 
 <!-- LOADING SCREEN WITH DOTS -->
 <div id="loader" class="fixed inset-0 z-50 bg-black flex flex-col items-center justify-center transition-opacity duration-[3000ms]">
-  <h1 class="text-white text-4xl font-bold tracking-widest mb-4">Built By Warfighters. With Warfighters. For Warfighters.</h1>
+  <h1 class="text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-widest mb-4 text-center px-4 max-w-4xl">
+    Built By Warfighters. With Warfighters. For Warfighters.
+  </h1>
   <div class="flex gap-2">
     <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:0ms]"></span>
     <span class="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:200ms]"></span>
@@ -545,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
     scrollTimer = setTimeout(() => {
       const currentScrollY = window.scrollY;
       
-      if (currentScrollY > 100) {
+      if (currentScrollY > 50) {
         if (currentScrollY > lastScrollY && isNavVisible) {
           // Scrolling down - hide navbar
           navbar.style.transform = 'scale(0)';
