@@ -317,15 +317,16 @@
   </div>
 </div>
 
-<header id="main-header" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-full max-w-6xl px-4 transition-all duration-300">
-  <div id="nav-container" class="bg-black text-white px-6 py-4 rounded-full shadow-xl flex items-center justify-between w-full transition-all duration-300">
+<header id="main-header" class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90vw] max-w-6xl px-4 transition-all duration-300">
+  <div id="nav-container" class="bg-black text-white px-6 py-4 rounded-full shadow-xl flex flex-col md:flex-row items-center justify-between w-full transition-all duration-300 scale-100 opacity-100 pointer-events-auto space-y-4 md:space-y-0">
+    
     <!-- Logo -->
     <a href="/" class="text-lg font-semibold tracking-wider hover:scale-105 hover:opacity-90 transition-transform">
       ORAMA
     </a>
 
-    <!-- Desktop Nav -->
-    <nav id="nav-links" class="hidden md:flex space-x-6 text-sm">
+    <!-- Nav Links -->
+    <nav id="nav-links" class="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6 text-sm">
       <a href="#contact" class="hover:opacity-90">Contact</a>
       <a href="leaderboard.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="hover:opacity-90">Leaderboard</a>
       <a href="join_us.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="hover:opacity-90">Join Us</a>
@@ -336,23 +337,13 @@
     </nav>
   </div>
 
-  <!-- Hamburger Button for ALL screens -->
+  <!-- Hamburger for all screen sizes -->
   <button id="nav-toggle"
-    class="fixed top-6 left-6 md:hidden bg-black text-white w-12 h-12 rounded-full shadow-xl z-[60] flex items-center justify-center">
+    class="fixed top-6 left-6 bg-black text-white w-12 h-12 rounded-full shadow-xl z-[60] flex items-center justify-center">
     ☰
   </button>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="md:hidden hidden flex-col items-center bg-black text-white mt-4 space-y-4 p-4 rounded-xl shadow-xl absolute top-20 left-6 right-6 z-50">
-    <a href="#contact">Contact</a>
-    <a href="leaderboard.html">Leaderboard</a>
-    <a href="join_us.html">Join Us</a>
-    <a href="https://calendly.com/oramatech-info/30min" target="_blank"
-       class="border border-white px-4 py-2 rounded-lg hover:bg-white hover:text-black transition">
-      Book a Demo
-    </a>
-  </div>
 </header>
+
 
 
 
@@ -435,44 +426,30 @@
     const header = document.getElementById('main-header');
     const navContainer = document.getElementById('nav-container');
     const toggleButton = document.getElementById('nav-toggle');
-    const mobileMenu = document.getElementById('mobile-menu');
 
     let isNavVisible = true;
-    let scrollTimeout;
 
-    // Scroll hides header but shows bubble
     window.addEventListener('scroll', () => {
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        if (window.scrollY > 100 && isNavVisible) {
-          navContainer.classList.add('scale-0', 'opacity-0', 'pointer-events-none');
-          toggleButton.classList.remove('hidden');
-          isNavVisible = false;
-        } else if (window.scrollY <= 100 && !isNavVisible) {
-          navContainer.classList.remove('scale-0', 'opacity-0', 'pointer-events-none');
-          toggleButton.classList.add('hidden');
-          isNavVisible = true;
-        }
-      }, 50);
+      if (window.scrollY > 100 && isNavVisible) {
+        navContainer.classList.add('scale-0', 'opacity-0', 'pointer-events-none');
+        isNavVisible = false;
+      }
     });
 
-    // Toggle (works for both desktop + mobile)
     toggleButton.addEventListener('click', () => {
       const isHidden = navContainer.classList.contains('scale-0');
 
-      // Desktop: bring back nav bar
-      if (window.innerWidth >= 768) {
-        if (isHidden) {
-          navContainer.classList.remove('scale-0', 'opacity-0', 'pointer-events-none');
-          isNavVisible = true;
-        }
+      if (isHidden) {
+        navContainer.classList.remove('scale-0', 'opacity-0', 'pointer-events-none');
+        isNavVisible = true;
       } else {
-        // Mobile: toggle mobile menu
-        mobileMenu.classList.toggle('hidden');
+        navContainer.classList.add('scale-0', 'opacity-0', 'pointer-events-none');
+        isNavVisible = false;
       }
     });
   });
 </script>
+
 
 
 
