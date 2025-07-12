@@ -379,12 +379,21 @@
           </button>
         </div>
         
- <!-- Mobile Menu - Separate black box -->
-        <nav id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-black shadow-2xl -mt-6 pt-6">
-          <div class="px-6 pb-8 space-y-6">
-            <a href="#contact" class="block text-lg hover:opacity-90 transition-opacity">Contact</a>
-            <a href="leaderboard.html" class="block text-lg hover:opacity-90 transition-opacity">Leaderboard</a>
-            <a href="join_us.html" class="block text-lg hover:opacity-90 transition-opacity">Join Us</a>
+            <!-- Mobile Hamburger -->
+            <button id="mobile-menu-button" class="md:hidden hamburger w-8 h-8 flex flex-col justify-center items-center">
+              <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
+              <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
+              <span class="hamburger-line w-6 h-0.5 bg-white"></span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Mobile Menu - Separate black box -->
+        <nav id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-black shadow-2xl z-50">
+          <div class="px-6 py-8 space-y-6 text-white">
+            <a href="#contact" class="block text-lg hover:opacity-90 transition-opacity text-white">Contact</a>
+            <a href="leaderboard.html" class="block text-lg hover:opacity-90 transition-opacity text-white">Leaderboard</a>
+            <a href="join_us.html" class="block text-lg hover:opacity-90 transition-opacity text-white">Join Us</a>
             <a href="https://calendly.com/oramatech-info/30min" target="_blank"
                class="block border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-black transition-all text-center text-lg">
               Book a Demo
@@ -401,10 +410,8 @@
           <span class="w-5 h-0.5 bg-white"></span>
         </div>
       </button>
-    </div>
-  </div>
-</header>
 
+  
  <!-- Video Transition Screen -->
 <div id="videoTransition" class="fixed inset-0 z-40 bg-black opacity-0 pointer-events-none transition-all duration-1000">
   <div class="noise"></div>
