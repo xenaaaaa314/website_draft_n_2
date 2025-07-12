@@ -297,27 +297,32 @@
 }
 
 
-    /* Custom transitions for smooth animations */
-        .nav-transition {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        /* Hamburger menu animation */
-        .hamburger-line {
-            transition: all 0.3s ease;
-        }
-        
-        .hamburger.active .hamburger-line:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
-        }
-        
-        .hamburger.active .hamburger-line:nth-child(2) {
-            opacity: 0;
-        }
-        
-        .hamburger.active .hamburger-line:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
-        }
+    /* Navigation styles */
+    .nav-transition {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    /* Hamburger animation */
+    .hamburger-line {
+      transition: all 0.3s ease;
+    }
+    
+    .hamburger.active .hamburger-line:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    
+    .hamburger.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .hamburger.active .hamburger-line:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* Ensure header is visible */
+    #main-header {
+      z-index: 9999 !important;
+    }
 
   </style>
 
@@ -344,8 +349,11 @@
 <header id="main-header" class="fixed top-0 left-0 right-0 z-[9999] nav-transition">
   <div class="px-4 py-4">
     <div class="mx-auto max-w-6xl">
+      <!-- Mobile Overlay -->
+      <div id="mobile-overlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden md:hidden" style="z-index: -1;"></div>
+      
       <!-- Navigation Bar -->
-      <div id="navbar" class="bg-black text-white rounded-full shadow-xl nav-transition">
+      <div id="navbar" class="bg-black text-white rounded-full shadow-xl nav-transition relative overflow-hidden">
         <div class="flex items-center justify-between px-6 py-4">
           <!-- Logo -->
           <a href="/" class="text-lg font-semibold tracking-wider hover:opacity-90 transition-opacity">
@@ -371,9 +379,9 @@
           </button>
         </div>
         
-         <!-- Mobile Menu -->
-        <nav id="mobile-menu" class="hidden md:hidden absolute top-full left-0 right-0 bg-black rounded-b-3xl shadow-2xl">
-          <div class="px-6 py-8 space-y-6">
+        <!-- Mobile Menu -->
+        <nav id="mobile-menu" class="hidden md:hidden bg-black">
+          <div class="px-6 pb-8 pt-2 space-y-6 border-t border-gray-800">
             <a href="#contact" class="block text-lg hover:opacity-90 transition-opacity">Contact</a>
             <a href="leaderboard.html" class="block text-lg hover:opacity-90 transition-opacity">Leaderboard</a>
             <a href="join_us.html" class="block text-lg hover:opacity-90 transition-opacity">Join Us</a>
@@ -477,14 +485,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const collapsedToggle = document.getElementById('collapsed-toggle');
   const mobileMenuButton = document.getElementById('mobile-menu-button');
   const mobileMenu = document.getElementById('mobile-menu');
+  const mobileOverlay = document.getElementById('mobile-overlay');
   let lastScrollY = 0;
   let isNavVisible = true;
   
   // Mobile menu toggle
   if (mobileMenuButton) {
     mobileMenuButton.addEventListener('click', () => {
-      mobileMenu.classList.toggle('hidden');
-      mobileMenuButton.classList.toggle('active');
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      
+      if (isOpen) {
+        // Close menu
+        mobileMenu.classList.add('hidden');
+        mobileOverlay.classList.add('hidden');
+        mobileMenuButton.classList.remove('active');
+      } else {
+        // Open menu
+        mobileMenu.classList.remove('hidden');
+        mobileOverlay.classList.remove('hidden');
+        mobileMenuButton.classList.add('active');
+      }
+    });
+  }
+  
+  // Close mobile menu when clicking overlay
+  if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      mobileOverlay.classList.add('hidden');
+      mobileMenuButton.classList.remove('active');
     });
   }
   
@@ -493,6 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
   mobileLinks.forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu.classList.add('hidden');
+      mobileOverlay.classList.add('hidden');
       mobileMenuButton.classList.remove('active');
     });
   });
@@ -514,6 +544,7 @@ document.addEventListener('DOMContentLoaded', () => {
           
           // Close mobile menu
           mobileMenu.classList.add('hidden');
+          mobileOverlay.classList.add('hidden');
           mobileMenuButton.classList.remove('active');
         } else if (currentScrollY < lastScrollY && !isNavVisible) {
           // Scrolling up - show navbar
@@ -545,7 +576,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
-
   
 <div id="mainWrapper" class="opacity-0 pointer-events-none">
 <!--#1 MAIN CONTENT-->
