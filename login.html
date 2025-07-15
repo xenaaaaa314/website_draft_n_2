@@ -10,6 +10,74 @@
       font-family: 'Space Grotesk', sans-serif;
     }
   </style>
+
+  /* Custom Scrollbar Styles */
+    /* For Webkit browsers (Chrome, Safari, Edge) */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1a0000;
+      border-radius: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #d1181e;
+      border-radius: 6px;
+      border: 2px solid #1a0000;
+      transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #ff4444;
+      border-color: #000000;
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+      background: #b91016;
+    }
+
+    /* For Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #d1181e #1a0000;
+    }
+
+    /* Optional: Hide scrollbar during loading phases */
+    body.loading {
+      overflow: hidden;
+    }
+
+    /* Optional: Custom selection colors to match theme */
+    ::selection {
+      background: #d1181e;
+      color: white;
+    }
+
+    ::-moz-selection {
+      background: #d1181e;
+      color: white;
+    }
+
+    #nav-container {
+      transition: all 0.4s ease;
+      will-change: transform, opacity;
+    }
+
+    #nav-toggle {
+      transition: all 0.3s ease;
+    }
+
+    html {
+  scroll-behavior: smooth;
+}
+    
+  </style>
+
+  <link rel="icon" type="image/png" href="img/logo.png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/logo.png">
 </head>
 <body class="min-h-screen bg-white flex items-center justify-center">
 
