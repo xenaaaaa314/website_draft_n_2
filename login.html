@@ -1,18 +1,15 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <title>Login</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script> <!-- reCAPTCHA script -->
   <style>
     body {
       font-family: 'Space Grotesk', sans-serif;
     }
   </style>
-
-  <link rel="icon" type="image/png" href="img/logo.png" sizes="32x32">
-<link rel="apple-touch-icon" href="img/logo.png">
 </head>
 <body class="min-h-screen bg-white flex items-center justify-center">
 
@@ -25,6 +22,10 @@
       placeholder="Password"
       class="w-full px-4 py-2 border border-gray-300 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-[#d1181e]"
     />
+
+    <!-- reCAPTCHA widget -->
+    <div class="g-recaptcha mb-4" data-sitekey="6Lf9aYQrAAAAAAAgjOh1ti_yF-i9VOHbjkEucSuC"></div>
+
     <button
       onclick="checkPassword()"
       class="w-full bg-[#d1181e] text-white py-2 rounded hover:bg-[#a30f15] transition"
@@ -32,15 +33,16 @@
       Enter
     </button>
 
-    <p id="errorMsg" class="text-red-600 mt-4 hidden">Incorrect password. Try again.</p>
+    <p id="errorMsg" class="text-red-600 mt-4 hidden">Incorrect password or reCAPTCHA. Try again.</p>
   </div>
 
   <script>
     function checkPassword() {
       const pw = document.getElementById('pwInput').value;
+      const recaptchaResponse = grecaptcha.getResponse();
       const errorMsg = document.getElementById('errorMsg');
 
-      if (pw === "orama2025") {
+      if (pw === "orama2025" && recaptchaResponse) {
         window.location.href = "leaderboard_extended.html";
       } else {
         errorMsg.classList.remove("hidden");
@@ -49,3 +51,4 @@
   </script>
 </body>
 </html>
+
