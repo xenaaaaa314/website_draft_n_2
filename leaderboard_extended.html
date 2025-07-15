@@ -107,12 +107,24 @@
     </div>
   </div>
 
-  <main class="max-w-6xl mx-auto py-20 px-6">
+ <main class="max-w-6xl mx-auto py-20 px-6">
     <div class="text-center mb-10">
-      <p class="text-sm text-gray-500">Month, Date</p>
+      <p id="current-date" class="text-sm text-gray-500"></p>
       <h1 class="text-4xl font-bold mt-1 mb-2">LEADERBOARD</h1>
     </div>
 
+   
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const dateElement = document.getElementById("current-date");
+
+    const options = { month: 'long', day: 'numeric' };
+    const today = new Date();
+    const formattedDate = today.toLocaleDateString('en-US', options);
+
+    dateElement.textContent = formattedDate;
+  });
+</script>
 
 <!-- GOOGLE TABLE SECTION -->
 <section class="bg-white py-6 px-6 border-gray-200 relative opacity-0 translate-y-8 transition-all duration-1000 ease-in-out scroll-fade">
