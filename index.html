@@ -1191,6 +1191,8 @@ News Item
           statusMsg.classList.remove("hidden");
           form.reset();
         }, (error) => {
+           console.error("EmailJS error:", error);
+  statusMsg.textContent = "Failed to send message: " + error.text;
           statusMsg.textContent = "Failed to send message.";
           statusMsg.className = "text-center mt-4 text-red-600";
           statusMsg.classList.remove("hidden");
