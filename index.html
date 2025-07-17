@@ -1289,37 +1289,6 @@ News Item
 
   <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
-  <script>
-window.addEventListener('load', () => {
-  const main = document.getElementById('mainWrapper');
-  const header = document.getElementById('main-header');
-  const loader = document.getElementById('loader');
-  const video = document.getElementById('videoTransition');
-  const minimal = document.getElementById('minimalLoader');
-
-  // Kill all loaders
-  if (loader) loader.style.display = 'none';
-  if (video) {
-    video.style.opacity = '0';
-    video.style.pointerEvents = 'none';
-  }
-  if (minimal) minimal.style.display = 'none';
-
-  // Show main content
-  if (main) {
-    main.style.opacity = '1';
-    main.style.pointerEvents = 'auto';
-  }
-  if (header) {
-    header.style.opacity = '1';
-    header.style.pointerEvents = 'auto';
-  }
-
-  // Fix background color
-  document.body.style.backgroundColor = '#ffffff';
-});
-</script>
-
 
 </body>
 </html>
