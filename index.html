@@ -20,19 +20,13 @@
 
   <!-- Critical inline styles to prevent white flash -->
   <style>
-    /* CRITICAL: Set black background immediately */
-    html, body {
-      background-color: #000000 !important;
-      margin: 0;
-      padding: 0;
-      overflow-x: hidden;
-    }
-    
-body > *:not(#loader) {
+#mainWrapper,
+#main-header,
+#videoTransition {
   opacity: 0;
   pointer-events: none;
-}
-    
+  transition: all 1s ease;
+} 
     #loader {
       opacity: 1 !important;
       pointer-events: auto !important;
