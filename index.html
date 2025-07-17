@@ -420,21 +420,16 @@
 <div id="videoTransition" class="fixed inset-0 z-40 bg-black opacity-0 pointer-events-none transition-all duration-1000">
   <div class="noise"></div>
   
-  <div class="absolute inset-0 flex items-center justify-center">
-    <!-- Responsive container that adapts to screen size -->
-    <div class="relative w-full h-full md:max-w-[1200px] md:max-h-[800px] max-w-[400px] max-h-[800px] md:rounded-[20px] rounded-[40px] overflow-hidden shadow-2xl">
+  <!-- Mobile Video Layout -->
+  <div class="absolute inset-0 flex items-center justify-center md:hidden">
+    <div class="relative w-full max-w-[400px] h-[80vh] sm:h-[90vh] max-h-[800px] rounded-[40px] overflow-hidden shadow-2xl">
       <video 
-        id="responsiveTransitionVideo"
-        class="absolute inset-0 w-full h-full bg-black md:object-cover object-contain"
+        id="mobileTransitionVideo"
+        class="absolute inset-0 w-full h-full object-contain bg-black"
         autoplay
         muted
         playsinline
         loop>
-        <!-- Desktop video source -->
-        <source src="img/video for website.mp4" type="video/mp4" media="(min-width: 768px)">
-        <!-- Mobile video source -->
-        <source src="img/intro.mp4" type="video/mp4" media="(max-width: 767px)">
-        <!-- Fallback -->
         <source src="img/intro.mp4" type="video/mp4">
       </video>
       
@@ -442,29 +437,29 @@
       
       <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
         <div class="space-y-6 mb-20">
-          <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-white opacity-0" 
+          <h2 class="text-5xl font-black text-white opacity-0" 
               style="animation-delay: 0.5s; animation-fill-mode: forwards;"
-              id="line1">
+              id="mobileLine1">
             EMBRACE THE CHAOS
           </h2>
-          <h2 class="text-6xl md:text-7xl lg:text-8xl font-black gradient-text opacity-0"
+          <h2 class="text-6xl font-black gradient-text opacity-0"
               style="animation-delay: 1s; animation-fill-mode: forwards;"
-              id="line2">
+              id="mobileLine2">
           </h2>
-          <h2 class="text-5xl md:text-6xl lg:text-7xl font-black text-white opacity-0"
+          <h2 class="text-5xl font-black text-white opacity-0"
               style="animation-delay: 1.5s; animation-fill-mode: forwards;"
-              id="line3">
+              id="mobileLine3">
             MASTER THE FIGHT
           </h2>
-          <h2 class="text-6xl md:text-7xl lg:text-8xl font-black text-[#d1181e] opacity-0 animate-glitch"
+          <h2 class="text-6xl font-black text-[#d1181e] opacity-0 animate-glitch"
               style="animation-delay: 2s; animation-fill-mode: forwards;"
-              id="line4">
+              id="mobileLine4">
           </h2>
         </div>
         
         <button 
-          id="skipButton"
-          class="absolute bottom-4 right-8 md:bottom-8 md:right-12 text-white hover:text-white text-sm md:text-lg transition-all duration-300"
+          id="mobileSkipButton"
+          class="absolute bottom-4 right-8 text-white hover:text-white text-sm transition-all duration-300"
           style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
           Skip →
         </button>
@@ -472,6 +467,54 @@
     </div>
   </div>
   
+  <!-- Desktop Video Layout -->
+  <div class="hidden md:flex absolute inset-0 items-center justify-center">
+    <div class="relative w-full h-full max-w-[1200px] max-h-[800px] rounded-[20px] overflow-hidden shadow-2xl">
+      <video 
+        id="desktopTransitionVideo"
+        class="absolute inset-0 w-full h-full object-cover bg-black"
+        autoplay
+        muted
+        playsinline
+        loop>
+        <source src="img/video for website.mp4" type="video/mp4">
+      </video>
+      
+      <div class="video-overlay absolute inset-0"></div>
+      
+      <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+        <div class="space-y-6 mb-20">
+          <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0" 
+              style="animation-delay: 0.5s; animation-fill-mode: forwards;"
+              id="desktopLine1">
+            EMBRACE THE CHAOS
+          </h2>
+          <h2 class="text-7xl lg:text-8xl font-black gradient-text opacity-0"
+              style="animation-delay: 1s; animation-fill-mode: forwards;"
+              id="desktopLine2">
+          </h2>
+          <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0"
+              style="animation-delay: 1.5s; animation-fill-mode: forwards;"
+              id="desktopLine3">
+            MASTER THE FIGHT
+          </h2>
+          <h2 class="text-7xl lg:text-8xl font-black text-[#d1181e] opacity-0 animate-glitch"
+              style="animation-delay: 2s; animation-fill-mode: forwards;"
+              id="desktopLine4">
+          </h2>
+        </div>
+        
+        <button 
+          id="desktopSkipButton"
+          class="absolute bottom-8 right-12 text-white hover:text-white text-lg transition-all duration-300"
+          style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
+          Skip →
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Desktop Side Text -->
   <div class="hidden lg:block absolute left-10 top-1/2 -translate-y-1/2 opacity-0"
        style="animation-delay: 2.5s; animation-fill-mode: forwards;"
        id="leftText">
@@ -484,6 +527,7 @@
     <p class="text-white/30 text-sm tracking-[0.3em] writing-mode-vertical-lr">MIXED REALITY COMBAT</p>
   </div>
 </div>
+
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
