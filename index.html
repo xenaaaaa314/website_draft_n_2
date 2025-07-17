@@ -601,138 +601,225 @@ html, body {
 </div>
 
 <script>
-<script>
-// Optimized page transition logic
-document.addEventListener('DOMContentLoaded', function() {
-    const loader = document.getElementById('loader');
-    const videoTransition = document.getElementById('videoTransition');
-    const mainWrapper = document.getElementById('mainWrapper');
-    const header = document.getElementById('main-header');
-    const navContainer = document.getElementById('nav-container');
-    const toggleButton = document.getElementById('nav-toggle');
-    const skipButton = document.getElementById('skipButton');
+document.addEventListener('DOMContentLoaded', function () {
+  // Clear sessionStorage for testing (remove this line in production)
+  // sessionStorage.removeItem('hasPlayedIntro');
+  
+  const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
+  const loader = document.getElementById('loader');
+  const minimalLoader = document.getElementById('minimalLoader');
+  const videoTransition = document.getElementById('videoTransition');
+  const mainWrapper = document.getElementById('mainWrapper');
+  const header = document.getElementById('main-header');
+  
+  // Video elements and buttons
+  const mobileSkipButton = document.getElementById('mobileSkipButton');
+  const desktopSkipButton = document.getElementById('desktopSkipButton');
+  const mobileVideo = document.getElementById('mobileTransitionVideo');
+  const desktopVideo = document.getElementById('desktopTransitionVideo');
+
+  const showMain = () => {
+    console.log('Showing main content');
     
-    // Animation elements
-    const animationElements = {
-        line1: document.getElementById('line1'),
-        line2: document.getElementById('line2'),
-        line3: document.getElementById('line3'),
-        line4: document.getElementById('line4'),
-        typewriterText: document.getElementById('typewriterText'),
-        leftText: document.getElementById('leftText'),
-        rightText: document.getElementById('rightText')
-    };
+    // Hide all transition elements
+    if (videoTransition) {
+      videoTransition.style.opacity = '0';
+      videoTransition.style.pointerEvents = 'none';
+    }
+    if (loader) loader.style.display = 'none';
+    if (minimalLoader) minimalLoader.style.display = 'none';
     
-    // Phase 1: Loader to Video (3s)
+    // Show main content
+    document.body.style.backgroundColor = '#ffffff';
+    if (mainWrapper) {
+      mainWrapper.style.opacity = '1';
+      mainWrapper.style.pointerEvents = 'auto';
+    }
+    if (header) {
+      header.style.opacity = '1';
+      header.style.pointerEvents = 'auto';
+    }
+  };
+
+  if (!hasPlayedIntro) {
+    // First visit - show full intro sequence
+    console.log('First visit - showing intro');
+    sessionStorage.setItem('hasPlayedIntro', 'true');
+    
+    // Show loader for 2 seconds
     setTimeout(() => {
+      console.log('Hiding loader, showing video');
+      if (loader) {
         loader.style.opacity = '0';
+        loader.style.transition = 'opacity 0.5s ease';
         
         setTimeout(() => {
-            loader.style.display = 'none';
+          loader.style.display = 'none';
+          if (videoTransition) {
             videoTransition.style.opacity = '1';
             videoTransition.style.pointerEvents = 'auto';
             
-            // Start animations
-            Object.entries(animationElements).forEach(([key, element]) => {
-                if (element) {
-                    if (key === 'line1') element.classList.add('animate-slideInLeft');
-                    else if (key === 'line2') element.classList.add('animate-fadeInUp');
-                    else if (key === 'line3') element.classList.add('animate-slideInRight');
-                    else element.classList.add('animate-fadeInUp');
-                }
+            // Add text animations
+            const textElements = ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'];
+            textElements.forEach(id => {
+              const el = document.getElementById(id);
+              if (el) {
+                el.classList.add('animate-fadeInUp');
+              }
             });
-        }, 300);
-    }, 2200);
-    
-    // Phase 2: Video to Main Content
-    const transitionToMain = () => {
-        videoTransition.style.opacity = '0';
-        
-        setTimeout(() => {
-            videoTransition.style.display = 'none';
-            document.body.style.backgroundColor = '#ffffff';
-            mainWrapper.style.opacity = '1';
-            mainWrapper.style.pointerEvents = 'auto';
-            
-            // Show header after a short delay
-            setTimeout(() => {
-                header.style.opacity = '1';
-                header.style.pointerEvents = 'auto';
-            }, 500);
-        }, 1000);
-    };
-    
-    // Auto transition after total 11s (3s loader + 8s video)
-    setTimeout(transitionToMain, 10000);
-    
-    // Skip button
-    if (skipButton) {
-        skipButton.addEventListener('click', transitionToMain);
+          }
+        }, 500);
+      }
+    }, 2000);
 
-        // Add this after your existing animation code
-setTimeout(() => {
-    const skipBtn = document.getElementById('skipButton');
-    if (skipBtn) {
-        skipBtn.style.opacity = '1';
+    // Video end listeners
+    if (mobileVideo) {
+      mobileVideo.addEventListener('ended', () => {
+        console.log('Mobile video ended');
+        showMain();
+      });
     }
-}, 4000);
+    if (desktopVideo) {
+      desktopVideo.addEventListener('ended', () => {
+        console.log('Desktop video ended');
+        showMain();
+      });
     }
+
+    // Skip button listeners
+    if (mobileSkipButton) {
+      mobileSkipButton.addEventListener('click', () => {
+        console.log('Mobile skip clicked');
+        showMain();
+      });
+    }
+    if (desktopSkipButton) {
+      desktopSkipButton.addEventListener('click', () => {
+        console.log('Desktop skip clicked');
+        showMain();
+      });
+    }
+
+    // Fallback timeout (12 seconds)
+    setTimeout(() => {
+      console.log('Fallback timeout triggered');
+      showMain();
+    }, 12000);
+
+  } else {
+    // Return visit - show minimal loader
+    console.log('Return visit - showing minimal loader');
+    if (loader) loader.style.display = 'none';
     
-    // Navigation scroll behavior
-    let isNavVisible = true;
-    let scrollTimeout;
-    
-    window.addEventListener('scroll', () => {
-        clearTimeout(scrollTimeout);
-        
-        scrollTimeout = setTimeout(() => {
-            if (window.scrollY > 100 && isNavVisible) {
-                navContainer.style.transform = 'scale(0)';
-                navContainer.style.opacity = '0';
-                navContainer.style.pointerEvents = 'none';
-                toggleButton.classList.remove('hidden');
-                header.classList.remove('left-1/2', '-translate-x-1/2');
-                header.classList.add('left-4');
-                isNavVisible = false;
-            } else if (window.scrollY <= 100 && !isNavVisible) {
-                navContainer.style.transform = 'scale(1)';
-                navContainer.style.opacity = '1';
-                navContainer.style.pointerEvents = 'auto';
-                toggleButton.classList.add('hidden');
-                header.classList.remove('left-4');
-                header.classList.add('left-1/2', '-translate-x-1/2');
-                isNavVisible = true;
-            }
-        }, 50); // Debounce scroll events
+    if (minimalLoader) {
+      minimalLoader.classList.remove('hidden');
+      minimalLoader.style.opacity = '1';
+      
+      setTimeout(() => {
+        minimalLoader.style.opacity = '0';
+        setTimeout(() => {
+          minimalLoader.style.display = 'none';
+          showMain();
+        }, 500);
+      }, 1500);
+    } else {
+      showMain();
+    }
+  }
+
+  // Navigation functionality
+  const navbar = document.getElementById('navbar');
+  const collapsedToggle = document.getElementById('collapsed-toggle');
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileOverlay = document.getElementById('mobile-overlay');
+  let lastScrollY = 0;
+  let isNavVisible = true;
+  
+  // Mobile menu toggle
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      const navbarContainer = document.getElementById('navbar-container');
+      
+      if (isOpen) {
+        mobileMenu.classList.add('hidden');
+        if (mobileOverlay) mobileOverlay.classList.add('hidden');
+        mobileMenuButton.classList.remove('active');
+        if (navbarContainer) {
+          navbarContainer.classList.add('rounded-full');
+          navbarContainer.classList.remove('rounded-3xl');
+        }
+      } else {
+        mobileMenu.classList.remove('hidden');
+        if (mobileOverlay) mobileOverlay.classList.remove('hidden');
+        mobileMenuButton.classList.add('active');
+        if (window.innerWidth < 768 && navbarContainer) {
+          navbarContainer.classList.remove('rounded-full');
+          navbarContainer.classList.add('rounded-3xl');
+        }
+      }
     });
-    
-    // Toggle button
-    if (toggleButton) {
-        toggleButton.addEventListener('click', () => {
-            const isHidden = navContainer.style.opacity === '0';
-            
-            if (isHidden) {
-                navContainer.style.transform = 'scale(1)';
-                navContainer.style.opacity = '1';
-                navContainer.style.pointerEvents = 'auto';
-                toggleButton.classList.add('hidden');
-                header.classList.remove('left-4');
-                header.classList.add('left-1/2', '-translate-x-1/2');
-                isNavVisible = true;
-            } else {
-                navContainer.style.transform = 'scale(0)';
-                navContainer.style.opacity = '0';
-                navContainer.style.pointerEvents = 'none';
-                toggleButton.classList.remove('hidden');
-                header.classList.remove('left-1/2', '-translate-x-1/2');
-                header.classList.add('left-4');
-                isNavVisible = false;
-            }
-        });
-    }
+  }
+  
+  // Close mobile menu when clicking overlay
+  if (mobileOverlay) {
+    mobileOverlay.addEventListener('click', () => {
+      if (mobileMenu) mobileMenu.classList.add('hidden');
+      mobileOverlay.classList.add('hidden');
+      if (mobileMenuButton) mobileMenuButton.classList.remove('active');
+    });
+  }
+  
+  // Scroll behavior
+  let scrollTimer;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 50) {
+        if (currentScrollY > lastScrollY && isNavVisible) {
+          if (navbar) {
+            navbar.style.transform = 'scale(0)';
+            navbar.style.opacity = '0';
+          }
+          if (collapsedToggle) collapsedToggle.classList.remove('hidden');
+          isNavVisible = false;
+        } else if (currentScrollY < lastScrollY && !isNavVisible) {
+          if (navbar) {
+            navbar.style.transform = 'scale(1)';
+            navbar.style.opacity = '1';
+          }
+          if (collapsedToggle) collapsedToggle.classList.add('hidden');
+          isNavVisible = true;
+        }
+      } else {
+        if (navbar) {
+          navbar.style.transform = 'scale(1)';
+          navbar.style.opacity = '1';
+        }
+        if (collapsedToggle) collapsedToggle.classList.add('hidden');
+        isNavVisible = true;
+      }
+      
+      lastScrollY = currentScrollY;
+    }, 50);
+  });
+  
+  // Collapsed toggle click
+  if (collapsedToggle) {
+    collapsedToggle.addEventListener('click', () => {
+      if (navbar) {
+        navbar.style.transform = 'scale(1)';
+        navbar.style.opacity = '1';
+      }
+      collapsedToggle.classList.add('hidden');
+      isNavVisible = true;
+    });
+  }
 });
 </script>
-
 
 <section class="pt-36 pb-36 px-6 border-y border-gray-200 bg-white">
   <div class="max-w-7xl mx-auto flex flex-col items-center text-center space-y-16">
