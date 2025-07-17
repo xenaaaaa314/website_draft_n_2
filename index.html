@@ -466,36 +466,30 @@ html, body {
 </div>
 
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
-  // Clear sessionStorage for testing (remove this line in production)
-  // sessionStorage.removeItem('hasPlayedIntro');
-  
-  const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
   const loader = document.getElementById('loader');
   const minimalLoader = document.getElementById('minimalLoader');
   const videoTransition = document.getElementById('videoTransition');
   const mainWrapper = document.getElementById('mainWrapper');
   const header = document.getElementById('main-header');
-  
-  // Video elements and buttons
-  const mobileSkipButton = document.getElementById('mobileSkipButton');
-  const desktopSkipButton = document.getElementById('desktopSkipButton');
+
   const mobileVideo = document.getElementById('mobileTransitionVideo');
   const desktopVideo = document.getElementById('desktopTransitionVideo');
 
-  const showMain = () => {
-    console.log('Showing main content');
-    
-    // Hide all transition elements
+  const mobileSkip = document.getElementById('mobileSkipButton');
+  const desktopSkip = document.getElementById('desktopSkipButton');
+
+  const hasPlayed = sessionStorage.getItem('hasPlayedIntro');
+
+  function showMain() {
+    console.log("👉 Showing main content");
+    if (loader) loader.style.display = 'none';
+    if (minimalLoader) minimalLoader.style.display = 'none';
     if (videoTransition) {
       videoTransition.style.opacity = '0';
       videoTransition.style.pointerEvents = 'none';
     }
-    if (loader) loader.style.display = 'none';
-    if (minimalLoader) minimalLoader.style.display = 'none';
-    
-    // Show main content
-    document.body.style.backgroundColor = '#ffffff';
     if (mainWrapper) {
       mainWrapper.style.opacity = '1';
       mainWrapper.style.pointerEvents = 'auto';
@@ -504,82 +498,55 @@ document.addEventListener('DOMContentLoaded', function () {
       header.style.opacity = '1';
       header.style.pointerEvents = 'auto';
     }
-  };
+    document.body.style.backgroundColor = '#ffffff';
+  }
 
-  if (!hasPlayedIntro) {
-    // First visit - show full intro sequence
-    console.log('First visit - showing intro');
-    sessionStorage.setItem('hasPlayedIntro', 'true');
-    
-    // Show loader for 2 seconds
+  function triggerIntroSequence() {
+    // Start by hiding loader, showing video screen
     setTimeout(() => {
-      console.log('Hiding loader, showing video');
-      if (loader) {
-        loader.style.opacity = '0';
-        loader.style.transition = 'opacity 0.5s ease';
-        
-        setTimeout(() => {
-          loader.style.display = 'none';
-          if (videoTransition) {
-            videoTransition.style.opacity = '1';
-            videoTransition.style.pointerEvents = 'auto';
-            
-            // Add text animations
-            const textElements = ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'];
-            textElements.forEach(id => {
-              const el = document.getElementById(id);
-              if (el) {
-                el.classList.add('animate-fadeInUp');
-              }
-            });
-          }
-        }, 500);
-      }
+      if (loader) loader.style.opacity = '0';
+      setTimeout(() => {
+        if (loader) loader.style.display = 'none';
+        if (videoTransition) {
+          videoTransition.style.opacity = '1';
+          videoTransition.style.pointerEvents = 'auto';
+        }
+
+        // Animate text
+        ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('animate-fadeInUp');
+        });
+
+      }, 500);
     }, 2000);
 
-    // Video end listeners
+    // Attach listeners
     if (mobileVideo) {
-      mobileVideo.addEventListener('ended', () => {
-        console.log('Mobile video ended');
-        showMain();
-      });
+      mobileVideo.addEventListener('ended', showMain);
+      mobileVideo.addEventListener('error', showMain);
     }
     if (desktopVideo) {
-      desktopVideo.addEventListener('ended', () => {
-        console.log('Desktop video ended');
-        showMain();
-      });
+      desktopVideo.addEventListener('ended', showMain);
+      desktopVideo.addEventListener('error', showMain);
     }
 
-    // Skip button listeners
-    if (mobileSkipButton) {
-      mobileSkipButton.addEventListener('click', () => {
-        console.log('Mobile skip clicked');
-        showMain();
-      });
-    }
-    if (desktopSkipButton) {
-      desktopSkipButton.addEventListener('click', () => {
-        console.log('Desktop skip clicked');
-        showMain();
-      });
-    }
+    if (mobileSkip) mobileSkip.addEventListener('click', showMain);
+    if (desktopSkip) desktopSkip.addEventListener('click', showMain);
 
-    // Fallback timeout (12 seconds)
+    // Ultimate fallback
     setTimeout(() => {
-      console.log('Fallback timeout triggered');
+      console.log("⚠️ Fallback triggered");
       showMain();
     }, 12000);
+  }
 
-  } else {
-    // Return visit - show minimal loader
-    console.log('Return visit - showing minimal loader');
+  function triggerMinimalLoader() {
     if (loader) loader.style.display = 'none';
-    
     if (minimalLoader) {
       minimalLoader.classList.remove('hidden');
       minimalLoader.style.opacity = '1';
-      
+
       setTimeout(() => {
         minimalLoader.style.opacity = '0';
         setTimeout(() => {
@@ -591,6 +558,17 @@ document.addEventListener('DOMContentLoaded', function () {
       showMain();
     }
   }
+
+  // Entry
+  if (!hasPlayed) {
+    sessionStorage.setItem('hasPlayedIntro', 'true');
+    triggerIntroSequence();
+  } else {
+    triggerMinimalLoader();
+  }
+});
+
+
 
   // Navigation functionality
   const navbar = document.getElementById('navbar');
