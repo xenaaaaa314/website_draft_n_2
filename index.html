@@ -28,12 +28,9 @@
       overflow-x: hidden;
     }
     
-#mainWrapper,
-#main-header,
-#videoTransition {
+body > *:not(#loader) {
   opacity: 0;
   pointer-events: none;
-  transition: all 1s ease;
 }
     
     #loader {
