@@ -603,36 +603,28 @@ html, body {
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  // Clear sessionStorage for testing (remove this line in production)
-  // sessionStorage.removeItem('hasPlayedIntro');
-  
+document.addEventListener('DOMContentLoaded', () => {
   const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
+
   const loader = document.getElementById('loader');
   const minimalLoader = document.getElementById('minimalLoader');
   const videoTransition = document.getElementById('videoTransition');
   const mainWrapper = document.getElementById('mainWrapper');
   const header = document.getElementById('main-header');
-  
-  // Video elements and buttons
-  const mobileSkipButton = document.getElementById('mobileSkipButton');
-  const desktopSkipButton = document.getElementById('desktopSkipButton');
+
   const mobileVideo = document.getElementById('mobileTransitionVideo');
   const desktopVideo = document.getElementById('desktopTransitionVideo');
+  const mobileSkip = document.getElementById('mobileSkipButton');
+  const desktopSkip = document.getElementById('desktopSkipButton');
 
-  const showMain = () => {
-    console.log('Showing main content');
-    
-    // Hide all transition elements
+  function showMain() {
+    console.log("✅ Showing main content");
+    if (loader) loader.style.display = 'none';
+    if (minimalLoader) minimalLoader.style.display = 'none';
     if (videoTransition) {
       videoTransition.style.opacity = '0';
       videoTransition.style.pointerEvents = 'none';
     }
-    if (loader) loader.style.display = 'none';
-    if (minimalLoader) minimalLoader.style.display = 'none';
-    
-    // Show main content
-    document.body.style.backgroundColor = '#ffffff';
     if (mainWrapper) {
       mainWrapper.style.opacity = '1';
       mainWrapper.style.pointerEvents = 'auto';
@@ -641,94 +633,71 @@ document.addEventListener('DOMContentLoaded', function () {
       header.style.opacity = '1';
       header.style.pointerEvents = 'auto';
     }
-  };
-
-  if (!hasPlayedIntro) {
-    // First visit - show full intro sequence
-    console.log('First visit - showing intro');
-    sessionStorage.setItem('hasPlayedIntro', 'true');
-    
-    // Show loader for 2 seconds
-    setTimeout(() => {
-      console.log('Hiding loader, showing video');
-      if (loader) {
-        loader.style.opacity = '0';
-        loader.style.transition = 'opacity 0.5s ease';
-        
-        setTimeout(() => {
-          loader.style.display = 'none';
-          if (videoTransition) {
-            videoTransition.style.opacity = '1';
-            videoTransition.style.pointerEvents = 'auto';
-            
-            // Add text animations
-            const textElements = ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'];
-            textElements.forEach(id => {
-              const el = document.getElementById(id);
-              if (el) {
-                el.classList.add('animate-fadeInUp');
-              }
-            });
-          }
-        }, 500);
-      }
-    }, 2000);
-
-    // Video end listeners
-    if (mobileVideo) {
-      mobileVideo.addEventListener('ended', () => {
-        console.log('Mobile video ended');
-        showMain();
-      });
-    }
-    if (desktopVideo) {
-      desktopVideo.addEventListener('ended', () => {
-        console.log('Desktop video ended');
-        showMain();
-      });
-    }
-
-    // Skip button listeners
-    if (mobileSkipButton) {
-      mobileSkipButton.addEventListener('click', () => {
-        console.log('Mobile skip clicked');
-        showMain();
-      });
-    }
-    if (desktopSkipButton) {
-      desktopSkipButton.addEventListener('click', () => {
-        console.log('Desktop skip clicked');
-        showMain();
-      });
-    }
-
-    // Fallback timeout (12 seconds)
-    setTimeout(() => {
-      console.log('Fallback timeout triggered');
-      showMain();
-    }, 12000);
-
-  } else {
-    // Return visit - show minimal loader
-    console.log('Return visit - showing minimal loader');
-    if (loader) loader.style.display = 'none';
-    
-    if (minimalLoader) {
-      minimalLoader.classList.remove('hidden');
-      minimalLoader.style.opacity = '1';
-      
-      setTimeout(() => {
-        minimalLoader.style.opacity = '0';
-        setTimeout(() => {
-          minimalLoader.style.display = 'none';
-          showMain();
-        }, 500);
-      }, 1500);
-    } else {
-      showMain();
-    }
+    document.body.style.backgroundColor = '#ffffff';
   }
 
+  if (!hasPlayedIntro) {
+    console.log("🎬 First visit: intro video will play.");
+    sessionStorage.setItem('hasPlayedIntro', 'true');
+
+    setTimeout(() => {
+      loader.style.opacity = '0';
+      setTimeout(() => {
+        loader.style.display = 'none';
+        videoTransition.style.opacity = '1';
+        videoTransition.style.pointerEvents = 'auto';
+
+        // Animate intro lines
+        ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.classList.add('animate-fadeInUp');
+        });
+      }, 500);
+    }, 2000);
+
+    // Attach listeners
+    if (mobileVideo) {
+      mobileVideo.addEventListener('ended', showMain);
+      mobileVideo.addEventListener('error', () => {
+        console.log("⚠️ Mobile video failed");
+        showMain();
+      });
+    }
+
+    if (desktopVideo) {
+      desktopVideo.addEventListener('ended', showMain);
+      desktopVideo.addEventListener('error', () => {
+        console.log("⚠️ Desktop video failed");
+        showMain();
+      });
+    }
+
+    if (mobileSkip) mobileSkip.addEventListener('click', showMain);
+    if (desktopSkip) desktopSkip.addEventListener('click', showMain);
+
+    // Fallback timer
+    setTimeout(() => {
+      console.log("⏳ Fallback triggered after 15s");
+      showMain();
+    }, 15000);
+
+  } else {
+    console.log("⚡ Returning visitor: minimal loader only");
+    if (loader) loader.style.display = 'none';
+    minimalLoader.classList.remove('hidden');
+    minimalLoader.style.opacity = '1';
+
+    setTimeout(() => {
+      minimalLoader.style.opacity = '0';
+      setTimeout(() => {
+        minimalLoader.style.display = 'none';
+        showMain();
+      }, 500);
+    }, 1500);
+  }
+});
+
+  
   // Navigation functionality
   const navbar = document.getElementById('navbar');
   const collapsedToggle = document.getElementById('collapsed-toggle');
