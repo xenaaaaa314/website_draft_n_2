@@ -428,8 +428,7 @@
         class="absolute inset-0 w-full h-full object-contain bg-black"
         autoplay
         muted
-        playsinline
-        loop>
+        playsinline>
         <source src="img/intro.mp4" type="video/mp4">
       </video>
       
@@ -459,7 +458,7 @@
         
         <button 
           id="mobileSkipButton"
-          class="absolute bottom-4 right-8 text-white hover:text-white text-sm transition-all duration-300"
+          class="skip-button absolute bottom-4 right-8 text-white hover:text-white text-sm transition-all duration-300"
           style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
           Skip →
         </button>
@@ -467,53 +466,51 @@
     </div>
   </div>
   
-<!-- Desktop Video Layout -->
-<div class="hidden md:flex absolute inset-0 items-center justify-center">
-  <div class="relative w-full h-full overflow-hidden">
-    <video 
-      id="desktopTransitionVideo"
-      class="absolute inset-0 w-full h-full object-cover bg-black"
-      autoplay
-      muted
-      playsinline
-      loop>
-      <source src="img/video for website.mp4" type="video/mp4">
-    </video>
-    
-    <div class="video-overlay absolute inset-0"></div>
-    
-    <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-      <div class="space-y-6 mb-20">
-        <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0" 
-            style="animation-delay: 0.5s; animation-fill-mode: forwards;"
-            id="desktopLine1">
-          EMBRACE THE CHAOS
-        </h2>
-        <h2 class="text-7xl lg:text-8xl font-black gradient-text opacity-0"
-            style="animation-delay: 1s; animation-fill-mode: forwards;"
-            id="desktopLine2">
-        </h2>
-        <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0"
-            style="animation-delay: 1.5s; animation-fill-mode: forwards;"
-            id="desktopLine3">
-          MASTER THE FIGHT
-        </h2>
-        <h2 class="text-7xl lg:text-8xl font-black text-[#d1181e] opacity-0 animate-glitch"
-            style="animation-delay: 2s; animation-fill-mode: forwards;"
-            id="desktopLine4">
-        </h2>
-      </div>
+  <!-- Desktop Video Layout -->
+  <div class="hidden md:flex absolute inset-0 items-center justify-center">
+    <div class="relative w-full h-full overflow-hidden">
+      <video 
+        id="desktopTransitionVideo"
+        class="absolute inset-0 w-full h-full object-cover bg-black"
+        autoplay
+        muted
+        playsinline>
+        <source src="img/video for website.mp4" type="video/mp4">
+      </video>
       
-      <button 
-        id="desktopSkipButton"
-        class="absolute bottom-8 right-12 text-white hover:text-white text-lg transition-all duration-300"
-        style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
-        Skip →
-      </button>
+      <div class="video-overlay absolute inset-0"></div>
+      
+      <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+        <div class="space-y-6 mb-20">
+          <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0" 
+              style="animation-delay: 0.5s; animation-fill-mode: forwards;"
+              id="desktopLine1">
+            EMBRACE THE CHAOS
+          </h2>
+          <h2 class="text-7xl lg:text-8xl font-black gradient-text opacity-0"
+              style="animation-delay: 1s; animation-fill-mode: forwards;"
+              id="desktopLine2">
+          </h2>
+          <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0"
+              style="animation-delay: 1.5s; animation-fill-mode: forwards;"
+              id="desktopLine3">
+            MASTER THE FIGHT
+          </h2>
+          <h2 class="text-7xl lg:text-8xl font-black text-[#d1181e] opacity-0 animate-glitch"
+              style="animation-delay: 2s; animation-fill-mode: forwards;"
+              id="desktopLine4">
+          </h2>
+        </div>
+        
+        <button 
+          id="desktopSkipButton"
+          class="skip-button absolute bottom-8 right-12 text-white hover:text-white text-lg transition-all duration-300"
+          style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
+          Skip →
+        </button>
+      </div>
     </div>
   </div>
-</div>
-
   
   <!-- Desktop Side Text -->
   <div class="hidden lg:block absolute left-10 top-1/2 -translate-y-1/2 opacity-0"
@@ -528,6 +525,7 @@
     <p class="text-white/30 text-sm tracking-[0.3em] writing-mode-vertical-lr">MIXED REALITY COMBAT</p>
   </div>
 </div>
+
 
 
 <script>
@@ -686,11 +684,29 @@ document.addEventListener('DOMContentLoaded', function () {
   const header = document.getElementById('main-header');
   const navContainer = document.getElementById('nav-container');
   const toggleButton = document.getElementById('nav-toggle');
-  const skipButton = document.getElementById('skipButton');
+  
+  // Get both skip buttons
+  const mobileSkipButton = document.getElementById('mobileSkipButton');
+  const desktopSkipButton = document.getElementById('desktopSkipButton');
+  
+  // Get both video elements
+  const mobileVideo = document.getElementById('mobileTransitionVideo');
+  const desktopVideo = document.getElementById('desktopTransitionVideo');
 
   const showMain = () => {
-    if (videoTransition) videoTransition.style.display = 'none';
-    if (loader) loader.style.display = 'none';
+    if (videoTransition) {
+      videoTransition.style.opacity = '0';
+      videoTransition.style.pointerEvents = 'none';
+      setTimeout(() => {
+        videoTransition.style.display = 'none';
+      }, 1000);
+    }
+    if (loader) {
+      loader.style.opacity = '0';
+      setTimeout(() => {
+        loader.style.display = 'none';
+      }, 300);
+    }
     document.body.style.backgroundColor = '#ffffff';
     mainWrapper.style.opacity = '1';
     mainWrapper.style.pointerEvents = 'auto';
@@ -702,7 +718,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // First-time visit: show video intro
     sessionStorage.setItem('hasPlayedIntro', 'true');
 
-    // Show full video transition
+    // Faster transition to video (reduced from 2200ms to 800ms)
     setTimeout(() => {
       document.getElementById('loader').style.opacity = '0';
 
@@ -711,33 +727,52 @@ document.addEventListener('DOMContentLoaded', function () {
         videoTransition.style.opacity = '1';
         videoTransition.style.pointerEvents = 'auto';
 
-        // Start animations
-        ['line1', 'line2', 'line3', 'line4', 'leftText', 'rightText'].forEach(id => {
+        // Start animations for existing elements only
+        const animationElements = ['mobileLine1', 'mobileLine2', 'mobileLine3', 'mobileLine4', 'desktopLine1', 'desktopLine2', 'desktopLine3', 'desktopLine4', 'leftText', 'rightText'];
+        animationElements.forEach(id => {
           const el = document.getElementById(id);
           if (el) el.classList.add('animate-fadeInUp');
         });
 
-      }, 500);
-    }, 2200);
+      }, 300); // Faster transition
+    }, 800); // Reduced delay
 
-    // Auto skip to main
-    setTimeout(showMain, 15000);
+    // Video end event listeners
+    if (mobileVideo) {
+      mobileVideo.addEventListener('ended', showMain);
+    }
+    if (desktopVideo) {
+      desktopVideo.addEventListener('ended', showMain);
+    }
 
-    // Manual skip
-    if (skipButton) {
-      skipButton.addEventListener('click', showMain);
+    // Fallback timeout (in case video doesn't fire 'ended' event)
+    setTimeout(showMain, 10000); // 10 seconds fallback
+
+    // Manual skip for both buttons
+    if (mobileSkipButton) {
+      mobileSkipButton.addEventListener('click', showMain);
+    }
+    if (desktopSkipButton) {
+      desktopSkipButton.addEventListener('click', showMain);
     }
 
   } else {
     // Already visited — skip intro and show minimal loader
-    loader.classList.remove('hidden');
-    loader.style.opacity = '1';
+    if (loader) {
+      loader.classList.remove('hidden');
+      loader.style.opacity = '1';
 
-    setTimeout(() => {
-      loader.style.opacity = '0';
-      setTimeout(showMain, 300);
-    }, 1000); // 1s bounce animation
+      setTimeout(() => {
+        loader.style.opacity = '0';
+        setTimeout(showMain, 300);
+      }, 1000); // 1s bounce animation
+    } else {
+      // If no loader, show main immediately
+      showMain();
+    }
   }
+});
+
 
   // Header scroll logic (unchanged)
   let isNavVisible = true;
