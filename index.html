@@ -467,52 +467,53 @@
     </div>
   </div>
   
-  <!-- Desktop Video Layout -->
-  <div class="hidden md:flex absolute inset-0 items-center justify-center">
-    <div class="relative w-full h-full max-w-[1200px] max-h-[800px] rounded-[20px] overflow-hidden shadow-2xl">
-      <video 
-        id="desktopTransitionVideo"
-        class="absolute inset-0 w-full h-full object-cover bg-black"
-        autoplay
-        muted
-        playsinline
-        loop>
-        <source src="img/video for website.mp4" type="video/mp4">
-      </video>
-      
-      <div class="video-overlay absolute inset-0"></div>
-      
-      <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-        <div class="space-y-6 mb-20">
-          <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0" 
-              style="animation-delay: 0.5s; animation-fill-mode: forwards;"
-              id="desktopLine1">
-            EMBRACE THE CHAOS
-          </h2>
-          <h2 class="text-7xl lg:text-8xl font-black gradient-text opacity-0"
-              style="animation-delay: 1s; animation-fill-mode: forwards;"
-              id="desktopLine2">
-          </h2>
-          <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0"
-              style="animation-delay: 1.5s; animation-fill-mode: forwards;"
-              id="desktopLine3">
-            MASTER THE FIGHT
-          </h2>
-          <h2 class="text-7xl lg:text-8xl font-black text-[#d1181e] opacity-0 animate-glitch"
-              style="animation-delay: 2s; animation-fill-mode: forwards;"
-              id="desktopLine4">
-          </h2>
-        </div>
-        
-        <button 
-          id="desktopSkipButton"
-          class="absolute bottom-8 right-12 text-white hover:text-white text-lg transition-all duration-300"
-          style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
-          Skip →
-        </button>
+<!-- Desktop Video Layout -->
+<div class="hidden md:flex absolute inset-0 items-center justify-center">
+  <div class="relative w-full h-full overflow-hidden">
+    <video 
+      id="desktopTransitionVideo"
+      class="absolute inset-0 w-full h-full object-cover bg-black"
+      autoplay
+      muted
+      playsinline
+      loop>
+      <source src="img/video for website.mp4" type="video/mp4">
+    </video>
+    
+    <div class="video-overlay absolute inset-0"></div>
+    
+    <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+      <div class="space-y-6 mb-20">
+        <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0" 
+            style="animation-delay: 0.5s; animation-fill-mode: forwards;"
+            id="desktopLine1">
+          EMBRACE THE CHAOS
+        </h2>
+        <h2 class="text-7xl lg:text-8xl font-black gradient-text opacity-0"
+            style="animation-delay: 1s; animation-fill-mode: forwards;"
+            id="desktopLine2">
+        </h2>
+        <h2 class="text-6xl lg:text-7xl font-black text-white opacity-0"
+            style="animation-delay: 1.5s; animation-fill-mode: forwards;"
+            id="desktopLine3">
+          MASTER THE FIGHT
+        </h2>
+        <h2 class="text-7xl lg:text-8xl font-black text-[#d1181e] opacity-0 animate-glitch"
+            style="animation-delay: 2s; animation-fill-mode: forwards;"
+            id="desktopLine4">
+        </h2>
       </div>
+      
+      <button 
+        id="desktopSkipButton"
+        class="absolute bottom-8 right-12 text-white hover:text-white text-lg transition-all duration-300"
+        style="animation: fadeInB 1s ease forwards; animation-delay: 3s;">
+        Skip →
+      </button>
     </div>
   </div>
+</div>
+
   
   <!-- Desktop Side Text -->
   <div class="hidden lg:block absolute left-10 top-1/2 -translate-y-1/2 opacity-0"
