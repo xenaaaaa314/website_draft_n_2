@@ -437,7 +437,7 @@ html, body {
       <div class="w-full md:flex-[1.2]">
         <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed text-black max-w-3xl mx-auto md:mx-0 mb-6">
           <span class="text-[#d1181e] font-semibold">Orama Technologies</span> is redefining tactical training through  <span class="text-[#d1181e] font-semibold"> AI-powered mixed reality</span>.
-           Our goal is simple: make training more realistic, more adaptive, and accessible —because lives depend on it.
+           Our goal is simple: make training more realistic, more adaptive, and accessible — because lives depend on it.
         </p>
         <p class="text-lg sm:text-xl md:text-2xl lg:text-3xl leading-relaxed text-black max-w-3xl mx-auto md:mx-0">
          Orama has been deployed across military, law enforcement, and allied organizations to <span class="text-[#d1181e] font-semibold"> prepare operators for the fight ahead</span>, not the war behind. 
@@ -470,9 +470,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Clear sessionStorage for testing (remove this line in production)
   // sessionStorage.removeItem('hasPlayedIntro');
   
+  console.log('Script loaded, checking elements...');
+  
   const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
   const loader = document.getElementById('loader');
-  const minimalLoader = document.getElementById('minimalLoader');
   const videoTransition = document.getElementById('videoTransition');
   const mainWrapper = document.getElementById('mainWrapper');
   const header = document.getElementById('main-header');
@@ -483,6 +484,24 @@ document.addEventListener('DOMContentLoaded', function () {
   const mobileVideo = document.getElementById('mobileTransitionVideo');
   const desktopVideo = document.getElementById('desktopTransitionVideo');
 
+  // Navigation elements - with null checks
+  const navbar = document.getElementById('navbar');
+  const collapsedToggle = document.getElementById('collapsed-toggle');
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileOverlay = document.getElementById('mobile-overlay');
+  
+  console.log('Elements found:', {
+    loader: !!loader,
+    videoTransition: !!videoTransition,
+    mainWrapper: !!mainWrapper,
+    header: !!header,
+    mobileVideo: !!mobileVideo,
+    desktopVideo: !!desktopVideo,
+    navbar: !!navbar,
+    mobileMenuButton: !!mobileMenuButton
+  });
+
   const showMain = () => {
     console.log('Showing main content');
     
@@ -492,7 +511,6 @@ document.addEventListener('DOMContentLoaded', function () {
       videoTransition.style.pointerEvents = 'none';
     }
     if (loader) loader.style.display = 'none';
-    if (minimalLoader) minimalLoader.style.display = 'none';
     
     // Show main content
     document.body.style.backgroundColor = '#ffffff';
@@ -523,15 +541,6 @@ document.addEventListener('DOMContentLoaded', function () {
           if (videoTransition) {
             videoTransition.style.opacity = '1';
             videoTransition.style.pointerEvents = 'auto';
-            
-            // Add text animations
-            const textElements = ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'];
-            textElements.forEach(id => {
-              const el = document.getElementById(id);
-              if (el) {
-                el.classList.add('animate-fadeInUp');
-              }
-            });
           }
         }, 500);
       }
@@ -572,37 +581,16 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 12000);
 
   } else {
-    // Return visit - show minimal loader
-    console.log('Return visit - showing minimal loader');
-    if (loader) loader.style.display = 'none';
-    
-    if (minimalLoader) {
-      minimalLoader.classList.remove('hidden');
-      minimalLoader.style.opacity = '1';
-      
-      setTimeout(() => {
-        minimalLoader.style.opacity = '0';
-        setTimeout(() => {
-          minimalLoader.style.display = 'none';
-          showMain();
-        }, 500);
-      }, 1500);
-    } else {
-      showMain();
-    }
+    // Return visit - show main immediately
+    console.log('Return visit - showing main immediately');
+    showMain();
   }
 
-
-  // Navigation functionality
-  const navbar = document.getElementById('navbar');
-  const collapsedToggle = document.getElementById('collapsed-toggle');
-  const mobileMenuButton = document.getElementById('mobile-menu-button');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const mobileOverlay = document.getElementById('mobile-overlay');
+  // Navigation functionality - with proper null checks
   let lastScrollY = 0;
   let isNavVisible = true;
   
-  // Mobile menu toggle
+  // Mobile menu toggle - only if elements exist
   if (mobileMenuButton && mobileMenu) {
     mobileMenuButton.addEventListener('click', () => {
       const isOpen = !mobileMenu.classList.contains('hidden');
@@ -637,43 +625,39 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
   
-  // Scroll behavior
-  let scrollTimer;
-  window.addEventListener('scroll', () => {
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(() => {
-      const currentScrollY = window.scrollY;
-      
-      if (currentScrollY > 50) {
-        if (currentScrollY > lastScrollY && isNavVisible) {
-          if (navbar) {
+  // Scroll behavior - only if navbar exists
+  if (navbar) {
+    let scrollTimer;
+    window.addEventListener('scroll', () => {
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        const currentScrollY = window.scrollY;
+        
+        if (currentScrollY > 50) {
+          if (currentScrollY > lastScrollY && isNavVisible) {
             navbar.style.transform = 'scale(0)';
             navbar.style.opacity = '0';
-          }
-          if (collapsedToggle) collapsedToggle.classList.remove('hidden');
-          isNavVisible = false;
-        } else if (currentScrollY < lastScrollY && !isNavVisible) {
-          if (navbar) {
+            if (collapsedToggle) collapsedToggle.classList.remove('hidden');
+            isNavVisible = false;
+          } else if (currentScrollY < lastScrollY && !isNavVisible) {
             navbar.style.transform = 'scale(1)';
             navbar.style.opacity = '1';
+            if (collapsedToggle) collapsedToggle.classList.add('hidden');
+            isNavVisible = true;
           }
+        } else {
+          navbar.style.transform = 'scale(1)';
+          navbar.style.opacity = '1';
           if (collapsedToggle) collapsedToggle.classList.add('hidden');
           isNavVisible = true;
         }
-      } else {
-        if (navbar) {
-          navbar.style.transform = 'scale(1)';
-          navbar.style.opacity = '1';
-        }
-        if (collapsedToggle) collapsedToggle.classList.add('hidden');
-        isNavVisible = true;
-      }
-      
-      lastScrollY = currentScrollY;
-    }, 50);
-  });
+        
+        lastScrollY = currentScrollY;
+      }, 50);
+    });
+  }
   
-  // Collapsed toggle click
+  // Collapsed toggle click - only if element exists
   if (collapsedToggle) {
     collapsedToggle.addEventListener('click', () => {
       if (navbar) {
