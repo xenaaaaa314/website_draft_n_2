@@ -961,22 +961,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }, 3000); // every 3 seconds
 </script>
 
-
-
-
-
 <script>
-  window.addEventListener('load', () => {
-    const loader = document.getElementById('loader');
-    const header = document.getElementById('main-header');
-
-    loader.classList.add('opacity-0');
-    setTimeout(() => {
-    loader.style.display = 'none';
-  header.removeAttribute('hidden');
-
-    }, 800);
-  });
 
   // Responsive nav scroll + toggle
   const header = document.getElementById('main-header');
@@ -1241,17 +1226,6 @@ News Item
   </div>
 </section>
 
-
-<script> 
-  window.addEventListener('load', () => {
-  document.querySelectorAll('.fade-section').forEach((el, i) => {
-    setTimeout(() => {
-      el.classList.remove('opacity-0', 'translate-y-8');
-    }, 100 * i); // staggered
-  });
-});
-
-</script>
 
  <!-- FOOTER -->
 <footer class="bg-white border-t border-gray-200 py-20 px-6">
