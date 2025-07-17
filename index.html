@@ -34,7 +34,6 @@
     }
   </style>
   
-  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
@@ -329,6 +328,50 @@
     /* Ensure header is visible */
     #main-header {
       z-index: 9999 !important;
+
+      /* Remove the conflicting body styles and replace with: */
+html, body {
+  background-color: #000000 !important;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Add the missing animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
+
+/* Fix initial states */
+#mainWrapper {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+}
+
+#main-header {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+}
+
+#videoTransition {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+}
+
     }
 
   </style>
@@ -557,10 +600,9 @@
   </div>
 </div>
 
-<script>
-// Combined and corrected JavaScript
+  <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // Page transition logic
+  // Get all elements
   const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
   const loader = document.getElementById('loader');
   const minimalLoader = document.getElementById('minimalLoader');
@@ -568,42 +610,38 @@ document.addEventListener('DOMContentLoaded', function () {
   const mainWrapper = document.getElementById('mainWrapper');
   const header = document.getElementById('main-header');
   
-  // Get video elements and skip buttons
+  // Video elements and skip buttons
   const mobileSkipButton = document.getElementById('mobileSkipButton');
   const desktopSkipButton = document.getElementById('desktopSkipButton');
   const mobileVideo = document.getElementById('mobileTransitionVideo');
   const desktopVideo = document.getElementById('desktopTransitionVideo');
 
   const showMain = () => {
-    // Hide video transition
+    // Hide video and loaders
     if (videoTransition) {
       videoTransition.style.opacity = '0';
       videoTransition.style.pointerEvents = 'none';
     }
-    
-    // Hide any loaders
     if (loader) loader.style.display = 'none';
     if (minimalLoader) minimalLoader.style.display = 'none';
     
     // Show main content
+    document.body.style.backgroundColor = '#ffffff';
     if (mainWrapper) {
-      document.body.style.backgroundColor = '#ffffff';
       mainWrapper.style.opacity = '1';
       mainWrapper.style.pointerEvents = 'auto';
     }
-    
-    // Show header
     if (header) {
       header.style.opacity = '1';
       header.style.pointerEvents = 'auto';
     }
   };
 
+  // First time visit logic
   if (!hasPlayedIntro) {
-    // First visit - show intro sequence
     sessionStorage.setItem('hasPlayedIntro', 'true');
     
-    // Hide initial loader after 2 seconds and show video
+    // Show loader for 2 seconds, then video
     setTimeout(() => {
       if (loader) {
         loader.style.opacity = '0';
@@ -612,32 +650,31 @@ document.addEventListener('DOMContentLoaded', function () {
           if (videoTransition) {
             videoTransition.style.opacity = '1';
             videoTransition.style.pointerEvents = 'auto';
+            
+            // Add animations to text elements
+            const textElements = ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'];
+            textElements.forEach(id => {
+              const el = document.getElementById(id);
+              if (el) el.classList.add('animate-fadeInUp');
+            });
           }
         }, 500);
       }
     }, 2000);
 
-    // Video ended event listeners
-    if (mobileVideo) {
-      mobileVideo.addEventListener('ended', showMain);
-    }
-    if (desktopVideo) {
-      desktopVideo.addEventListener('ended', showMain);
-    }
+    // Video end listeners
+    if (mobileVideo) mobileVideo.addEventListener('ended', showMain);
+    if (desktopVideo) desktopVideo.addEventListener('ended', showMain);
 
     // Skip button listeners
-    if (mobileSkipButton) {
-      mobileSkipButton.addEventListener('click', showMain);
-    }
-    if (desktopSkipButton) {
-      desktopSkipButton.addEventListener('click', showMain);
-    }
+    if (mobileSkipButton) mobileSkipButton.addEventListener('click', showMain);
+    if (desktopSkipButton) desktopSkipButton.addEventListener('click', showMain);
 
     // Fallback timeout
     setTimeout(showMain, 12000);
 
   } else {
-    // Return visit - show minimal loader
+    // Return visit - minimal loader
     if (loader) loader.style.display = 'none';
     if (minimalLoader) {
       minimalLoader.classList.remove('hidden');
@@ -655,7 +692,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Navigation functionality
+  // Navigation functionality (your existing nav code)
   const navbar = document.getElementById('navbar');
   const collapsedToggle = document.getElementById('collapsed-toggle');
   const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -710,10 +747,6 @@ document.addEventListener('DOMContentLoaded', function () {
           navbar.style.opacity = '0';
           collapsedToggle.classList.remove('hidden');
           isNavVisible = false;
-          
-          mobileMenu.classList.add('hidden');
-          mobileOverlay.classList.add('hidden');
-          mobileMenuButton.classList.remove('active');
         } else if (currentScrollY < lastScrollY && !isNavVisible) {
           navbar.style.transform = 'scale(1)';
           navbar.style.opacity = '1';
@@ -742,6 +775,7 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+
 
 <section class="pt-36 pb-36 px-6 border-y border-gray-200 bg-white">
   <div class="max-w-7xl mx-auto flex flex-col items-center text-center space-y-16">
