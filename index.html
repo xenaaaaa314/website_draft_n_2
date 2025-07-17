@@ -463,13 +463,12 @@ html, body {
   <div class="absolute inset-0 flex items-center justify-center md:hidden">
     <div class="relative w-full max-w-[400px] h-[80vh] sm:h-[90vh] max-h-[800px] rounded-[40px] overflow-hidden shadow-2xl">
       <video 
-        id="mobileTransitionVideo"
-        class="absolute inset-0 w-full h-full object-contain bg-black"
-        autoplay
-        muted
-        playsinline>
-        <source src="img/intro.mp4" type="video/mp4">
-      </video>
+  id="mobileTransitionVideo"
+  class="absolute inset-0 w-full h-full object-contain bg-black"
+  autoplay muted playsinline>
+  <source src="img/intro.mp4" type="video/mp4">
+</video>
+
       
       <div class="video-overlay absolute inset-0"></div>
       
@@ -508,13 +507,12 @@ html, body {
   <div class="hidden md:flex absolute inset-0 items-center justify-center">
     <div class="relative w-full h-full overflow-hidden">
       <video 
-        id="desktopTransitionVideo"
-        class="absolute inset-0 w-full h-full object-cover bg-black"
-        autoplay
-        muted
-        playsinline>
-        <source src="img/video for website.mp4" type="video/mp4">
-      </video>
+  id="desktopTransitionVideo"
+  class="absolute inset-0 w-full h-full object-cover bg-black"
+  autoplay muted playsinline>
+  <source src="img/video for website.mp4" type="video/mp4">
+</video>
+
       
       <div class="video-overlay absolute inset-0"></div>
       
@@ -603,6 +601,7 @@ html, body {
 </div>
 
 <script>
+<script>
 document.addEventListener('DOMContentLoaded', () => {
   const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
 
@@ -616,6 +615,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const desktopVideo = document.getElementById('desktopTransitionVideo');
   const mobileSkip = document.getElementById('mobileSkipButton');
   const desktopSkip = document.getElementById('desktopSkipButton');
+
+  const isMobile = window.innerWidth < 768;
 
   function showMain() {
     console.log("✅ Showing main content");
@@ -636,8 +637,44 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.backgroundColor = '#ffffff';
   }
 
+  function playVideoAndHandleEvents(videoEl, skipButton) {
+    if (!videoEl) {
+      console.log("⚠️ No video element found");
+      showMain();
+      return;
+    }
+
+    videoEl.addEventListener('ended', () => {
+      console.log("🎬 Video ended");
+      showMain();
+    });
+
+    videoEl.addEventListener('error', (e) => {
+      console.error("❌ Video error", e);
+      showMain();
+    });
+
+    if (skipButton) {
+      skipButton.addEventListener('click', () => {
+        console.log("⏩ Skip button clicked");
+        showMain();
+      });
+    }
+
+    // Try to autoplay (some mobile browsers block it without user interaction)
+    const playPromise = videoEl.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        console.log("▶️ Video started playing");
+      }).catch(err => {
+        console.warn("⚠️ Autoplay failed. Forcing fallback.");
+        showMain();
+      });
+    }
+  }
+
   if (!hasPlayedIntro) {
-    console.log("🎬 First visit: intro video will play.");
+    console.log("🆕 First visit – show intro video");
     sessionStorage.setItem('hasPlayedIntro', 'true');
 
     setTimeout(() => {
@@ -647,56 +684,46 @@ document.addEventListener('DOMContentLoaded', () => {
         videoTransition.style.opacity = '1';
         videoTransition.style.pointerEvents = 'auto';
 
-        // Animate intro lines
+        // Animate text
         ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'].forEach(id => {
           const el = document.getElementById(id);
           if (el) el.classList.add('animate-fadeInUp');
         });
+
+        // Start the video and listeners
+        if (isMobile) {
+          playVideoAndHandleEvents(mobileVideo, mobileSkip);
+        } else {
+          playVideoAndHandleEvents(desktopVideo, desktopSkip);
+        }
+
       }, 500);
     }, 2000);
 
-    // Attach listeners
-    if (mobileVideo) {
-      mobileVideo.addEventListener('ended', showMain);
-      mobileVideo.addEventListener('error', () => {
-        console.log("⚠️ Mobile video failed");
-        showMain();
-      });
-    }
-
-    if (desktopVideo) {
-      desktopVideo.addEventListener('ended', showMain);
-      desktopVideo.addEventListener('error', () => {
-        console.log("⚠️ Desktop video failed");
-        showMain();
-      });
-    }
-
-    if (mobileSkip) mobileSkip.addEventListener('click', showMain);
-    if (desktopSkip) desktopSkip.addEventListener('click', showMain);
-
-    // Fallback timer
+    // Emergency fallback
     setTimeout(() => {
-      console.log("⏳ Fallback triggered after 15s");
+      console.log("🕐 Fallback triggered");
       showMain();
     }, 15000);
 
   } else {
-    console.log("⚡ Returning visitor: minimal loader only");
+    console.log("⚡ Return visitor – minimal loader only");
     if (loader) loader.style.display = 'none';
-    minimalLoader.classList.remove('hidden');
-    minimalLoader.style.opacity = '1';
-
-    setTimeout(() => {
-      minimalLoader.style.opacity = '0';
+    if (minimalLoader) {
+      minimalLoader.classList.remove('hidden');
+      minimalLoader.style.opacity = '1';
       setTimeout(() => {
-        minimalLoader.style.display = 'none';
-        showMain();
-      }, 500);
-    }, 1500);
+        minimalLoader.style.opacity = '0';
+        setTimeout(() => {
+          minimalLoader.style.display = 'none';
+          showMain();
+        }, 500);
+      }, 1500);
+    } else {
+      showMain();
+    }
   }
 });
-
   
   // Navigation functionality
   const navbar = document.getElementById('navbar');
