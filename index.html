@@ -601,30 +601,33 @@ html, body {
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
 
+document.addEventListener('DOMContentLoaded', function () {
+  // Get all elements
+  const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
   const loader = document.getElementById('loader');
   const minimalLoader = document.getElementById('minimalLoader');
   const videoTransition = document.getElementById('videoTransition');
   const mainWrapper = document.getElementById('mainWrapper');
   const header = document.getElementById('main-header');
-
+  
+  // Video elements and skip buttons
+  const mobileSkipButton = document.getElementById('mobileSkipButton');
+  const desktopSkipButton = document.getElementById('desktopSkipButton');
   const mobileVideo = document.getElementById('mobileTransitionVideo');
   const desktopVideo = document.getElementById('desktopTransitionVideo');
-  const mobileSkip = document.getElementById('mobileSkipButton');
-  const desktopSkip = document.getElementById('desktopSkipButton');
 
-  const isMobile = window.innerWidth < 768;
-
-  function showMain() {
-    console.log("✅ Showing main content");
-    if (loader) loader.style.display = 'none';
-    if (minimalLoader) minimalLoader.style.display = 'none';
+  const showMain = () => {
+    // Hide video and loaders
     if (videoTransition) {
       videoTransition.style.opacity = '0';
       videoTransition.style.pointerEvents = 'none';
     }
+    if (loader) loader.style.display = 'none';
+    if (minimalLoader) minimalLoader.style.display = 'none';
+    
+    // Show main content
+    document.body.style.backgroundColor = '#ffffff';
     if (mainWrapper) {
       mainWrapper.style.opacity = '1';
       mainWrapper.style.pointerEvents = 'auto';
@@ -633,84 +636,51 @@ document.addEventListener('DOMContentLoaded', () => {
       header.style.opacity = '1';
       header.style.pointerEvents = 'auto';
     }
-    document.body.style.backgroundColor = '#ffffff';
-  }
+  };
 
-  function playVideoAndHandleEvents(videoEl, skipButton) {
-    if (!videoEl) {
-      console.log("⚠️ No video element found");
-      showMain();
-      return;
-    }
-
-    videoEl.addEventListener('ended', () => {
-      console.log("🎬 Video ended");
-      showMain();
-    });
-
-    videoEl.addEventListener('error', (e) => {
-      console.error("❌ Video error", e);
-      showMain();
-    });
-
-    if (skipButton) {
-      skipButton.addEventListener('click', () => {
-        console.log("⏩ Skip button clicked");
-        showMain();
-      });
-    }
-
-    // Try to autoplay (some mobile browsers block it without user interaction)
-    const playPromise = videoEl.play();
-    if (playPromise !== undefined) {
-      playPromise.then(() => {
-        console.log("▶️ Video started playing");
-      }).catch(err => {
-        console.warn("⚠️ Autoplay failed. Forcing fallback.");
-        showMain();
-      });
-    }
-  }
-
+  // First time visit logic
   if (!hasPlayedIntro) {
-    console.log("🆕 First visit – show intro video");
     sessionStorage.setItem('hasPlayedIntro', 'true');
-
+    
+    // Show loader for 2 seconds, then video
     setTimeout(() => {
-      loader.style.opacity = '0';
-      setTimeout(() => {
-        loader.style.display = 'none';
-        videoTransition.style.opacity = '1';
-        videoTransition.style.pointerEvents = 'auto';
-
-        // Animate text
-        ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) el.classList.add('animate-fadeInUp');
-        });
-
-        // Start the video and listeners
-        if (isMobile) {
-          playVideoAndHandleEvents(mobileVideo, mobileSkip);
-        } else {
-          playVideoAndHandleEvents(desktopVideo, desktopSkip);
-        }
-
-      }, 500);
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => {
+          loader.style.display = 'none';
+          if (videoTransition) {
+            videoTransition.style.opacity = '1';
+            videoTransition.style.pointerEvents = 'auto';
+            
+            // Add animations to text elements
+            const textElements = ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'];
+            textElements.forEach(id => {
+              const el = document.getElementById(id);
+              if (el) el.classList.add('animate-fadeInUp');
+            });
+          }
+        }, 500);
+      }
     }, 2000);
 
-    // Emergency fallback
-    setTimeout(() => {
-      console.log("🕐 Fallback triggered");
-      showMain();
-    }, 15000);
+    // Video end listeners
+    if (mobileVideo) mobileVideo.addEventListener('ended', showMain);
+    if (desktopVideo) desktopVideo.addEventListener('ended', showMain);
+
+    // Skip button listeners
+    if (mobileSkipButton) mobileSkipButton.addEventListener('click', showMain);
+    if (desktopSkipButton) desktopSkipButton.addEventListener('click', showMain);
+
+    // Fallback timeout
+    setTimeout(showMain, 12000);
 
   } else {
-    console.log("⚡ Return visitor – minimal loader only");
+    // Return visit - minimal loader
     if (loader) loader.style.display = 'none';
     if (minimalLoader) {
       minimalLoader.classList.remove('hidden');
       minimalLoader.style.opacity = '1';
+      
       setTimeout(() => {
         minimalLoader.style.opacity = '0';
         setTimeout(() => {
@@ -722,9 +692,8 @@ document.addEventListener('DOMContentLoaded', () => {
       showMain();
     }
   }
-});
-  
-  // Navigation functionality
+
+  // Navigation functionality (your existing nav code)
   const navbar = document.getElementById('navbar');
   const collapsedToggle = document.getElementById('collapsed-toggle');
   const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -734,24 +703,22 @@ document.addEventListener('DOMContentLoaded', () => {
   let isNavVisible = true;
   
   // Mobile menu toggle
-  if (mobileMenuButton && mobileMenu) {
+  if (mobileMenuButton) {
     mobileMenuButton.addEventListener('click', () => {
       const isOpen = !mobileMenu.classList.contains('hidden');
       const navbarContainer = document.getElementById('navbar-container');
       
       if (isOpen) {
         mobileMenu.classList.add('hidden');
-        if (mobileOverlay) mobileOverlay.classList.add('hidden');
+        mobileOverlay.classList.add('hidden');
         mobileMenuButton.classList.remove('active');
-        if (navbarContainer) {
-          navbarContainer.classList.add('rounded-full');
-          navbarContainer.classList.remove('rounded-3xl');
-        }
+        navbarContainer.classList.add('rounded-full');
+        navbarContainer.classList.remove('rounded-3xl');
       } else {
         mobileMenu.classList.remove('hidden');
-        if (mobileOverlay) mobileOverlay.classList.remove('hidden');
+        mobileOverlay.classList.remove('hidden');
         mobileMenuButton.classList.add('active');
-        if (window.innerWidth < 768 && navbarContainer) {
+        if (window.innerWidth < 768) {
           navbarContainer.classList.remove('rounded-full');
           navbarContainer.classList.add('rounded-3xl');
         }
@@ -762,9 +729,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // Close mobile menu when clicking overlay
   if (mobileOverlay) {
     mobileOverlay.addEventListener('click', () => {
-      if (mobileMenu) mobileMenu.classList.add('hidden');
+      mobileMenu.classList.add('hidden');
       mobileOverlay.classList.add('hidden');
-      if (mobileMenuButton) mobileMenuButton.classList.remove('active');
+      mobileMenuButton.classList.remove('active');
     });
   }
   
@@ -777,26 +744,20 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (currentScrollY > 50) {
         if (currentScrollY > lastScrollY && isNavVisible) {
-          if (navbar) {
-            navbar.style.transform = 'scale(0)';
-            navbar.style.opacity = '0';
-          }
-          if (collapsedToggle) collapsedToggle.classList.remove('hidden');
+          navbar.style.transform = 'scale(0)';
+          navbar.style.opacity = '0';
+          collapsedToggle.classList.remove('hidden');
           isNavVisible = false;
         } else if (currentScrollY < lastScrollY && !isNavVisible) {
-          if (navbar) {
-            navbar.style.transform = 'scale(1)';
-            navbar.style.opacity = '1';
-          }
-          if (collapsedToggle) collapsedToggle.classList.add('hidden');
+          navbar.style.transform = 'scale(1)';
+          navbar.style.opacity = '1';
+          collapsedToggle.classList.add('hidden');
           isNavVisible = true;
         }
       } else {
-        if (navbar) {
-          navbar.style.transform = 'scale(1)';
-          navbar.style.opacity = '1';
-        }
-        if (collapsedToggle) collapsedToggle.classList.add('hidden');
+        navbar.style.transform = 'scale(1)';
+        navbar.style.opacity = '1';
+        collapsedToggle.classList.add('hidden');
         isNavVisible = true;
       }
       
@@ -807,16 +768,15 @@ document.addEventListener('DOMContentLoaded', () => {
   // Collapsed toggle click
   if (collapsedToggle) {
     collapsedToggle.addEventListener('click', () => {
-      if (navbar) {
-        navbar.style.transform = 'scale(1)';
-        navbar.style.opacity = '1';
-      }
+      navbar.style.transform = 'scale(1)';
+      navbar.style.opacity = '1';
       collapsedToggle.classList.add('hidden');
       isNavVisible = true;
     });
   }
 });
 </script>
+
 
 <section class="pt-36 pb-36 px-6 border-y border-gray-200 bg-white">
   <div class="max-w-7xl mx-auto flex flex-col items-center text-center space-y-16">
