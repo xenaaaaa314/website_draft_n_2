@@ -44,274 +44,138 @@
   </script>
   
   <style>
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      background-color: #000000;
-    }
-
-    /* Typewriter effect */
-    .typewriter-text {
-      overflow: hidden;
-      white-space: nowrap;
-      border-right: 2px solid transparent;
-      width: 0;
-      animation: typewriter 3s steps(44, end) forwards, fadeIn 0.5s forwards;
-    }
-
-    @keyframes typewriter {
-      from { width: 0; }
-      to { width: 100%; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .cursor {
-      display: inline-block;
-      margin-left: 3px;
-    }
-
-    /* Custom animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    @keyframes blink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0; }
-    }
-    
-    @keyframes glitch {
-      0%, 100% {
-        text-shadow: 
-          2px 0 0 rgba(209, 24, 30, 0.8),
-          -2px 0 0 rgba(0, 255, 255, 0.8);
-      }
-      25% {
-        text-shadow: 
-          -2px 0 0 rgba(209, 24, 30, 0.8),
-          2px 0 0 rgba(0, 255, 255, 0.8);
-      }
-      50% {
-        text-shadow: 
-          2px 2px 0 rgba(209, 24, 30, 0.8),
-          -2px -2px 0 rgba(0, 255, 255, 0.8);
-      }
-      75% {
-        text-shadow: 
-          -2px -2px 0 rgba(209, 24, 30, 0.8),
-          2px 2px 0 rgba(0, 255, 255, 0.8);
-      }
-    }
-    
-    @keyframes slideInFromLeft {
-      from {
-        transform: translateX(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    
-    @keyframes slideInFromRight {
-      from {
-        transform: translateX(100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateX(0);
-        opacity: 1;
-      }
-    }
-    
-    .animate-fadeInUp {
-      animation: fadeInUp 1.5s ease-out forwards;
-    }
-    
-    .animate-blink {
-      animation: blink 1s infinite;
-    }
-    
-    .animate-glitch {
-      animation: glitch 0.3s infinite;
-    }
-    
-    .animate-slideInLeft {
-      animation: slideInFromLeft 1s ease-out forwards;
-    }
-    
-    .animate-slideInRight {
-      animation: slideInFromRight 1s ease-out forwards;
-    }
-    
-    /* Gradient text effect */
-    .gradient-text {
-      background: linear-gradient(90deg, #d1181e 0%, #ff4444 50%, #d1181e 100%);
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: gradient-shift 3s ease infinite;
-    }
-    
-    @keyframes gradient-shift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-    
-    /* Video overlay gradient */
-    .video-overlay {
-      background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.8) 100%);
-    }
-    
-    /* Noise texture effect */
-    .noise {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      opacity: 0.03;
-      z-index: 1;
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 2px,
-        rgba(255,255,255,.1) 2px,
-        rgba(255,255,255,.1) 4px
-      );
-    }
-
-    /* Bounce animation */
-    .animate-bounce {
-      animation: bounceDot 1.2s infinite ease-in-out;
-    }
-  
-    @keyframes bounceDot {
-      0%, 100% { transform: translateY(0); opacity: 0.4; }
-      50% { transform: translateY(-8px); opacity: 1; }
-    }
-
-    /* Highlighted image */
-    .highlighted {
-      transform: scale(1.05);
-      outline: 4px solid #d1181e;
-      z-index: 1;
-      transition: all 0.5s ease;
-    }
-
-    /* Header styles for smooth transitions */
-    #main-header {
-      transition: all 0.4s ease;
-      will-change: transform, opacity;
-    }
-
-    #nav-container {
-      transition: all 0.4s ease;
-      will-change: transform, opacity;
-    }
-
-    #nav-toggle {
-      transition: all 0.3s ease;
-    }
- 
- /* Custom Scrollbar Styles */
-    /* For Webkit browsers (Chrome, Safari, Edge) */
-    ::-webkit-scrollbar {
-      width: 12px;
-      height: 12px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #1a0000;
-      border-radius: 6px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: #d1181e;
-      border-radius: 6px;
-      border: 2px solid #1a0000;
-      transition: background 0.3s ease;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #ff4444;
-      border-color: #000000;
-    }
-
-    ::-webkit-scrollbar-thumb:active {
-      background: #b91016;
-    }
-
-    /* For Firefox */
-    * {
-      scrollbar-width: thin;
-      scrollbar-color: #d1181e #1a0000;
-    }
-
-    /* Optional: Hide scrollbar during loading phases */
-    body.loading {
-      overflow: hidden;
-    }
-
-    /* Optional: Custom selection colors to match theme */
-    ::selection {
-      background: #d1181e;
-      color: white;
-    }
-
-    ::-moz-selection {
-      background: #d1181e;
-      color: white;
-    }
-
-    #nav-container {
-      transition: all 0.4s ease;
-      will-change: transform, opacity;
-    }
-
-    #nav-toggle {
-      transition: all 0.3s ease;
-    }
-    
-    html {
-  scroll-behavior: smooth;
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: #000000;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
+/* Initial state - show only loader */
+#loader {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 50;
+}
 
-    @keyframes fadeInB {
+#videoTransition {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+  z-index: 40;
+}
+
+#mainWrapper {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+}
+
+#main-header {
+  opacity: 0;
+  pointer-events: none;
+  transition: all 1s ease;
+}
+
+/* Animation definitions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInB {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-    #nav-links {
-  transition: max-height 0.3s ease;
-  overflow: hidden;
+@keyframes glitch {
+  0%, 100% {
+    text-shadow: 
+      2px 0 0 rgba(209, 24, 30, 0.8),
+      -2px 0 0 rgba(0, 255, 255, 0.8);
+  }
+  25% {
+    text-shadow: 
+      -2px 0 0 rgba(209, 24, 30, 0.8),
+      2px 0 0 rgba(0, 255, 255, 0.8);
+  }
 }
 
+.animate-fadeInUp {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
 
-    /* Navigation styles */
-    .nav-transition {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    /* Hamburger animation */
-    .hamburger-line {
-      transition: all 0.3s ease;
-    }
+.animate-glitch {
+  animation: glitch 0.3s infinite;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(90deg, #d1181e 0%, #ff4444 50%, #d1181e 100%);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradient-shift 3s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Video overlay */
+.video-overlay {
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.4) 70%, rgba(0,0,0,0.8) 100%);
+}
+
+/* Noise texture */
+.noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 2px,
+    rgba(255,255,255,.1) 2px,
+    rgba(255,255,255,.1) 4px
+  );
+}
+
+/* Navigation styles */
+.nav-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hamburger-line {
+  transition: all 0.3s ease;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
     
     .hamburger.active .hamburger-line:nth-child(1) {
       transform: rotate(45deg) translate(5px, 5px);
@@ -600,9 +464,11 @@ html, body {
   </div>
 </div>
 
-  <script>
+<script>
 document.addEventListener('DOMContentLoaded', function () {
-  // Get all elements
+  // Clear sessionStorage for testing (remove this line in production)
+  // sessionStorage.removeItem('hasPlayedIntro');
+  
   const hasPlayedIntro = sessionStorage.getItem('hasPlayedIntro');
   const loader = document.getElementById('loader');
   const minimalLoader = document.getElementById('minimalLoader');
@@ -610,14 +476,16 @@ document.addEventListener('DOMContentLoaded', function () {
   const mainWrapper = document.getElementById('mainWrapper');
   const header = document.getElementById('main-header');
   
-  // Video elements and skip buttons
+  // Video elements and buttons
   const mobileSkipButton = document.getElementById('mobileSkipButton');
   const desktopSkipButton = document.getElementById('desktopSkipButton');
   const mobileVideo = document.getElementById('mobileTransitionVideo');
   const desktopVideo = document.getElementById('desktopTransitionVideo');
 
   const showMain = () => {
-    // Hide video and loaders
+    console.log('Showing main content');
+    
+    // Hide all transition elements
     if (videoTransition) {
       videoTransition.style.opacity = '0';
       videoTransition.style.pointerEvents = 'none';
@@ -637,25 +505,31 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   };
 
-  // First time visit logic
   if (!hasPlayedIntro) {
+    // First visit - show full intro sequence
+    console.log('First visit - showing intro');
     sessionStorage.setItem('hasPlayedIntro', 'true');
     
-    // Show loader for 2 seconds, then video
+    // Show loader for 2 seconds
     setTimeout(() => {
+      console.log('Hiding loader, showing video');
       if (loader) {
         loader.style.opacity = '0';
+        loader.style.transition = 'opacity 0.5s ease';
+        
         setTimeout(() => {
           loader.style.display = 'none';
           if (videoTransition) {
             videoTransition.style.opacity = '1';
             videoTransition.style.pointerEvents = 'auto';
             
-            // Add animations to text elements
+            // Add text animations
             const textElements = ['mobileLine1', 'mobileLine3', 'desktopLine1', 'desktopLine3'];
             textElements.forEach(id => {
               const el = document.getElementById(id);
-              if (el) el.classList.add('animate-fadeInUp');
+              if (el) {
+                el.classList.add('animate-fadeInUp');
+              }
             });
           }
         }, 500);
@@ -663,19 +537,44 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 2000);
 
     // Video end listeners
-    if (mobileVideo) mobileVideo.addEventListener('ended', showMain);
-    if (desktopVideo) desktopVideo.addEventListener('ended', showMain);
+    if (mobileVideo) {
+      mobileVideo.addEventListener('ended', () => {
+        console.log('Mobile video ended');
+        showMain();
+      });
+    }
+    if (desktopVideo) {
+      desktopVideo.addEventListener('ended', () => {
+        console.log('Desktop video ended');
+        showMain();
+      });
+    }
 
     // Skip button listeners
-    if (mobileSkipButton) mobileSkipButton.addEventListener('click', showMain);
-    if (desktopSkipButton) desktopSkipButton.addEventListener('click', showMain);
+    if (mobileSkipButton) {
+      mobileSkipButton.addEventListener('click', () => {
+        console.log('Mobile skip clicked');
+        showMain();
+      });
+    }
+    if (desktopSkipButton) {
+      desktopSkipButton.addEventListener('click', () => {
+        console.log('Desktop skip clicked');
+        showMain();
+      });
+    }
 
-    // Fallback timeout
-    setTimeout(showMain, 12000);
+    // Fallback timeout (12 seconds)
+    setTimeout(() => {
+      console.log('Fallback timeout triggered');
+      showMain();
+    }, 12000);
 
   } else {
-    // Return visit - minimal loader
+    // Return visit - show minimal loader
+    console.log('Return visit - showing minimal loader');
     if (loader) loader.style.display = 'none';
+    
     if (minimalLoader) {
       minimalLoader.classList.remove('hidden');
       minimalLoader.style.opacity = '1';
@@ -692,7 +591,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Navigation functionality (your existing nav code)
+  // Navigation functionality
   const navbar = document.getElementById('navbar');
   const collapsedToggle = document.getElementById('collapsed-toggle');
   const mobileMenuButton = document.getElementById('mobile-menu-button');
@@ -702,22 +601,24 @@ document.addEventListener('DOMContentLoaded', function () {
   let isNavVisible = true;
   
   // Mobile menu toggle
-  if (mobileMenuButton) {
+  if (mobileMenuButton && mobileMenu) {
     mobileMenuButton.addEventListener('click', () => {
       const isOpen = !mobileMenu.classList.contains('hidden');
       const navbarContainer = document.getElementById('navbar-container');
       
       if (isOpen) {
         mobileMenu.classList.add('hidden');
-        mobileOverlay.classList.add('hidden');
+        if (mobileOverlay) mobileOverlay.classList.add('hidden');
         mobileMenuButton.classList.remove('active');
-        navbarContainer.classList.add('rounded-full');
-        navbarContainer.classList.remove('rounded-3xl');
+        if (navbarContainer) {
+          navbarContainer.classList.add('rounded-full');
+          navbarContainer.classList.remove('rounded-3xl');
+        }
       } else {
         mobileMenu.classList.remove('hidden');
-        mobileOverlay.classList.remove('hidden');
+        if (mobileOverlay) mobileOverlay.classList.remove('hidden');
         mobileMenuButton.classList.add('active');
-        if (window.innerWidth < 768) {
+        if (window.innerWidth < 768 && navbarContainer) {
           navbarContainer.classList.remove('rounded-full');
           navbarContainer.classList.add('rounded-3xl');
         }
@@ -728,9 +629,9 @@ document.addEventListener('DOMContentLoaded', function () {
   // Close mobile menu when clicking overlay
   if (mobileOverlay) {
     mobileOverlay.addEventListener('click', () => {
-      mobileMenu.classList.add('hidden');
+      if (mobileMenu) mobileMenu.classList.add('hidden');
       mobileOverlay.classList.add('hidden');
-      mobileMenuButton.classList.remove('active');
+      if (mobileMenuButton) mobileMenuButton.classList.remove('active');
     });
   }
   
@@ -743,20 +644,26 @@ document.addEventListener('DOMContentLoaded', function () {
       
       if (currentScrollY > 50) {
         if (currentScrollY > lastScrollY && isNavVisible) {
-          navbar.style.transform = 'scale(0)';
-          navbar.style.opacity = '0';
-          collapsedToggle.classList.remove('hidden');
+          if (navbar) {
+            navbar.style.transform = 'scale(0)';
+            navbar.style.opacity = '0';
+          }
+          if (collapsedToggle) collapsedToggle.classList.remove('hidden');
           isNavVisible = false;
         } else if (currentScrollY < lastScrollY && !isNavVisible) {
-          navbar.style.transform = 'scale(1)';
-          navbar.style.opacity = '1';
-          collapsedToggle.classList.add('hidden');
+          if (navbar) {
+            navbar.style.transform = 'scale(1)';
+            navbar.style.opacity = '1';
+          }
+          if (collapsedToggle) collapsedToggle.classList.add('hidden');
           isNavVisible = true;
         }
       } else {
-        navbar.style.transform = 'scale(1)';
-        navbar.style.opacity = '1';
-        collapsedToggle.classList.add('hidden');
+        if (navbar) {
+          navbar.style.transform = 'scale(1)';
+          navbar.style.opacity = '1';
+        }
+        if (collapsedToggle) collapsedToggle.classList.add('hidden');
         isNavVisible = true;
       }
       
@@ -767,8 +674,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Collapsed toggle click
   if (collapsedToggle) {
     collapsedToggle.addEventListener('click', () => {
-      navbar.style.transform = 'scale(1)';
-      navbar.style.opacity = '1';
+      if (navbar) {
+        navbar.style.transform = 'scale(1)';
+        navbar.style.opacity = '1';
+      }
       collapsedToggle.classList.add('hidden');
       isNavVisible = true;
     });
