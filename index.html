@@ -12,13 +12,6 @@
     }
   </style>
 
-<style>
-  #mainWrapper,
-#main-header {
-  opacity: 1 !important;
-  pointer-events: auto !important;
-}
-
   </style>
   <!-- Critical inline styles to prevent white flash -->
   <style>
@@ -1205,5 +1198,38 @@ News Item
 </div>
 
   <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+  <script>
+// FINAL emergency fallback in case anything goes wrong
+window.addEventListener('load', () => {
+  const main = document.getElementById('mainWrapper');
+  const header = document.getElementById('main-header');
+  const loader = document.getElementById('loader');
+  const videoTransition = document.getElementById('videoTransition');
+  const minimalLoader = document.getElementById('minimalLoader');
+
+  // Hide all loaders
+  if (loader) loader.style.display = 'none';
+  if (videoTransition) {
+    videoTransition.style.opacity = '0';
+    videoTransition.style.pointerEvents = 'none';
+  }
+  if (minimalLoader) minimalLoader.style.display = 'none';
+
+  // Show main stuff
+  if (main) {
+    main.style.opacity = '1';
+    main.style.pointerEvents = 'auto';
+  }
+  if (header) {
+    header.style.opacity = '1';
+    header.style.pointerEvents = 'auto';
+  }
+
+  // Set background back to white in case it's stuck black
+  document.body.style.backgroundColor = '#ffffff';
+});
+</script>
+
 </body>
 </html>
