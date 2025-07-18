@@ -140,15 +140,11 @@
 <!-- First subheader block with improved layout -->
 <div class="mt-16 text-center max-w-3xl mx-auto relative pb-12">
   <!-- Centered heading -->
-  <h2 class="text-xl font-semibold mb-4">First subheader</h2>
+  <h2 class="text-xl font-semibold mb-4">Information</h2>
 
   <!-- Paragraph -->
   <p class="text-sm text-gray-700 leading-relaxed mb-8">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac hendrerit lorem, a ornare tellus. 
-    Donec fringilla tristique eros a varius. Proin odio nisi, porttitor vestibulum sem in, pellentesque sagittis lorem. 
-    Phasellus nisl arcu, laoreet in euismod in, auctor sit amet lorem. In porttitor ut velit ut ultricies. 
-    Praesent vel pharetra dolor. In hac habitasse platea dictumst. Phasellus venenatis tortor vitae orci volutpat hendrerit. 
-    Fusce iaculis porttitor ultricies. Vivamus vel justo eu lectus volutpat vestibulum.  <a href="login.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="text-red-600 hover:text-black transition font-medium inline-flex items-center gap-1">
+ <a href="login.html" onclick="localStorage.setItem('oramaFromIndex', 'true')" class="text-red-600 hover:text-black transition font-medium inline-flex items-center gap-1">
             See an extended version of a current leaderboard →
           </a>
   </p>
@@ -198,7 +194,7 @@
 </section>
 
 <script>
-const rowsPerPage = 5;
+const rowsPerPage = Infinity;
 let fullData = [];
 let currentPage = 1;
 
@@ -228,7 +224,7 @@ table.appendChild(thead);
 const tbody = document.createElement('tbody');
 const visibleRows = data.slice(1);
 const filtered = filterRows(visibleRows);
-const paginated = paginateRows(filtered);
+const paginated = filtered;
 
 paginated.forEach(row => {
 const tr = document.createElement('tr');
