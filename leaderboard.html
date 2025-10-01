@@ -287,7 +287,7 @@ renderTable(fullData);
 }
 
 // Load & Init
-fetch('https://docs.google.com/spreadsheets/d/13_-8RH6KbKGQbrBq4owK_wLuvBuwC6vLWsA-X6QjHjo/gviz/tq?tqx=out:csv')
+fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vQIQDN93v3tjJJ7NU3scuw4DNsaKfNAhhr3-qKfm17BZc3EquLkTl6ocYZZlaqRi5Fqg8F3sUq-kVQC/pub?gid=0&single=true&output=csv')
 .then(response => response.text())
 .then(csv => {
 fullData = csv.trim().split('\n').map(row => row.split(','));
