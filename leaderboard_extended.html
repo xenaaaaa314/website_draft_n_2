@@ -133,22 +133,22 @@
 <div class="animate-spin rounded-full h-10 w-10 border-t-4 border-[#d1181e] border-opacity-50"></div>
 </div>
 
-<div class="max-w-7xl mx-auto space-y-8 relative z-20">
-<!-- Centered Search -->
-<div class="flex justify-center gap-4 items-center">
-  <!-- Search Input -->
-  <input
-    id="searchInput"
-    type="text"
-    placeholder="Search..."
-    class="border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d1181e] w-full max-w-md text-center"
-  />
+<!-- PapaParse (robust CSV parser) -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
-  <!-- Export Button -->
-  <button
-    id="exportBtn"
-    class="px-5 py-2 bg-[#d1181e] text-white rounded-lg hover:bg-[#a30f15] transition shadow-md"
-  >
+<div class="flex flex-wrap justify-center gap-4 items-center">
+  <!-- Tab (gid) selector -->
+  <select id="tabSelect"
+          class="border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d1181e]">
+  </select>
+
+  <!-- Search -->
+  <input id="searchInput" type="text" placeholder="Search..."
+         class="border px-4 py-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#d1181e] w-full max-w-md text-center" />
+
+  <!-- Export -->
+  <button id="exportBtn"
+          class="px-5 py-2 bg-[#d1181e] text-white rounded-lg hover:bg-[#a30f15] transition shadow-md">
     Export as CSV
   </button>
 </div>
@@ -166,129 +166,149 @@
 </section>
 
 <script>
-const rowsPerPage = 5;
-let fullData = [];
-let currentPage = 1;
+/* ------------ CONFIG ------------- */
+// Your spreadsheet ID (from /d/<THIS>/edit in the normal URL)
+const SHEET_ID = "1u-HwRbprndkBv0DiJUJ7oDBldWammVThTx5OzblztdM";
 
-const table = document.getElementById('dataTable');
-const searchInput = document.getElementById('searchInput');
-const pagination = document.getElementById('pagination');
-const loading = document.getElementById('loading');
+/* List your tabs here: label + gid (from #gid=... in the URL).
+   Add as many as you need. The first one loads by default. */
+const SHEETS = [
+  { label: "Cognitive Proficiency", gid: "0" },
+  { label: "Tactical Proficiency",     gid: "822895727" },
+  { label: "Equipment proficiency",     gid: "1750630092" },
+];
 
-function renderTable(data) {
-table.innerHTML = '';
-if (!data.length) return;
+/* -------------------------------- */
 
-// Header
-const thead = document.createElement('thead');
-const headRow = document.createElement('tr');
-data[0].forEach((cell, i) => {
-const th = document.createElement('th');
-th.textContent = cell;
-th.className = 'bg-black text-white px-6 py-3 text-left uppercase cursor-pointer';
-th.addEventListener('click', () => sortBy(i));
-headRow.appendChild(th);
-});
-thead.appendChild(headRow);
-table.appendChild(thead);
+const tableEl     = document.getElementById("dataTable");
+const searchInput = document.getElementById("searchInput");
+const tabSelect   = document.getElementById("tabSelect");
+const exportBtn   = document.getElementById("exportBtn");
+const loading     = document.getElementById("loading");
 
-// Body
-const tbody = document.createElement('tbody');
-const visibleRows = data.slice(1);
-const filtered = filterRows(visibleRows);
-const paginated = paginateRows(filtered);
+let fullData = [];   // 2D array: [ [col1,col2,...], [row1...], ... ]
+let currentGID = SHEETS[0].gid;
 
-paginated.forEach(row => {
-const tr = document.createElement('tr');
-tr.className = 'transition hover:bg-[#d1181e]/10';
-row.forEach(cell => {
-const td = document.createElement('td');
-td.textContent = cell;
-td.className = 'px-6 py-4 border-t border-gray-200';
-tr.appendChild(td);
-});
-tbody.appendChild(tr);
-});
-
-table.appendChild(tbody);
-renderPagination(filtered.length);
+function csvUrl(sheetId, gid) {
+  return `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
 }
 
-function filterRows(rows) {
-const query = searchInput.value.toLowerCase();
-return rows.filter(row =>
-row.some(cell => cell.toLowerCase().includes(query))
-);
-}
-
-function paginateRows(rows) {
-const start = (currentPage - 1) * rowsPerPage;
-return rows.slice(start, start + rowsPerPage);
-}
-
-function renderPagination(totalRows) {
-pagination.innerHTML = '';
-const pageCount = Math.ceil(totalRows / rowsPerPage);
-for (let i = 1; i <= pageCount; i++) {
-const btn = document.createElement('button');
-btn.textContent = i;
-btn.className = `px-3 py-1 rounded ${i === currentPage ? 'bg-[#d1181e] text-white' : 'bg-gray-100 hover:bg-gray-200'}`;
-btn.onclick = () => {
-currentPage = i;
-renderTable(fullData);
-};
-pagination.appendChild(btn);
-}
-}
-
-function sortBy(index) {
-const rows = fullData.slice(1);
-const header = fullData[0];
-
-const ascending = !table.dataset.sortOrder || table.dataset.sortOrder === 'desc';
-table.dataset.sortOrder = ascending ? 'asc' : 'desc';
-
-rows.sort((a, b) => {
-const aText = a[index].toLowerCase();
-const bText = b[index].toLowerCase();
-return ascending ? aText.localeCompare(bText) : bText.localeCompare(aText);
-});
-
-fullData = [header, ...rows];
-renderTable(fullData);
-}
-
-// Load & Init
-fetch('https://docs.google.com/spreadsheets/d/e/2PACX-1vTUwOrkdb1OLsa6hGdX_uKTZXGHYpsvwyAiuSsOTVoyrbaoAhNSCp74loZau9id2wwlwFz2XYxPlPea/pub?output=csv')
-.then(response => response.text())
-.then(csv => {
-fullData = csv.trim().split('\n').map(row => row.split(','));
-renderTable(fullData);
-loading.style.display = 'none';
-});
-
-searchInput.addEventListener('input', () => {
-currentPage = 1;
-renderTable(fullData);
-});
-</script>
-
-<script>
-  document.getElementById('exportBtn').addEventListener('click', () => {
-    const query = searchInput.value.toLowerCase();
-    const visibleData = fullData.filter((row, i) => {
-      if (i === 0) return true; // always include header
-      return row.some(cell => cell.toLowerCase().includes(query));
-    });
-
-    const csvContent = visibleData.map(e => e.join(',')).join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute('download', 'orama_data.csv');
-    link.click();
+function populateTabSelect() {
+  tabSelect.innerHTML = "";
+  SHEETS.forEach(({label, gid}) => {
+    const opt = document.createElement("option");
+    opt.value = gid;
+    opt.textContent = label;
+    tabSelect.appendChild(opt);
   });
+  tabSelect.value = currentGID;
+}
+
+async function loadSheet(gid) {
+  loading.style.display = "flex";
+  currentGID = gid;
+  const url = csvUrl(SHEET_ID, gid);
+
+  // Fetch CSV and parse with Papa
+  const res = await fetch(url, { cache: "no-store" });
+  const csvText = await res.text();
+  const parsed = Papa.parse(csvText, { skipEmptyLines: true });
+  fullData = parsed.data; // array of arrays
+
+  renderTable();
+  loading.style.display = "none";
+}
+
+function renderTable() {
+  tableEl.innerHTML = "";
+  if (!fullData.length) return;
+
+  // Filter by search
+  const query = (searchInput.value || "").toLowerCase().trim();
+  const rows = fullData.slice(1).filter(r =>
+    !query ||
+    r.some(c => String(c).toLowerCase().includes(query))
+  );
+
+  // Header
+  const thead = document.createElement("thead");
+  const trh = document.createElement("tr");
+  fullData[0].forEach((h, i) => {
+    const th = document.createElement("th");
+    th.textContent = h;
+    th.className =
+      "bg-black text-white px-6 py-3 text-left uppercase cursor-pointer";
+    th.addEventListener("click", () => sortBy(i));
+    trh.appendChild(th);
+  });
+  thead.appendChild(trh);
+  tableEl.appendChild(thead);
+
+  // Body (ALL rows visible; no pagination)
+  const tbody = document.createElement("tbody");
+  rows.forEach(row => {
+    const tr = document.createElement("tr");
+    tr.className = "transition hover:bg-[#d1181e]/10";
+    row.forEach(cell => {
+      const td = document.createElement("td");
+      td.textContent = cell;
+      td.className = "px-6 py-4 border-t border-gray-200";
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  tableEl.appendChild(tbody);
+}
+
+// Intelligent sort: numeric if both cells look like numbers, else lexicographic
+function sortBy(index) {
+  const header = fullData[0];
+  const rows = fullData.slice(1);
+
+  const ascending = !tableEl.dataset.sortOrder || tableEl.dataset.sortOrder === "desc";
+  tableEl.dataset.sortOrder = ascending ? "asc" : "desc";
+
+  const asNumber = v => {
+    const n = Number(String(v).replace(/,/g, ""));
+    return Number.isFinite(n) ? n : null;
+  };
+
+  rows.sort((a, b) => {
+    const aNum = asNumber(a[index]);
+    const bNum = asNumber(b[index]);
+
+    if (aNum !== null && bNum !== null) {
+      return ascending ? aNum - bNum : bNum - aNum;
+    }
+    const aTxt = String(a[index]).toLowerCase();
+    const bTxt = String(b[index]).toLowerCase();
+    return ascending ? aTxt.localeCompare(bTxt) : bTxt.localeCompare(aTxt);
+  });
+
+  fullData = [header, ...rows];
+  renderTable();
+}
+
+/* Export ONLY currently filtered rows (including header) */
+exportBtn.addEventListener("click", () => {
+  const query = (searchInput.value || "").toLowerCase().trim();
+  const visible = fullData.filter((row, i) =>
+    i === 0 || row.some(c => String(c).toLowerCase().includes(query))
+  );
+  const csv = Papa.unparse(visible);
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "orama_data.csv";
+  a.click();
+});
+
+searchInput.addEventListener("input", renderTable);
+tabSelect.addEventListener("change", (e) => loadSheet(e.target.value));
+
+/* Init */
+populateTabSelect();
+loadSheet(currentGID);
 </script>
 
 
