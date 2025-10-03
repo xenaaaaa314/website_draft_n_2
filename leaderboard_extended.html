@@ -171,15 +171,18 @@ Further updates and comprehensive analysis will be provided in an extended paper
 </div>
 
   
-<div class="relative rounded-xl border border-[#d1181e] shadow-xl overflow-x-auto max-w-full">
+<!-- Table wrapper with relative positioning -->
+<div class="relative overflow-x-auto rounded-xl border border-[#d1181e] shadow-xl max-w-full">
+  
+  <!-- Table -->
   <table id="dataTable" class="min-w-max border-collapse text-sm">
     <!-- populated dynamically -->
   </table>
 
-  <!-- Arrow hint -->
+  <!-- Scroll Hint -->
   <div id="scrollHint"
-       class="hidden md:flex items-center absolute top-1/2 right-2 -translate-y-1/2
-              text-gray-400 text-xs bg-white/80 px-2 py-1 rounded-full shadow">
+       class="hidden md:flex items-center justify-center absolute top-2 right-4
+              text-gray-500 text-xs bg-white px-3 py-1 rounded-full shadow-md">
     ← Scroll →
   </div>
 </div>
