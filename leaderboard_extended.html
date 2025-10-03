@@ -184,25 +184,10 @@ Further updates and comprehensive analysis will be provided in an extended paper
   </div>
 </div>
 
-<script>
-const wrapper = document.querySelector(".overflow-x-auto");
-const scrollHint = document.getElementById("scrollHint");
 
-function checkScrollHint() {
-  if (!wrapper || !scrollHint) return;
-  if (wrapper.scrollWidth > wrapper.clientWidth) {
-    scrollHint.classList.remove("hidden");
-  } else {
-    scrollHint.classList.add("hidden");
-  }
-}
-
-// Run on load + resize
-window.addEventListener("load", checkScrollHint);
-window.addEventListener("resize", checkScrollHint);
 
 	
-</script>
+
 
 <!-- Pagination -->
 <div id="pagination" class="flex justify-center items-center space-x-2 pt-6 text-sm"></div>
@@ -393,6 +378,24 @@ loadSheet(currentGID);
   });
 
   fadeElements.forEach(el => observer.observe(el));
+</script>
+
+<script>
+	 const wrapper = document.querySelector(".overflow-x-auto");
+const scrollHint = document.getElementById("scrollHint");
+
+function checkScrollHint() {
+  if (!wrapper || !scrollHint) return;
+  if (wrapper.scrollWidth > wrapper.clientWidth) {
+    scrollHint.classList.remove("hidden");
+  } else {
+    scrollHint.classList.add("hidden");
+  }
+}
+
+// Run on load + resize
+window.addEventListener("load", checkScrollHint);
+window.addEventListener("resize", checkScrollHint);
 </script>
 </body>
 </html>
