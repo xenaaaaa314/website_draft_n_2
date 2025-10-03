@@ -171,13 +171,38 @@ Further updates and comprehensive analysis will be provided in an extended paper
 </div>
 
   
-<!-- Table wrapper -->
-<div class="rounded-xl border border-[#d1181e] shadow-xl overflow-x-auto max-w-full">
+<div class="relative rounded-xl border border-[#d1181e] shadow-xl overflow-x-auto max-w-full">
   <table id="dataTable" class="min-w-max border-collapse text-sm">
     <!-- populated dynamically -->
   </table>
-  <div class="md:hidden text-[11px] text-gray-500 px-3 py-2">Swipe → to see more columns</div>
+
+  <!-- Arrow hint -->
+  <div id="scrollHint"
+       class="hidden md:flex items-center absolute top-1/2 right-2 -translate-y-1/2
+              text-gray-400 text-xs bg-white/80 px-2 py-1 rounded-full shadow">
+    ← Scroll →
+  </div>
 </div>
+
+<script>
+const wrapper = document.querySelector(".overflow-x-auto");
+const scrollHint = document.getElementById("scrollHint");
+
+function checkScrollHint() {
+  if (!wrapper || !scrollHint) return;
+  if (wrapper.scrollWidth > wrapper.clientWidth) {
+    scrollHint.classList.remove("hidden");
+  } else {
+    scrollHint.classList.add("hidden");
+  }
+}
+
+// Run on load + resize
+window.addEventListener("load", checkScrollHint);
+window.addEventListener("resize", checkScrollHint);
+
+	
+</script>
 
 <!-- Pagination -->
 <div id="pagination" class="flex justify-center items-center space-x-2 pt-6 text-sm"></div>
