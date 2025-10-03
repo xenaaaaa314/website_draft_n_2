@@ -293,6 +293,7 @@ function renderTable() {
     tbody.appendChild(tr);
   });
   tableEl.appendChild(tbody);
+	  checkScrollHint();
 }
 
 // Intelligent sort: numeric if both cells look like numbers, else lexicographic
@@ -322,7 +323,6 @@ function sortBy(index) {
 
   fullData = [header, ...rows];
   renderTable();
-	  checkScrollHint();
 }
 
 /* Export ONLY currently filtered rows (including header) */
