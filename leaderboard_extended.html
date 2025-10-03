@@ -172,17 +172,15 @@ Further updates and comprehensive analysis will be provided in an extended paper
 
   
 <!-- Table wrapper with relative positioning -->
-<div class="relative overflow-x-auto rounded-xl border border-[#d1181e] shadow-xl max-w-full">
-  
-  <!-- Table -->
-  <table id="dataTable" class="min-w-max border-collapse text-sm">
-    <!-- populated dynamically -->
-  </table>
+<div id="tableWrapper"
+     class="relative overflow-x-auto rounded-xl border border-[#d1181e] shadow-xl max-w-full">
+  <table id="dataTable" class="min-w-max border-collapse text-sm"></table>
 
   <!-- Scroll Hint -->
   <div id="scrollHint"
        class="hidden md:flex items-center justify-center absolute top-2 right-4
-              text-gray-500 text-xs bg-white px-3 py-1 rounded-full shadow-md">
+              text-gray-500 text-xs bg-white px-3 py-1 rounded-full shadow-md
+              transition-opacity duration-500">
     ← Scroll →
   </div>
 </div>
@@ -324,6 +322,7 @@ function sortBy(index) {
 
   fullData = [header, ...rows];
   renderTable();
+	  checkScrollHint();
 }
 
 /* Export ONLY currently filtered rows (including header) */
@@ -384,11 +383,13 @@ loadSheet(currentGID);
 </script>
 
 <script>
-	 const wrapper = document.querySelector(".overflow-x-auto");
+// ---- Scroll hint logic ----
+const wrapper    = document.getElementById("tableWrapper");
 const scrollHint = document.getElementById("scrollHint");
 
 function checkScrollHint() {
   if (!wrapper || !scrollHint) return;
+  // show only if content is wider than the viewport
   if (wrapper.scrollWidth > wrapper.clientWidth) {
     scrollHint.classList.remove("hidden");
   } else {
@@ -396,8 +397,16 @@ function checkScrollHint() {
   }
 }
 
-// Run on load + resize
-window.addEventListener("load", checkScrollHint);
+// Fade hint out once user scrolls a bit
+wrapper?.addEventListener("scroll", () => {
+  if (wrapper.scrollLeft > 30) {
+    scrollHint.classList.add("opacity-0");
+  } else {
+    scrollHint.classList.remove("opacity-0");
+  }
+});
+
+// Also run on resize
 window.addEventListener("resize", checkScrollHint);
 </script>
 </body>
