@@ -5,12 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; frame-src https://script.google.com https://*.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'">
   <title>Visitation Sign-In | ORAMA Technologies</title>
   <style>
     *{box-sizing:border-box}body{margin:0;background:#f4f5f6;color:#172b42;font-family:Arial,sans-serif}
     a{color:#245b89;text-underline-offset:3px}.setup{max-width:650px;margin:70px auto;padding:34px;background:#fff;border:1px solid #cbd2d9;border-top:4px solid #bb2532}
     .brand{font-size:13px;letter-spacing:2px;font-weight:bold}h1{font:36px Georgia,serif;margin-bottom:18px}p{line-height:1.6}
+    body.embedded{height:100vh;height:100dvh;overflow:hidden}
+    iframe{display:block;width:100%;height:100vh;height:100dvh;border:0;background:#f4f5f6}
     [hidden]{display:none!important}
     @media(max-width:600px){.setup{margin:30px 18px;padding:25px}}
   </style>
@@ -24,11 +26,14 @@
     <p id="direct-fallback" hidden><a id="direct-link" target="_blank" rel="noopener noreferrer">Open sign-in in a new tab</a></p>
     <p><a href="mailto:info@oramatech.ai">Contact visitor support</a> · <a href="https://oramatech.ai">Return to ORAMA</a></p>
   </div>
+  <iframe id="visitor-frame" title="ORAMA visitation sign-in" allow="camera 'none'; microphone 'none'; geolocation 'none'" referrerpolicy="no-referrer" hidden></iframe>
   <noscript><div class="setup">JavaScript is required to open registration. Please contact your ORAMA host.</div></noscript>
   <script>
   (() => {
     'use strict';
     const status = document.getElementById('status');
+    const frame = document.getElementById('visitor-frame');
+    const setup = document.getElementById('setup');
     if (window.top !== window) {
       status.textContent = 'Please open oramatech.ai/visitor directly to register.';
       return;
@@ -38,10 +43,31 @@
       url = new URL(window.ORAMA_VISITOR_CONFIG?.appUrl || '');
       if (url.protocol !== 'https:' || url.hostname !== 'script.google.com' || url.port || url.username || url.password || url.search || url.hash || !/^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url.pathname)) return;
     } catch { return; }
-    status.textContent = 'Loading visitation sign-in…';
     document.getElementById('direct-link').href = url.href;
-    document.getElementById('direct-fallback').hidden = false;
-    window.location.replace(url.href);
+    const googleOrigin = (origin) => /^https:\/\/script\.google\.com$/.test(origin) || /^https:\/\/(?:[a-z0-9-]+-)?script\.googleusercontent\.com$/.test(origin);
+    let ready = false;
+    const timeout = setTimeout(() => {
+      if (ready) return;
+      frame.hidden = true;
+      document.body.classList.remove('embedded');
+      setup.hidden = false;
+      document.getElementById('direct-fallback').hidden = false;
+    }, 12000);
+    window.addEventListener('message', (event) => {
+      if (!googleOrigin(event.origin) || !event.source || event.data?.type !== 'orama-visitor:ready' || !/^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i.test(event.data.nonce || '')) return;
+      // The Apps Script sandbox is nested inside our only iframe.
+      try { if (event.source === window || event.source.top !== window) return; } catch { return; }
+      event.source.postMessage({ type: 'orama-visitor:host', nonce: event.data.nonce }, event.origin);
+      ready = true;
+      clearTimeout(timeout);
+      setup.hidden = true;
+      frame.hidden = false;
+      document.body.classList.add('embedded');
+    });
+    setup.hidden = true;
+    document.body.classList.add('embedded');
+    frame.hidden = false;
+    frame.src = url.href;
   })();
   </script>
 </body>
