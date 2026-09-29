@@ -5,16 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="referrer" content="no-referrer">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; frame-src https://script.google.com https://*.googleusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; object-src 'none'">
   <title>Visitation Sign-In | ORAMA Technologies</title>
   <style>
     *{box-sizing:border-box}body{margin:0;background:#f4f5f6;color:#172b42;font-family:Arial,sans-serif}
-    .support{max-width:1200px;margin:auto;padding:14px 24px;font-size:13px;line-height:1.6;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
     a{color:#245b89;text-underline-offset:3px}.setup{max-width:650px;margin:70px auto;padding:34px;background:#fff;border:1px solid #cbd2d9;border-top:4px solid #bb2532}
     .brand{font-size:13px;letter-spacing:2px;font-weight:bold}h1{font:36px Georgia,serif;margin-bottom:18px}p{line-height:1.6}
-    body:has(#support:not([hidden])){height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-    #support{width:100%;flex:none}iframe{display:block;width:100%;flex:1;min-height:0;border:0;background:#f4f5f6}[hidden]{display:none!important}
-    @media(max-width:600px){.setup{margin:30px 18px;padding:25px}.support{padding:12px 18px}}
+    [hidden]{display:none!important}
+    @media(max-width:600px){.setup{margin:30px 18px;padding:25px}}
   </style>
   <script src="./config.js"></script>
 </head>
@@ -23,18 +21,13 @@
     <div class="brand">ORAMA TECHNOLOGIES</div>
     <h1>Visitation Sign-In</h1>
     <p id="status">Online registration is being prepared. Please contact your ORAMA host to arrange your visit.</p>
+    <p id="direct-fallback" hidden><a id="direct-link" target="_blank" rel="noopener noreferrer">Open sign-in in a new tab</a></p>
     <p><a href="mailto:info@oramatech.ai">Contact visitor support</a> · <a href="https://oramatech.ai">Return to ORAMA</a></p>
   </div>
-  <div class="support" id="support" hidden>
-    <span id="load-status" role="status">Loading visitation sign-in…</span>
-    <a id="direct-link" target="_blank" rel="noopener noreferrer">Open sign-in in a new tab</a>
-  </div>
-  <iframe id="visitor-frame" title="ORAMA visitation sign-in" allow="camera 'none'; microphone 'none'; geolocation 'none'" referrerpolicy="no-referrer" hidden></iframe>
   <noscript><div class="setup">JavaScript is required to open registration. Please contact your ORAMA host.</div></noscript>
   <script>
   (() => {
     'use strict';
-    const frame = document.getElementById('visitor-frame');
     const status = document.getElementById('status');
     if (window.top !== window) {
       status.textContent = 'Please open oramatech.ai/visitor directly to register.';
@@ -45,23 +38,10 @@
       url = new URL(window.ORAMA_VISITOR_CONFIG?.appUrl || '');
       if (url.protocol !== 'https:' || url.hostname !== 'script.google.com' || url.port || url.username || url.password || url.search || url.hash || !/^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url.pathname)) return;
     } catch { return; }
-    const googleOrigin = (origin) => /^https:\/\/script\.google\.com$/.test(origin) || /^https:\/\/(?:[a-z0-9-]+-)?script\.googleusercontent\.com$/.test(origin);
-    let child = null;
-    window.addEventListener('message', (event) => {
-      if (!googleOrigin(event.origin) || !event.source || typeof event.data !== 'object' || event.data === null) return;
-      if (event.data.type === 'orama-visitor:ready' && /^[a-f0-9-]{36}$/i.test(event.data.nonce || '')) {
-        child = event.source;
-        event.source.postMessage({ type: 'orama-visitor:host', nonce: event.data.nonce }, event.origin);
-        document.getElementById('load-status').textContent = 'Complete the form below before your visit.';
-      }
-    });
-    document.getElementById('setup').hidden = true;
-    document.getElementById('support').hidden = false;
+    status.textContent = 'Loading visitation sign-in…';
     document.getElementById('direct-link').href = url.href;
-    frame.hidden = false; frame.src = url.href;
-    setTimeout(() => {
-      if (!child) document.getElementById('load-status').textContent = 'If the form does not load below, open registration in a new tab.';
-    }, 12000);
+    document.getElementById('direct-fallback').hidden = false;
+    window.location.replace(url.href);
   })();
   </script>
 </body>
